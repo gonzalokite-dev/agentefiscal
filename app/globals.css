@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Kumbh+Sans:wght@300;400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+@keyframes bounce-dot {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-6px); opacity: 1; }
+}
+
+.typing-dot {
+  width: 7px;
+  height: 7px;
+  background: #5F5E5A;
+  border-radius: 50%;
+  display: inline-block;
+  animation: bounce-dot 1.2s infinite;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+.prose-fiscal h1, .prose-fiscal h2, .prose-fiscal h3 {
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 600;
+  color: #002A3A;
+  margin-top: 1.2em;
+  margin-bottom: 0.4em;
+}
+.prose-fiscal h1 { font-size: 1.25rem; }
+.prose-fiscal h2 { font-size: 1.1rem; }
+.prose-fiscal h3 { font-size: 1rem; }
+
+.prose-fiscal p { margin-bottom: 0.75em; line-height: 1.7; }
+
+.prose-fiscal ul, .prose-fiscal ol {
+  margin: 0.5em 0 0.75em 1.4em;
+}
+.prose-fiscal li { margin-bottom: 0.25em; }
+
+.prose-fiscal strong { font-weight: 600; color: #002A3A; }
+
+.prose-fiscal code {
+  background: #F7F6F4;
+  border-left: 3px solid #EAAA00;
+  padding: 0.75em 1em;
+  display: block;
+  font-family: 'Courier New', monospace;
+  font-size: 0.82rem;
+  white-space: pre-wrap;
+  margin: 0.5em 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.prose-fiscal :not(pre) > code {
+  background: #F7F6F4;
+  border-left: none;
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
+  font-size: 0.85em;
+  display: inline;
+}
+
+.prose-fiscal table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75em 0;
+  font-size: 0.88rem;
+}
+.prose-fiscal th {
+  background: #002A3A;
+  color: white;
+  padding: 6px 12px;
+  text-align: left;
+  font-weight: 500;
+}
+.prose-fiscal td {
+  padding: 6px 12px;
+  border-bottom: 1px solid #E2DED9;
+}
+.prose-fiscal tr:nth-child(even) td { background: #F7F6F4; }
+
+.prose-fiscal blockquote {
+  border-left: 3px solid #EAAA00;
+  padding-left: 1em;
+  color: #5F5E5A;
+  margin: 0.75em 0;
+}
