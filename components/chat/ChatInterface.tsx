@@ -244,9 +244,7 @@ export default function ChatInterface() {
     >
       {/* Header */}
       <div className="p-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-        <p className="font-serif font-semibold" style={{ fontSize: '13px', color: 'white' }}>
-          Benavides Asociados
-        </p>
+        <img src="/logo-blanco.svg" alt="Benavides Asociados" style={{ height: '24px', width: 'auto', marginBottom: '4px' }} />
         <p className="font-sans" style={{ fontSize: '11px', color: '#EAAA00', marginTop: '2px' }}>
           Agente Fiscal BA
         </p>
@@ -406,7 +404,7 @@ export default function ChatInterface() {
                 <span style={{ fontSize: '8px', fontWeight: 700, color: '#EAAA00', fontFamily: 'serif' }}>BA</span>
               </div>
               <span className="font-sans font-medium" style={{ fontSize: '14px', color: '#111827' }}>
-                Agente Fiscal Senior
+                Agente Fiscal BA
               </span>
             </div>
           </div>

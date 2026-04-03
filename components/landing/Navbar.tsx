@@ -21,12 +21,11 @@ export default function Navbar() {
         transition: 'background-color 0.3s ease, backdrop-filter 0.3s ease',
       }}
     >
-      <span
-        className="font-serif font-semibold text-white"
-        style={{ fontSize: '16px', letterSpacing: '0.01em' }}
-      >
-        Benavides Asociados
-      </span>
+      <img
+        src="/logo-blanco.svg"
+        alt="Benavides Asociados"
+        style={{ height: '32px', width: 'auto' }}
+      />
 
       <div
         className="font-sans font-medium"
