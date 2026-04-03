@@ -1,6 +1,8 @@
 import Navbar from '@/components/landing/Navbar';
 import Hero from '@/components/landing/Hero';
+import TrustBar from '@/components/landing/TrustBar';
 import Capabilities from '@/components/landing/Capabilities';
+import ChatShowcase from '@/components/landing/ChatShowcase';
 import Examples from '@/components/landing/Examples';
 import HowTo from '@/components/landing/HowTo';
 import KnowledgeLoop from '@/components/landing/KnowledgeLoop';
@@ -12,7 +14,9 @@ export default function Home() {
     <main>
       <Navbar />
       <Hero />
+      <TrustBar />
       <Capabilities />
+      <ChatShowcase />
       <Examples />
       <HowTo />
       <KnowledgeLoop />

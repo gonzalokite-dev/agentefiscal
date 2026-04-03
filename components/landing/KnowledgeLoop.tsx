@@ -10,35 +10,50 @@ const cards = [
 ];
 
 const flow = [
-  { title: 'Asesor consulta', desc: 'Formula una consulta o sube un documento' },
-  { title: 'Agente responde', desc: 'Aplica normativa y criterio acumulado' },
-  { title: 'Equipo corrige', desc: 'Valida, ajusta o enriquece la respuesta' },
-  { title: 'Agente mejora', desc: 'El criterio se incorpora al conocimiento base' },
+  { n: 1, title: 'Asesor consulta', desc: 'Formula una consulta o sube un documento' },
+  { n: 2, title: 'Agente responde', desc: 'Aplica normativa y criterio acumulado' },
+  { n: 3, title: 'Equipo corrige', desc: 'Valida, ajusta o enriquece la respuesta' },
+  { n: 4, title: 'Agente mejora', desc: 'El criterio se incorpora al conocimiento base' },
 ];
 
 export default function KnowledgeLoop() {
   return (
-    <section className="py-20 px-6" style={{ backgroundColor: '#002A3A' }}>
-      <div className="max-w-5xl mx-auto">
+    <section
+      className="py-20 px-6"
+      style={{
+        background:
+          'radial-gradient(ellipse at 20% 80%, rgba(234,170,0,0.08) 0%, transparent 50%), #002A3A',
+      }}
+    >
+      <div className="mx-auto" style={{ maxWidth: '1100px' }}>
         <p
           className="font-sans font-medium mb-3"
           style={{ fontSize: '11px', letterSpacing: '0.14em', color: '#EAAA00', textTransform: 'uppercase' }}
         >
           Herramienta viva
         </p>
-        <h2 className="font-serif font-semibold text-white mb-2" style={{ fontSize: '32px' }}>
+        <h2
+          className="font-serif font-semibold text-white mb-3"
+          style={{ fontSize: '40px', lineHeight: 1.2 }}
+        >
           Un agente que crece con el despacho
         </h2>
-        <p className="font-sans mb-10" style={{ fontSize: '15px', color: '#D7D2CB' }}>
+        <p
+          className="font-sans mb-12"
+          style={{ fontSize: '16px', color: '#D7D2CB', maxWidth: '520px', lineHeight: 1.7 }}
+        >
           Cada asesor que trabaja con él lo hace más preciso y útil para todo el equipo.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
           {cards.map((card) => (
             <div
               key={card.label}
-              className="p-6 rounded-lg"
-              style={{ border: '1px solid rgba(215,210,203,0.2)' }}
+              className="knowledge-card p-6 rounded-xl"
+              style={{
+                border: '1px solid rgba(215,210,203,0.15)',
+                backgroundColor: 'rgba(255,255,255,0.05)',
+              }}
             >
               <p
                 className="font-sans font-medium mb-3"
@@ -53,15 +68,54 @@ export default function KnowledgeLoop() {
           ))}
         </div>
 
-        {/* Flow */}
+        {/* Divider */}
+        <div
+          style={{
+            height: '1px',
+            backgroundColor: 'rgba(215,210,203,0.12)',
+            marginBottom: '36px',
+          }}
+        />
+
+        {/* Flow steps */}
         <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-2 mb-8">
           {flow.map((step, idx) => (
-            <div key={step.title} className="flex md:flex-row flex-col items-start md:items-center gap-2 flex-1">
-              <div className="flex-1 p-4 rounded-lg" style={{ border: '1px solid rgba(215,210,203,0.15)', background: 'rgba(255,255,255,0.04)' }}>
-                <p className="font-sans font-medium text-white" style={{ fontSize: '13px', marginBottom: '4px' }}>
-                  {step.title}
-                </p>
-                <p className="font-sans" style={{ fontSize: '12px', color: '#D7D2CB' }}>
+            <div
+              key={step.title}
+              className="flex md:flex-row flex-col items-start md:items-center gap-2 flex-1"
+            >
+              <div
+                className="flex-1 p-4 rounded-xl"
+                style={{
+                  border: '1px solid rgba(215,210,203,0.15)',
+                  background: 'rgba(255,255,255,0.04)',
+                }}
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <div
+                    className="flex items-center justify-center flex-shrink-0"
+                    style={{
+                      width: '18px',
+                      height: '18px',
+                      borderRadius: '50%',
+                      backgroundColor: 'rgba(234,170,0,0.2)',
+                    }}
+                  >
+                    <span
+                      className="font-sans font-bold"
+                      style={{ fontSize: '9px', color: '#EAAA00' }}
+                    >
+                      {step.n}
+                    </span>
+                  </div>
+                  <p
+                    className="font-sans font-medium text-white"
+                    style={{ fontSize: '13px' }}
+                  >
+                    {step.title}
+                  </p>
+                </div>
+                <p className="font-sans" style={{ fontSize: '12px', color: '#D7D2CB', paddingLeft: '26px' }}>
                   {step.desc}
                 </p>
               </div>
@@ -79,7 +133,7 @@ export default function KnowledgeLoop() {
 
         {/* Note */}
         <div
-          className="rounded-md p-4 font-sans"
+          className="rounded-lg p-4 font-sans"
           style={{
             background: 'rgba(234,170,0,0.08)',
             border: '1px solid rgba(234,170,0,0.3)',

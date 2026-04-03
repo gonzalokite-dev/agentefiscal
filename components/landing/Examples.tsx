@@ -9,29 +9,89 @@ const examples = [
 
 export default function Examples() {
   return (
-    <section className="py-18 px-6" style={{ backgroundColor: '#F7F6F4', paddingTop: '72px', paddingBottom: '72px' }}>
-      <div className="max-w-4xl mx-auto">
-        <h2 className="font-serif font-semibold mb-2" style={{ fontSize: '32px', color: '#002A3A' }}>
-          Preguntas del día a día
-        </h2>
-        <p className="font-sans mb-8" style={{ fontSize: '15px', color: '#5F5E5A' }}>
-          Consultas reales que el equipo hace al agente.
-        </p>
+    <section className="py-20 px-6" style={{ backgroundColor: '#F7F6F4' }}>
+      <div className="mx-auto" style={{ maxWidth: '900px' }}>
+        {/* Header */}
+        <div className="text-center mb-10">
+          <p
+            className="font-sans font-medium mb-3"
+            style={{
+              fontSize: '11px',
+              letterSpacing: '0.14em',
+              color: '#EAAA00',
+              textTransform: 'uppercase',
+            }}
+          >
+            Consultas frecuentes
+          </p>
+          <h2
+            className="font-serif font-semibold mb-3"
+            style={{ fontSize: '36px', color: '#002A3A', lineHeight: 1.2 }}
+          >
+            Consultas del día a día
+          </h2>
+          <p className="font-sans" style={{ fontSize: '15px', color: '#5F5E5A' }}>
+            Preguntas reales que el equipo formula al agente cada semana.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {examples.map((text) => (
+        {/* Pills grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-10">
+          {examples.map((text, idx) => (
             <div
               key={text}
               className="flex items-center gap-3 px-5 py-3 rounded-full font-sans bg-white"
-              style={{ border: '1px solid #E2DED9', fontSize: '14px', color: '#002A3A' }}
+              style={{ border: '1px solid #E2DED9' }}
             >
-              <span
-                className="flex-shrink-0 rounded-full"
-                style={{ width: '6px', height: '6px', backgroundColor: '#EAAA00' }}
-              />
-              {text}
+              <div
+                className="flex items-center justify-center flex-shrink-0"
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(234,170,0,0.15)',
+                }}
+              >
+                <span
+                  className="font-sans font-bold"
+                  style={{ fontSize: '10px', color: '#002A3A' }}
+                >
+                  {idx + 1}
+                </span>
+              </div>
+              <span style={{ fontSize: '14px', color: '#002A3A' }}>{text}</span>
             </div>
           ))}
+        </div>
+
+        {/* CTA banner */}
+        <div
+          className="flex flex-col sm:flex-row justify-between items-center gap-4 p-6 rounded-2xl"
+          style={{ backgroundColor: '#002A3A' }}
+        >
+          <div>
+            <p className="font-sans font-medium text-white" style={{ fontSize: '15px', marginBottom: '4px' }}>
+              ¿Tienes una consulta urgente?
+            </p>
+            <p className="font-sans" style={{ fontSize: '13px', color: '#D7D2CB' }}>
+              Formula tu pregunta al agente ahora mismo
+            </p>
+          </div>
+          <a
+            href="/chat"
+            className="font-sans font-medium flex-shrink-0 transition-opacity hover:opacity-90"
+            style={{
+              backgroundColor: '#EAAA00',
+              color: '#002A3A',
+              padding: '12px 24px',
+              borderRadius: '8px',
+              fontSize: '14px',
+              textDecoration: 'none',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Consultar ahora →
+          </a>
         </div>
       </div>
     </section>

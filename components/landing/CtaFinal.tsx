@@ -2,35 +2,87 @@ export default function CtaFinal() {
   return (
     <section
       className="flex flex-col items-center justify-center text-center px-6"
-      style={{ backgroundColor: '#002A3A', paddingTop: '96px', paddingBottom: '96px' }}
+      style={{
+        background:
+          'radial-gradient(ellipse at 30% 70%, rgba(234,170,0,0.2) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(0,80,120,0.3) 0%, transparent 50%), #001824',
+        paddingTop: '128px',
+        paddingBottom: '128px',
+      }}
     >
-      <h2
-        className="font-serif font-semibold text-white mb-4"
-        style={{ fontSize: 'clamp(28px, 4vw, 36px)' }}
-      >
-        ¿Listo para empezar?
-      </h2>
       <p
-        className="font-sans mb-8"
-        style={{ fontSize: '16px', color: '#D7D2CB', maxWidth: '480px', lineHeight: 1.7 }}
-      >
-        Accede al chat y formula tu primera consulta. El agente está disponible para todo el equipo
-        en todo momento.
-      </p>
-      <a
-        href="/chat"
-        className="font-sans font-medium transition-opacity hover:opacity-90"
+        className="font-sans font-medium mb-5"
         style={{
-          backgroundColor: '#EAAA00',
-          color: '#002A3A',
-          padding: '14px 32px',
-          borderRadius: '6px',
-          fontSize: '15px',
-          textDecoration: 'none',
+          fontSize: '11px',
+          letterSpacing: '0.14em',
+          color: '#EAAA00',
+          textTransform: 'uppercase',
         }}
       >
-        Iniciar chat con el Agente Fiscal →
-      </a>
+        Disponible para todo el equipo
+      </p>
+
+      <h2
+        className="font-serif font-semibold text-white mb-5"
+        style={{ fontSize: 'clamp(32px, 5vw, 52px)', lineHeight: 1.15, maxWidth: '640px' }}
+      >
+        El despacho que trabaja con inteligencia
+      </h2>
+
+      <p
+        className="font-sans mb-10"
+        style={{
+          fontSize: '17px',
+          color: '#D7D2CB',
+          maxWidth: '520px',
+          lineHeight: 1.75,
+        }}
+      >
+        Accede al chat y formula tu primera consulta. El agente está disponible en todo momento
+        para todo el equipo de Benavides Asociados.
+      </p>
+
+      <div className="flex flex-wrap gap-3 justify-center mb-8">
+        <a
+          href="/chat"
+          className="font-sans font-medium transition-opacity hover:opacity-90"
+          style={{
+            backgroundColor: '#EAAA00',
+            color: '#002A3A',
+            padding: '15px 36px',
+            borderRadius: '8px',
+            fontSize: '15px',
+            textDecoration: 'none',
+          }}
+        >
+          Abrir el agente →
+        </a>
+        <a
+          href="#capacidades"
+          className="font-sans font-medium transition-opacity hover:opacity-80"
+          style={{
+            background: 'transparent',
+            border: '1px solid rgba(215,210,203,0.35)',
+            color: '#D7D2CB',
+            padding: '15px 36px',
+            borderRadius: '8px',
+            fontSize: '15px',
+            textDecoration: 'none',
+          }}
+        >
+          Ver capacidades
+        </a>
+      </div>
+
+      <p
+        className="font-sans"
+        style={{ fontSize: '13px', color: 'rgba(215,210,203,0.5)' }}
+      >
+        Sin límite de consultas
+        <span style={{ margin: '0 8px', color: '#EAAA00' }}>·</span>
+        Responde en segundos
+        <span style={{ margin: '0 8px', color: '#EAAA00' }}>·</span>
+        Historial guardado
+      </p>
     </section>
   );
 }

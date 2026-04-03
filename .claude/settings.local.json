@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"C:/Users/GonzaloBenavidesLópe/OneDrive - Benavides Asociados/Escritorio/PROYECTOS/Fiscal.IA/app/api/chat\")",
+      "Bash(mkdir -p \"C:/Users/GonzaloBenavidesLópe/OneDrive - Benavides Asociados/Escritorio/PROYECTOS/Fiscal.IA/app/chat\")",
+      "Bash(mkdir -p \"C:/Users/GonzaloBenavidesLópe/OneDrive - Benavides Asociados/Escritorio/PROYECTOS/Fiscal.IA/components/landing\")",
+      "Bash(mkdir -p \"C:/Users/GonzaloBenavidesLópe/OneDrive - Benavides Asociados/Escritorio/PROYECTOS/Fiscal.IA/components/chat\")",
+      "Bash(mkdir -p \"C:/Users/GonzaloBenavidesLópe/OneDrive - Benavides Asociados/Escritorio/PROYECTOS/Fiscal.IA/lib\")",
+      "Bash(npm install:*)",
+      "Bash(vercel:*)",
+      "Bash(npm run:*)"
+    ]
+  }
+}
