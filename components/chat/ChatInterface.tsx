@@ -3,6 +3,14 @@ import { useState, useRef, useEffect } from 'react';
 import MessageBubble from './MessageBubble';
 import InputBar from './InputBar';
 import Link from 'next/link';
+import {
+  getConversations,
+  saveConversation,
+  deleteConversation,
+  newId,
+  groupByDate,
+  type Conversation,
+} from '@/lib/storage';
 
 interface Message {
   id: string;
@@ -19,15 +27,6 @@ const QUICK_SUGGESTIONS = [
   'Redacta un recurso de reposición contra esta liquidación',
 ];
 
-const SIDEBAR_ITEMS = [
-  'Análisis de facturas y documentos',
-  'Consultas IRPF · IVA · IS · IRNR',
-  'ITP · Sucesiones · Normativa balear',
-  'Cálculos y retenciones',
-  'Borradores de escritos y recursos',
-  'Modelos tributarios y plazos',
-];
-
 function getGreeting() {
   const h = new Date().getHours();
   if (h >= 6 && h < 12) return 'Buenos días, asesor';
@@ -37,6 +36,8 @@ function getGreeting() {
 
 export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [currentConvId, setCurrentConvId] = useState<string>('');
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [streamingMsgId, setStreamingMsgId] = useState<string | null>(null);
@@ -44,6 +45,39 @@ export default function ChatInterface() {
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Load conversations from localStorage on mount
+  useEffect(() => {
+    const convs = getConversations();
+    setConversations(convs);
+    if (convs.length > 0) {
+      const latest = convs[0];
+      setCurrentConvId(latest.id);
+      setMessages(
+        latest.messages.map((m) => ({ ...m, timestamp: new Date(m.timestamp) }))
+      );
+    } else {
+      setCurrentConvId(newId());
+    }
+  }, []);
+
+  // Save conversation whenever messages change
+  useEffect(() => {
+    if (messages.length === 0 || !currentConvId) return;
+    const conv: Conversation = {
+      id: currentConvId,
+      title: messages[0].content.slice(0, 60) || 'Nueva conversación',
+      messages: messages.map((m) => ({ ...m, timestamp: m.timestamp.toISOString() })),
+      createdAt: messages[0].timestamp.toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    saveConversation(conv);
+    setConversations(getConversations());
+  }, [messages, currentConvId]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, toolStatus]);
 
   const fileToBase64 = (file: File): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -53,9 +87,35 @@ export default function ChatInterface() {
       reader.readAsDataURL(file);
     });
 
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  const startNewConversation = () => {
+    setCurrentConvId(newId());
+    setMessages([]);
+    setInput('');
+    setAttachedFile(null);
+    setSidebarOpen(false);
+  };
+
+  const loadConversation = (conv: Conversation) => {
+    setCurrentConvId(conv.id);
+    setMessages(conv.messages.map((m) => ({ ...m, timestamp: new Date(m.timestamp) })));
+    setInput('');
+    setAttachedFile(null);
+    setSidebarOpen(false);
+  };
+
+  const handleDeleteConversation = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    deleteConversation(id);
+    const updated = getConversations();
+    setConversations(updated);
+    if (id === currentConvId) {
+      if (updated.length > 0) {
+        loadConversation(updated[0]);
+      } else {
+        startNewConversation();
+      }
+    }
+  };
 
   const handleSend = async (overrideInput?: string) => {
     const text = (overrideInput ?? input).trim();
@@ -69,7 +129,7 @@ export default function ChatInterface() {
     }
 
     const userMsg: Message = {
-      id: Date.now().toString(),
+      id: newId(),
       role: 'user',
       content: text,
       timestamp: new Date(),
@@ -82,13 +142,10 @@ export default function ChatInterface() {
     setAttachedFile(null);
     setIsLoading(true);
 
-    const assistantId = (Date.now() + 1).toString();
+    const assistantId = newId();
 
     try {
-      const apiMessages = newMessages.map((m) => ({
-        role: m.role,
-        content: m.content,
-      }));
+      const apiMessages = newMessages.map((m) => ({ role: m.role, content: m.content }));
 
       const res = await fetch('/api/chat', {
         method: 'POST',
@@ -121,7 +178,6 @@ export default function ChatInterface() {
 
             if (parsed.error) throw new Error(parsed.error);
 
-            // Tool use events
             if (parsed.searching) {
               setToolStatus(`Consultando ${parsed.searching.source}: "${parsed.searching.query}"`);
             }
@@ -135,19 +191,12 @@ export default function ChatInterface() {
                 setStreamingMsgId(assistantId);
                 setMessages((prev) => [
                   ...prev,
-                  {
-                    id: assistantId,
-                    role: 'assistant',
-                    content: parsed.text,
-                    timestamp: new Date(),
-                  },
+                  { id: assistantId, role: 'assistant', content: parsed.text, timestamp: new Date() },
                 ]);
               } else {
                 setMessages((prev) =>
                   prev.map((m) =>
-                    m.id === assistantId
-                      ? { ...m, content: m.content + parsed.text }
-                      : m
+                    m.id === assistantId ? { ...m, content: m.content + parsed.text } : m
                   )
                 );
               }
@@ -188,25 +237,14 @@ export default function ChatInterface() {
     }
   };
 
-  const handleSuggestion = (text: string) => {
-    handleSend(text);
-  };
-
-  const clearChat = () => {
-    if (confirm('¿Limpiar toda la conversación?')) {
-      setMessages([]);
-      setInput('');
-      setAttachedFile(null);
-    }
-  };
-
   const Sidebar = () => (
     <aside
       className="flex flex-col h-full"
-      style={{ backgroundColor: '#002A3A', width: '260px', minWidth: '260px' }}
+      style={{ backgroundColor: '#171717', width: '260px', minWidth: '260px' }}
     >
-      <div className="p-5" style={{ borderBottom: '1px solid rgba(215,210,203,0.1)' }}>
-        <p className="font-serif font-semibold text-white" style={{ fontSize: '13px' }}>
+      {/* Header */}
+      <div className="p-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        <p className="font-serif font-semibold" style={{ fontSize: '13px', color: 'white' }}>
           Benavides Asociados
         </p>
         <p className="font-sans" style={{ fontSize: '11px', color: '#EAAA00', marginTop: '2px' }}>
@@ -214,56 +252,112 @@ export default function ChatInterface() {
         </p>
       </div>
 
-      <div className="p-5">
+      {/* New conversation */}
+      <div className="p-3">
         <button
-          onClick={clearChat}
-          className="w-full flex items-center gap-2 font-sans transition-opacity hover:opacity-80"
+          onClick={startNewConversation}
+          className="w-full flex items-center gap-2 font-sans rounded-lg transition-colors"
           style={{
-            border: '1px solid rgba(215,210,203,0.25)',
-            borderRadius: '6px',
-            color: '#D7D2CB',
+            border: '1px solid rgba(255,255,255,0.12)',
+            color: 'rgba(255,255,255,0.85)',
             fontSize: '13px',
-            padding: '10px 16px',
+            padding: '9px 14px',
             background: 'none',
             cursor: 'pointer',
+            textAlign: 'left',
           }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.06)')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
         >
-          <span style={{ fontSize: '16px', lineHeight: 1 }}>+</span>
+          <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
           Nueva conversación
         </button>
       </div>
 
-      <div className="px-5 flex-1">
-        <p
-          className="font-sans mb-3"
-          style={{ fontSize: '11px', color: 'rgba(215,210,203,0.5)', letterSpacing: '0.08em' }}
-        >
-          PUEDO AYUDARTE CON
-        </p>
-        <ul className="flex flex-col gap-2">
-          {SIDEBAR_ITEMS.map((item) => (
-            <li key={item} className="flex items-start gap-2">
-              <span
-                className="flex-shrink-0 rounded-full mt-1.5"
-                style={{ width: '5px', height: '5px', backgroundColor: '#EAAA00', minWidth: '5px' }}
-              />
-              <span className="font-sans" style={{ fontSize: '12px', color: 'rgba(215,210,203,0.7)', lineHeight: 1.5 }}>
-                {item}
-              </span>
-            </li>
-          ))}
-        </ul>
+      {/* Conversation history */}
+      <div className="flex-1 overflow-y-auto px-2 py-1">
+        {conversations.length === 0 ? (
+          <p className="font-sans px-3 py-2" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)' }}>
+            Aún no hay conversaciones
+          </p>
+        ) : (
+          groupByDate(conversations).map(([label, convs]) => (
+            <div key={label} className="mb-3">
+              <p
+                className="font-sans px-3 mb-1"
+                style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em' }}
+              >
+                {label.toUpperCase()}
+              </p>
+              {convs.map((conv) => (
+                <div
+                  key={conv.id}
+                  className="group/item flex items-center rounded-lg"
+                  style={{
+                    backgroundColor: conv.id === currentConvId ? 'rgba(255,255,255,0.1)' : 'transparent',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (conv.id !== currentConvId)
+                      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.06)';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (conv.id !== currentConvId)
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
+                >
+                  <button
+                    onClick={() => loadConversation(conv)}
+                    className="flex-1 text-left font-sans px-3 py-2 rounded-lg"
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontSize: '13px',
+                      color: conv.id === currentConvId ? 'white' : 'rgba(255,255,255,0.65)',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      width: 0,
+                      minWidth: 0,
+                    }}
+                    title={conv.title}
+                  >
+                    {conv.title}
+                  </button>
+                  <button
+                    onClick={(e) => handleDeleteConversation(conv.id, e)}
+                    className="flex-shrink-0 p-1.5 mr-1 rounded opacity-0 group-hover/item:opacity-100 transition-opacity"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.4)' }}
+                    title="Eliminar conversación"
+                    onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.8)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}
+                  >
+                    <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
+              ))}
+            </div>
+          ))
+        )}
       </div>
 
-      <div className="p-5" style={{ borderTop: '1px solid rgba(215,210,203,0.1)' }}>
+      {/* Footer */}
+      <div className="p-4" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
         <Link
           href="/"
-          className="font-sans block mb-2 hover:opacity-80 transition-opacity"
-          style={{ fontSize: '12px', color: 'rgba(215,210,203,0.5)', textDecoration: 'none' }}
+          className="font-sans flex items-center gap-1.5 hover:opacity-80 transition-opacity mb-2"
+          style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }}
         >
-          ← Volver a la landing
+          <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Volver a la landing
         </Link>
-        <p className="font-sans" style={{ fontSize: '10px', color: 'rgba(215,210,203,0.4)' }}>
+        <p className="font-sans" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.25)' }}>
           Uso interno · v2.0
         </p>
       </div>
@@ -271,7 +365,7 @@ export default function ChatInterface() {
   );
 
   return (
-    <div className="flex h-screen overflow-hidden" style={{ backgroundColor: '#F7F6F4' }}>
+    <div className="flex h-screen overflow-hidden" style={{ backgroundColor: 'white' }}>
       {/* Sidebar — desktop */}
       <div className="hidden md:flex flex-col" style={{ width: '260px', flexShrink: 0 }}>
         <Sidebar />
@@ -283,95 +377,106 @@ export default function ChatInterface() {
           <div className="flex flex-col h-full" style={{ width: '260px' }}>
             <Sidebar />
           </div>
-          <div className="flex-1 bg-black bg-opacity-40" onClick={() => setSidebarOpen(false)} />
+          <div className="flex-1 bg-black bg-opacity-50" onClick={() => setSidebarOpen(false)} />
         </div>
       )}
 
       {/* Main area */}
       <div className="flex flex-col flex-1 min-w-0">
-        {/* Chat header */}
+        {/* Minimal header */}
         <div
-          className="flex items-center justify-between px-8 py-4"
-          style={{ backgroundColor: 'white', borderBottom: '1px solid #E2DED9', flexShrink: 0 }}
+          className="flex items-center justify-between px-6 py-3"
+          style={{ borderBottom: '1px solid #F3F4F6', flexShrink: 0 }}
         >
           <div className="flex items-center gap-3">
             <button
               className="md:hidden p-1"
               onClick={() => setSidebarOpen(true)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#002A3A' }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#374151' }}
             >
               <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            <div>
-              <p className="font-sans font-medium" style={{ fontSize: '15px', color: '#002A3A' }}>
-                Agente Fiscal Senior
-              </p>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <span
-                  className="rounded-full"
-                  style={{
-                    width: '7px',
-                    height: '7px',
-                    backgroundColor: '#22c55e',
-                    boxShadow: '0 0 0 2px rgba(34,197,94,0.2)',
-                    animation: 'pulse 2s infinite',
-                  }}
-                />
-                <span className="font-sans" style={{ fontSize: '12px', color: '#5F5E5A' }}>
-                  {toolStatus ? 'Buscando...' : isLoading ? 'Escribiendo...' : 'Disponible'}
-                </span>
+            <div className="flex items-center gap-2">
+              <div
+                className="flex items-center justify-center rounded-full"
+                style={{ width: '24px', height: '24px', backgroundColor: '#002A3A' }}
+              >
+                <span style={{ fontSize: '8px', fontWeight: 700, color: '#EAAA00', fontFamily: 'serif' }}>BA</span>
               </div>
+              <span className="font-sans font-medium" style={{ fontSize: '14px', color: '#111827' }}>
+                Agente Fiscal Senior
+              </span>
             </div>
           </div>
-          <button
-            onClick={clearChat}
-            title="Limpiar conversación"
-            className="p-2 rounded-lg hover:bg-gray-50 transition-colors"
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#5F5E5A' }}
-          >
-            <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
-          </button>
+
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5">
+              <span
+                className="rounded-full"
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  backgroundColor: toolStatus ? '#EAAA00' : '#22c55e',
+                  animation: 'pulse 2s infinite',
+                }}
+              />
+              <span className="font-sans" style={{ fontSize: '12px', color: '#6B7280' }}>
+                {toolStatus ? 'Buscando...' : isLoading ? 'Escribiendo...' : 'Disponible'}
+              </span>
+            </div>
+            <button
+              onClick={() => {
+                if (messages.length === 0) return;
+                if (confirm('¿Limpiar esta conversación?')) {
+                  setMessages([]);
+                  setCurrentConvId(newId());
+                }
+              }}
+              title="Nueva conversación"
+              className="p-1.5 rounded-lg transition-colors hover:bg-gray-100"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9CA3AF' }}
+            >
+              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Messages area */}
-        <div className="flex-1 overflow-y-auto px-8 py-8">
+        <div className="flex-1 overflow-y-auto">
           {messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-center">
-              <svg
-                width="48"
-                height="48"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1"
-                viewBox="0 0 24 24"
-                style={{ color: '#002A3A', opacity: 0.15, marginBottom: '20px' }}
+            <div className="flex flex-col items-center justify-center h-full text-center px-6">
+              <div
+                className="flex items-center justify-center rounded-full mb-5"
+                style={{ width: '48px', height: '48px', backgroundColor: '#002A3A' }}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
-              </svg>
-              <h2 className="font-serif font-semibold mb-2" style={{ fontSize: '22px', color: '#002A3A' }}>
+                <span style={{ fontSize: '14px', fontWeight: 700, color: '#EAAA00', fontFamily: 'serif' }}>BA</span>
+              </div>
+              <h2 className="font-serif font-semibold mb-2" style={{ fontSize: '22px', color: '#111827' }}>
                 {getGreeting()}
               </h2>
-              <p className="font-sans mb-8" style={{ fontSize: '14px', color: '#5F5E5A' }}>
+              <p className="font-sans mb-8" style={{ fontSize: '15px', color: '#6B7280', maxWidth: '420px' }}>
                 Formula tu consulta o sube un documento para empezar.
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-2xl">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-xl">
                 {QUICK_SUGGESTIONS.map((s) => (
                   <button
                     key={s}
-                    onClick={() => handleSuggestion(s)}
-                    className="text-left p-4 rounded-lg font-sans transition-colors hover:bg-white"
+                    onClick={() => handleSend(s)}
+                    className="text-left p-4 rounded-xl font-sans transition-colors"
                     style={{
-                      border: '1px solid #E2DED9',
+                      border: '1px solid #E5E7EB',
                       fontSize: '13px',
-                      color: '#002A3A',
-                      background: 'rgba(255,255,255,0.6)',
+                      color: '#374151',
+                      background: 'white',
                       cursor: 'pointer',
                       lineHeight: 1.5,
                     }}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#F9FAFB')}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
                   >
                     {s}
                   </button>
@@ -379,7 +484,7 @@ export default function ChatInterface() {
               </div>
             </div>
           ) : (
-            <>
+            <div style={{ maxWidth: '720px', margin: '0 auto', padding: '32px 24px' }}>
               {messages.map((msg) => (
                 <MessageBubble
                   key={msg.id}
@@ -387,54 +492,48 @@ export default function ChatInterface() {
                   isStreaming={msg.id === streamingMsgId}
                 />
               ))}
-              {/* Search status indicator */}
+
+              {/* Search status */}
               {toolStatus && (
-                <div className="flex justify-start mb-3">
+                <div className="flex gap-3 mb-6">
+                  <div
+                    className="flex items-center justify-center flex-shrink-0"
+                    style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#002A3A', marginTop: '2px' }}
+                  >
+                    <span style={{ fontSize: '9px', fontWeight: 700, color: '#EAAA00', fontFamily: 'serif' }}>BA</span>
+                  </div>
                   <div
                     className="flex items-center gap-2 font-sans"
                     style={{
                       backgroundColor: 'rgba(234,170,0,0.08)',
-                      border: '1px solid rgba(234,170,0,0.3)',
+                      border: '1px solid rgba(234,170,0,0.25)',
                       borderRadius: '10px',
                       padding: '8px 14px',
-                      fontSize: '12px',
+                      fontSize: '13px',
                       color: '#5F5E5A',
-                      maxWidth: '80%',
                     }}
                   >
-                    <svg
-                      className="animate-spin flex-shrink-0"
-                      width="13"
-                      height="13"
-                      fill="none"
-                      stroke="#EAAA00"
-                      strokeWidth="2.5"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="animate-spin flex-shrink-0" width="13" height="13" fill="none" stroke="#EAAA00" strokeWidth="2.5" viewBox="0 0 24 24">
                       <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
                       <path d="M12 2a10 10 0 0110 10" />
                     </svg>
-                    <span style={{ color: '#EAAA00', fontWeight: 500, marginRight: '2px' }}>
-                      Consultando fuentes oficiales
-                    </span>
+                    <span style={{ color: '#92733A', fontWeight: 500 }}>Consultando fuentes oficiales —</span>
                     <span className="truncate">{toolStatus}</span>
                   </div>
                 </div>
               )}
 
-              {/* Typing dots: only while waiting for first token and not searching */}
+              {/* Typing dots */}
               {isLoading && streamingMsgId === null && !toolStatus && (
-                <div className="flex justify-start mb-4">
+                <div className="flex gap-3 mb-6">
                   <div
-                    className="font-sans"
-                    style={{
-                      backgroundColor: 'white',
-                      border: '1px solid #E2DED9',
-                      borderRadius: '16px 16px 16px 4px',
-                      padding: '14px 18px',
-                    }}
+                    className="flex items-center justify-center flex-shrink-0"
+                    style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#002A3A', marginTop: '2px' }}
                   >
-                    <div className="flex gap-1.5 items-center">
+                    <span style={{ fontSize: '9px', fontWeight: 700, color: '#EAAA00', fontFamily: 'serif' }}>BA</span>
+                  </div>
+                  <div className="flex items-center" style={{ paddingTop: '6px' }}>
+                    <div className="flex gap-1">
                       <span className="typing-dot" />
                       <span className="typing-dot" />
                       <span className="typing-dot" />
@@ -442,12 +541,13 @@ export default function ChatInterface() {
                   </div>
                 </div>
               )}
+
               <div ref={messagesEndRef} />
-            </>
+            </div>
           )}
         </div>
 
-        {/* Input bar */}
+        {/* Input */}
         <InputBar
           input={input}
           setInput={setInput}
