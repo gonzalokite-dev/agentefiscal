@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { SYSTEM_PROMPT } from '@/lib/systemPrompt';
+import { FISCAL_TOOLS, TOOLS_ADDENDUM, executeSearch, getSourceLabel } from '@/lib/searchTool';
 
 export const maxDuration = 60;
 
@@ -60,30 +61,82 @@ export async function POST(req: Request) {
       return msg;
     });
 
-    const stream = client.messages.stream({
-      model: 'claude-opus-4-6',
-      max_tokens: 4096,
-      system: SYSTEM_PROMPT,
-      messages: processedMessages as Anthropic.MessageParam[],
-    });
-
     const readableStream = new ReadableStream({
       async start(controller) {
         const encoder = new TextEncoder();
+        const emit = (payload: object | string) => {
+          const data = typeof payload === 'string' ? payload : JSON.stringify(payload);
+          controller.enqueue(encoder.encode(`data: ${data}\n\n`));
+        };
+
+        // Agentic loop: Claude may call tools multiple times before giving a final answer
+        const conversationMessages: Anthropic.MessageParam[] = [
+          ...(processedMessages as Anthropic.MessageParam[]),
+        ];
+
         try {
-          for await (const chunk of stream) {
-            if (
-              chunk.type === 'content_block_delta' &&
-              chunk.delta.type === 'text_delta'
-            ) {
-              const data = `data: ${JSON.stringify({ text: chunk.delta.text })}\n\n`;
-              controller.enqueue(encoder.encode(data));
+          let continueLoop = true;
+
+          while (continueLoop) {
+            const stream = client.messages.stream({
+              model: 'claude-opus-4-6',
+              max_tokens: 4096,
+              system: SYSTEM_PROMPT + TOOLS_ADDENDUM,
+              tools: FISCAL_TOOLS,
+              messages: conversationMessages,
+            });
+
+            // Stream text tokens to the client as they arrive
+            for await (const chunk of stream) {
+              if (
+                chunk.type === 'content_block_delta' &&
+                chunk.delta.type === 'text_delta'
+              ) {
+                emit({ text: chunk.delta.text });
+              }
+            }
+
+            const finalMsg = await stream.finalMessage();
+
+            if (finalMsg.stop_reason === 'tool_use') {
+              // Save the assistant turn (with tool_use blocks) to the conversation
+              conversationMessages.push({ role: 'assistant', content: finalMsg.content });
+
+              const toolResults: Anthropic.ToolResultBlockParam[] = [];
+
+              for (const block of finalMsg.content) {
+                if (block.type !== 'tool_use') continue;
+
+                const input = block.input as { query: string; fuente?: string };
+                const sourceLabel = getSourceLabel(input.fuente);
+
+                // Notify the client that a search is in progress
+                emit({ searching: { query: input.query, source: sourceLabel } });
+
+                const result = await executeSearch(input.query, input.fuente);
+
+                // Notify the client that the search is done
+                emit({ searched: { query: input.query, source: sourceLabel, count: result.count } });
+
+                toolResults.push({
+                  type: 'tool_result',
+                  tool_use_id: block.id,
+                  content: result.text,
+                });
+              }
+
+              // Add tool results and loop again so Claude can continue
+              conversationMessages.push({ role: 'user', content: toolResults });
+            } else {
+              // stop_reason === 'end_turn' — Claude is done
+              continueLoop = false;
             }
           }
-          controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+
+          emit('[DONE]');
         } catch (err) {
           const msg = err instanceof Error ? err.message : 'Error desconocido';
-          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ error: msg })}\n\n`));
+          emit({ error: msg });
         } finally {
           controller.close();
         }

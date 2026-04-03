@@ -40,6 +40,7 @@ export default function ChatInterface() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [streamingMsgId, setStreamingMsgId] = useState<string | null>(null);
+  const [toolStatus, setToolStatus] = useState<string | null>(null);
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -120,6 +121,14 @@ export default function ChatInterface() {
 
             if (parsed.error) throw new Error(parsed.error);
 
+            // Tool use events
+            if (parsed.searching) {
+              setToolStatus(`Consultando ${parsed.searching.source}: "${parsed.searching.query}"`);
+            }
+            if (parsed.searched) {
+              setToolStatus(null);
+            }
+
             if (parsed.text) {
               if (!streamStarted) {
                 streamStarted = true;
@@ -175,6 +184,7 @@ export default function ChatInterface() {
     } finally {
       setIsLoading(false);
       setStreamingMsgId(null);
+      setToolStatus(null);
     }
   };
 
@@ -310,7 +320,7 @@ export default function ChatInterface() {
                   }}
                 />
                 <span className="font-sans" style={{ fontSize: '12px', color: '#5F5E5A' }}>
-                  {isLoading ? 'Escribiendo...' : 'Disponible'}
+                  {toolStatus ? 'Buscando...' : isLoading ? 'Escribiendo...' : 'Disponible'}
                 </span>
               </div>
             </div>
@@ -377,8 +387,43 @@ export default function ChatInterface() {
                   isStreaming={msg.id === streamingMsgId}
                 />
               ))}
-              {/* Typing dots: only while waiting for first token */}
-              {isLoading && streamingMsgId === null && (
+              {/* Search status indicator */}
+              {toolStatus && (
+                <div className="flex justify-start mb-3">
+                  <div
+                    className="flex items-center gap-2 font-sans"
+                    style={{
+                      backgroundColor: 'rgba(234,170,0,0.08)',
+                      border: '1px solid rgba(234,170,0,0.3)',
+                      borderRadius: '10px',
+                      padding: '8px 14px',
+                      fontSize: '12px',
+                      color: '#5F5E5A',
+                      maxWidth: '80%',
+                    }}
+                  >
+                    <svg
+                      className="animate-spin flex-shrink-0"
+                      width="13"
+                      height="13"
+                      fill="none"
+                      stroke="#EAAA00"
+                      strokeWidth="2.5"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
+                      <path d="M12 2a10 10 0 0110 10" />
+                    </svg>
+                    <span style={{ color: '#EAAA00', fontWeight: 500, marginRight: '2px' }}>
+                      Consultando fuentes oficiales
+                    </span>
+                    <span className="truncate">{toolStatus}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Typing dots: only while waiting for first token and not searching */}
+              {isLoading && streamingMsgId === null && !toolStatus && (
                 <div className="flex justify-start mb-4">
                   <div
                     className="font-sans"
