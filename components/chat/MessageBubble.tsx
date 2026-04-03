@@ -11,7 +11,13 @@ interface Message {
   attachedFile?: { name: string; type: string; base64: string };
 }
 
-export default function MessageBubble({ message }: { message: Message }) {
+export default function MessageBubble({
+  message,
+  isStreaming = false,
+}: {
+  message: Message;
+  isStreaming?: boolean;
+}) {
   const [copied, setCopied] = useState(false);
   const isUser = message.role === 'user';
 
@@ -78,10 +84,23 @@ export default function MessageBubble({ message }: { message: Message }) {
               }}
             >
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
+              {isStreaming && (
+                <span
+                  style={{
+                    display: 'inline-block',
+                    width: '2px',
+                    height: '14px',
+                    backgroundColor: '#002A3A',
+                    marginLeft: '2px',
+                    verticalAlign: 'middle',
+                    animation: 'blink-cursor 0.8s step-end infinite',
+                  }}
+                />
+              )}
             </div>
             {/* Timestamp + copy */}
             <div className="flex items-center justify-between mt-1 px-1">
-              <span style={{ fontSize: '11px', color: '#5F5E5A' }}>{time}</span>
+              <span style={{ fontSize: '11px', color: '#5F5E5A' }}>{isStreaming ? '' : time}</span>
               <button
                 onClick={handleCopy}
                 className="opacity-0 group-hover:opacity-100 transition-opacity"

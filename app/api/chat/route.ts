@@ -37,29 +37,19 @@ export async function POST(req: Request) {
       if (index === messages.length - 1 && msg.role === 'user' && fileData) {
         const content: MessageContent[] = [];
 
-        // Add file content
         if (fileData.type === 'application/pdf') {
           content.push({
             type: 'document',
-            source: {
-              type: 'base64',
-              media_type: 'application/pdf',
-              data: fileData.base64,
-            },
+            source: { type: 'base64', media_type: 'application/pdf', data: fileData.base64 },
           });
         } else {
           const mediaType = fileData.type as 'image/jpeg' | 'image/png' | 'image/webp';
           content.push({
             type: 'image',
-            source: {
-              type: 'base64',
-              media_type: mediaType,
-              data: fileData.base64,
-            },
+            source: { type: 'base64', media_type: mediaType, data: fileData.base64 },
           });
         }
 
-        // Add text
         content.push({
           type: 'text',
           text: `El asesor ha adjuntado el siguiente documento para que lo analices: ${fileData.name}\n\n${typeof msg.content === 'string' ? msg.content : ''}`,
@@ -70,15 +60,42 @@ export async function POST(req: Request) {
       return msg;
     });
 
-    const response = await client.messages.create({
+    const stream = client.messages.stream({
       model: 'claude-opus-4-6',
       max_tokens: 4096,
       system: SYSTEM_PROMPT,
       messages: processedMessages as Anthropic.MessageParam[],
     });
 
-    return Response.json({
-      content: response.content[0].type === 'text' ? response.content[0].text : '',
+    const readableStream = new ReadableStream({
+      async start(controller) {
+        const encoder = new TextEncoder();
+        try {
+          for await (const chunk of stream) {
+            if (
+              chunk.type === 'content_block_delta' &&
+              chunk.delta.type === 'text_delta'
+            ) {
+              const data = `data: ${JSON.stringify({ text: chunk.delta.text })}\n\n`;
+              controller.enqueue(encoder.encode(data));
+            }
+          }
+          controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+        } catch (err) {
+          const msg = err instanceof Error ? err.message : 'Error desconocido';
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ error: msg })}\n\n`));
+        } finally {
+          controller.close();
+        }
+      },
+    });
+
+    return new Response(readableStream, {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+      },
     });
   } catch (error) {
     console.error('API error:', error);

@@ -39,9 +39,11 @@ export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [streamingMsgId, setStreamingMsgId] = useState<string | null>(null);
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
   const fileToBase64 = (file: File): Promise<string> =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -52,7 +54,7 @@ export default function ChatInterface() {
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isLoading]);
+  }, [messages]);
 
   const handleSend = async (overrideInput?: string) => {
     const text = (overrideInput ?? input).trim();
@@ -79,6 +81,8 @@ export default function ChatInterface() {
     setAttachedFile(null);
     setIsLoading(true);
 
+    const assistantId = (Date.now() + 1).toString();
+
     try {
       const apiMessages = newMessages.map((m) => ({
         role: m.role,
@@ -91,19 +95,78 @@ export default function ChatInterface() {
         body: JSON.stringify({ messages: apiMessages, fileData }),
       });
 
-      const data = await res.json();
-      const assistantMsg: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: data.content || data.error || 'Error al procesar la consulta.',
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, assistantMsg]);
+      if (!res.ok || !res.body) throw new Error('Error de red');
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      let streamStarted = false;
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() ?? '';
+
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const payload = line.slice(6).trim();
+          if (payload === '[DONE]') break;
+
+          try {
+            const parsed = JSON.parse(payload);
+
+            if (parsed.error) throw new Error(parsed.error);
+
+            if (parsed.text) {
+              if (!streamStarted) {
+                streamStarted = true;
+                setStreamingMsgId(assistantId);
+                setMessages((prev) => [
+                  ...prev,
+                  {
+                    id: assistantId,
+                    role: 'assistant',
+                    content: parsed.text,
+                    timestamp: new Date(),
+                  },
+                ]);
+              } else {
+                setMessages((prev) =>
+                  prev.map((m) =>
+                    m.id === assistantId
+                      ? { ...m, content: m.content + parsed.text }
+                      : m
+                  )
+                );
+              }
+            }
+          } catch (e) {
+            if (!streamStarted) {
+              const errMsg = e instanceof Error ? e.message : 'Error al procesar la consulta.';
+              setMessages((prev) => [
+                ...prev,
+                { id: assistantId, role: 'assistant', content: errMsg, timestamp: new Date() },
+              ]);
+              streamStarted = true;
+            }
+          }
+        }
+      }
+
+      if (!streamStarted) {
+        setMessages((prev) => [
+          ...prev,
+          { id: assistantId, role: 'assistant', content: 'No se recibió respuesta.', timestamp: new Date() },
+        ]);
+      }
     } catch {
       setMessages((prev) => [
         ...prev,
         {
-          id: (Date.now() + 1).toString(),
+          id: assistantId,
           role: 'assistant',
           content: 'Error de conexión. Por favor, inténtalo de nuevo.',
           timestamp: new Date(),
@@ -111,11 +174,11 @@ export default function ChatInterface() {
       ]);
     } finally {
       setIsLoading(false);
+      setStreamingMsgId(null);
     }
   };
 
   const handleSuggestion = (text: string) => {
-    setInput(text);
     handleSend(text);
   };
 
@@ -132,7 +195,6 @@ export default function ChatInterface() {
       className="flex flex-col h-full"
       style={{ backgroundColor: '#002A3A', width: '260px', minWidth: '260px' }}
     >
-      {/* Header */}
       <div className="p-5" style={{ borderBottom: '1px solid rgba(215,210,203,0.1)' }}>
         <p className="font-serif font-semibold text-white" style={{ fontSize: '13px' }}>
           Benavides Asociados
@@ -142,7 +204,6 @@ export default function ChatInterface() {
         </p>
       </div>
 
-      {/* New conversation */}
       <div className="p-5">
         <button
           onClick={clearChat}
@@ -162,7 +223,6 @@ export default function ChatInterface() {
         </button>
       </div>
 
-      {/* Capabilities */}
       <div className="px-5 flex-1">
         <p
           className="font-sans mb-3"
@@ -185,7 +245,6 @@ export default function ChatInterface() {
         </ul>
       </div>
 
-      {/* Footer */}
       <div className="p-5" style={{ borderTop: '1px solid rgba(215,210,203,0.1)' }}>
         <Link
           href="/"
@@ -226,7 +285,6 @@ export default function ChatInterface() {
           style={{ backgroundColor: 'white', borderBottom: '1px solid #E2DED9', flexShrink: 0 }}
         >
           <div className="flex items-center gap-3">
-            {/* Hamburger (mobile) */}
             <button
               className="md:hidden p-1"
               onClick={() => setSidebarOpen(true)}
@@ -252,7 +310,7 @@ export default function ChatInterface() {
                   }}
                 />
                 <span className="font-sans" style={{ fontSize: '12px', color: '#5F5E5A' }}>
-                  Disponible
+                  {isLoading ? 'Escribiendo...' : 'Disponible'}
                 </span>
               </div>
             </div>
@@ -273,7 +331,6 @@ export default function ChatInterface() {
         <div className="flex-1 overflow-y-auto px-8 py-8">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center">
-              {/* Icon */}
               <svg
                 width="48"
                 height="48"
@@ -291,7 +348,6 @@ export default function ChatInterface() {
               <p className="font-sans mb-8" style={{ fontSize: '14px', color: '#5F5E5A' }}>
                 Formula tu consulta o sube un documento para empezar.
               </p>
-              {/* Quick suggestions */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-2xl">
                 {QUICK_SUGGESTIONS.map((s) => (
                   <button
@@ -315,9 +371,14 @@ export default function ChatInterface() {
           ) : (
             <>
               {messages.map((msg) => (
-                <MessageBubble key={msg.id} message={msg} />
+                <MessageBubble
+                  key={msg.id}
+                  message={msg}
+                  isStreaming={msg.id === streamingMsgId}
+                />
               ))}
-              {isLoading && (
+              {/* Typing dots: only while waiting for first token */}
+              {isLoading && streamingMsgId === null && (
                 <div className="flex justify-start mb-4">
                   <div
                     className="font-sans"
