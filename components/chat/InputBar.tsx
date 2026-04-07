@@ -37,6 +37,21 @@ export default function InputBar({
     }
   };
 
+  const handlePaste = (e: React.ClipboardEvent) => {
+    const items = Array.from(e.clipboardData.items);
+    const imageItem = items.find((item) => item.type.startsWith('image/'));
+    if (imageItem) {
+      e.preventDefault();
+      const file = imageItem.getAsFile();
+      if (file) {
+        // Give it a readable name based on timestamp
+        const ext = file.type.split('/')[1] || 'png';
+        const named = new File([file], `captura-${Date.now()}.${ext}`, { type: file.type });
+        onFileAttach(named);
+      }
+    }
+  };
+
   const canSend = (input.trim().length > 0 || attachedFile !== null) && !isLoading;
 
   return (
@@ -56,9 +71,17 @@ export default function InputBar({
                 color: '#002A3A',
               }}
             >
-              <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-              </svg>
+              {attachedFile.type.startsWith('image/') ? (
+                <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <polyline points="21 15 16 10 5 21" />
+                </svg>
+              ) : (
+                <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                </svg>
+              )}
               <span>{attachedFile.name}</span>
               <button
                 onClick={onFileRemove}
@@ -88,6 +111,7 @@ export default function InputBar({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
+            onPaste={handlePaste}
             placeholder="Escribe tu consulta o arrastra un documento..."
             rows={1}
             className="flex-1 font-sans resize-none outline-none bg-transparent"
@@ -155,7 +179,7 @@ export default function InputBar({
         </div>
 
         <p className="text-center font-sans mt-2" style={{ fontSize: '11px', color: '#9ca3af' }}>
-          Enter para enviar · Shift+Enter para nueva línea
+          Enter para enviar · Shift+Enter para nueva línea · Pega capturas con Ctrl+V
         </p>
       </div>
     </div>
