@@ -36,9 +36,9 @@ export default function InputBar({
       setPreviewUrl(null);
       return;
     }
-    const url = URL.createObjectURL(attachedFile);
-    setPreviewUrl(url);
-    return () => URL.revokeObjectURL(url);
+    const reader = new FileReader();
+    reader.onload = () => setPreviewUrl(reader.result as string);
+    reader.readAsDataURL(attachedFile);
   }, [attachedFile]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
