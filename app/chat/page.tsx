@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import ChatInterface from '@/components/chat/ChatInterface';
 
 export const metadata = {
-  title: 'Chat — Agente Fiscal IA · Benavides Asociados',
+  title: 'Chat — AsesorIA',
 };
 
 export default function ChatPage() {

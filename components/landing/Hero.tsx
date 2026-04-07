@@ -28,7 +28,7 @@ export default function Hero() {
               textTransform: 'uppercase',
             }}
           >
-            Agente Fiscal IA · Benavides Asociados
+            AsesorIA · Fiscalidad española con IA
           </p>
 
           <h1
@@ -168,7 +168,7 @@ export default function Hero() {
                   letterSpacing: '0.02em',
                 }}
               >
-                Agente Fiscal BA
+                AsesorIA
               </span>
             </div>
 

@@ -75,10 +75,10 @@ export default function ChatShowcase() {
               style={{ width: '208px', backgroundColor: '#171717', borderRight: '1px solid rgba(255,255,255,0.06)' }}
             >
               <p className="font-sans font-semibold text-white mb-0.5" style={{ fontSize: '12px' }}>
-                Benavides Asociados
+                AsesorIA
               </p>
               <p className="font-sans mb-4" style={{ fontSize: '10px', color: '#EAAA00' }}>
-                Agente Fiscal BA
+                AsesorIA
               </p>
               <div style={{ height: '1px', backgroundColor: 'rgba(255,255,255,0.08)', marginBottom: '12px' }} />
 
@@ -137,7 +137,7 @@ export default function ChatShowcase() {
                   <span className="font-sans font-bold" style={{ fontSize: '8px', color: '#EAAA00' }}>BA</span>
                 </div>
                 <span className="font-sans font-medium" style={{ fontSize: '13px', color: '#1a1a1a' }}>
-                  Agente Fiscal BA
+                  AsesorIA
                 </span>
                 <div className="flex items-center gap-1 ml-2">
                   <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#28CA41' }} />

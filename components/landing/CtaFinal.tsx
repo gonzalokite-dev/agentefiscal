@@ -38,7 +38,7 @@ export default function CtaFinal() {
         }}
       >
         Accede al chat y formula tu primera consulta. El agente está disponible en todo momento
-        para todo el equipo de Benavides Asociados.
+        para todo tu equipo, en cualquier momento.
       </p>
 
       <div className="flex flex-wrap gap-3 justify-center mb-8">

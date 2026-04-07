@@ -26,15 +26,14 @@ export default function Home() {
         className="flex flex-col md:flex-row items-center justify-between px-12 py-5 font-sans"
         style={{ backgroundColor: '#001824' }}
       >
-        <div className="flex items-center gap-3">
-          <img src="/logo-blanco.svg" alt="Benavides Asociados" style={{ height: '18px', width: 'auto', opacity: 0.45 }} />
-          <span style={{ fontSize: '11px', color: 'rgba(215,210,203,0.5)' }}>
-            Uso interno
-            <span style={{ color: '#EAAA00', margin: '0 6px' }}>·</span>
+        <div className="flex items-baseline gap-0">
+          <span className="font-sans font-bold" style={{ fontSize: '14px', color: 'rgba(215,210,203,0.45)', letterSpacing: '-0.03em' }}>Asesor</span>
+          <span className="font-sans font-bold" style={{ fontSize: '14px', color: 'rgba(234,170,0,0.45)', letterSpacing: '-0.03em' }}>IA</span>
+          <span style={{ fontSize: '11px', color: 'rgba(215,210,203,0.4)', marginLeft: '10px' }}>
             Pollença, Illes Balears
           </span>
         </div>
-        <p style={{ fontSize: '11px', color: 'rgba(215,210,203,0.5)' }}>Agente Fiscal BA v2.0</p>
+        <p style={{ fontSize: '11px', color: 'rgba(215,210,203,0.4)' }}>AsesorIA v2.0</p>
       </footer>
     </main>
   );

@@ -255,9 +255,12 @@ export default function ChatInterface() {
     >
       {/* Header */}
       <div className="p-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-        <img src="/logo-blanco.svg" alt="Benavides Asociados" style={{ height: '24px', width: 'auto', marginBottom: '4px' }} />
-        <p className="font-sans" style={{ fontSize: '11px', color: '#EAAA00', marginTop: '2px' }}>
-          Agente Fiscal BA
+        <div className="flex items-baseline" style={{ gap: '0px', marginBottom: '2px' }}>
+          <span className="font-sans font-bold" style={{ fontSize: '18px', color: 'white', letterSpacing: '-0.04em', lineHeight: 1 }}>Asesor</span>
+          <span className="font-sans font-bold" style={{ fontSize: '18px', color: '#EAAA00', letterSpacing: '-0.04em', lineHeight: 1 }}>IA</span>
+        </div>
+        <p className="font-sans" style={{ fontSize: '11px', color: 'rgba(215,210,203,0.5)', marginTop: '2px' }}>
+          Asesoría fiscal con IA
         </p>
       </div>
 
@@ -412,10 +415,10 @@ export default function ChatInterface() {
                 className="flex items-center justify-center rounded-full"
                 style={{ width: '24px', height: '24px', backgroundColor: '#002A3A' }}
               >
-                <span style={{ fontSize: '8px', fontWeight: 700, color: '#EAAA00', fontFamily: 'serif' }}>BA</span>
+                <span style={{ fontSize: '7px', fontWeight: 700, color: '#EAAA00', fontFamily: 'sans-serif' }}>AI</span>
               </div>
               <span className="font-sans font-medium" style={{ fontSize: '14px', color: '#111827' }}>
-                Agente Fiscal BA
+                AsesorIA
               </span>
             </div>
           </div>

@@ -21,26 +21,35 @@ export default function Navbar() {
         transition: 'background-color 0.3s ease, backdrop-filter 0.3s ease',
       }}
     >
-      <img
-        src="/logo-blanco.svg"
-        alt="Benavides Asociados"
-        style={{ height: '32px', width: 'auto' }}
-      />
+      <div className="flex items-baseline" style={{ gap: '0px' }}>
+        <span
+          className="font-sans font-bold"
+          style={{ fontSize: '22px', color: 'white', letterSpacing: '-0.04em', lineHeight: 1 }}
+        >
+          Asesor
+        </span>
+        <span
+          className="font-sans font-bold"
+          style={{ fontSize: '22px', color: '#EAAA00', letterSpacing: '-0.04em', lineHeight: 1 }}
+        >
+          IA
+        </span>
+      </div>
 
-      <div
-        className="font-sans font-medium"
+      <a
+        href="/chat"
+        className="font-sans font-semibold transition-opacity hover:opacity-90"
         style={{
-          fontSize: '11px',
-          letterSpacing: '0.08em',
-          color: '#EAAA00',
-          border: '1px solid rgba(234,170,0,0.5)',
-          padding: '5px 14px',
+          fontSize: '12px',
+          letterSpacing: '0.02em',
+          color: '#002A3A',
+          backgroundColor: '#EAAA00',
+          padding: '6px 16px',
           borderRadius: '9999px',
-          background: 'transparent',
         }}
       >
-        Uso interno
-      </div>
+        Abrir el agente →
+      </a>
     </nav>
   );
 }
