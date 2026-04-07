@@ -257,7 +257,7 @@ export default function ChatInterface() {
       <div className="p-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="flex items-baseline" style={{ gap: '0px', marginBottom: '2px' }}>
           <span className="font-sans font-bold" style={{ fontSize: '18px', color: 'white', letterSpacing: '-0.04em', lineHeight: 1 }}>Asesor</span>
-          <span className="font-sans font-bold" style={{ fontSize: '18px', color: '#EAAA00', letterSpacing: '-0.04em', lineHeight: 1 }}>IA</span>
+          <span className="font-sans font-bold" style={{ fontSize: '18px', color: '#EAAA00', letterSpacing: '-0.04em', lineHeight: 1, position: 'relative', top: '-4px' }}>IA</span>
         </div>
         <p className="font-sans" style={{ fontSize: '11px', color: 'rgba(215,210,203,0.5)', marginTop: '2px' }}>
           Asesoría fiscal con IA

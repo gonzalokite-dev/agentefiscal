@@ -30,7 +30,7 @@ export default function Navbar() {
         </span>
         <span
           className="font-sans font-bold"
-          style={{ fontSize: '22px', color: '#EAAA00', letterSpacing: '-0.04em', lineHeight: 1 }}
+          style={{ fontSize: '22px', color: '#EAAA00', letterSpacing: '-0.04em', lineHeight: 1, position: 'relative', top: '-5px' }}
         >
           IA
         </span>

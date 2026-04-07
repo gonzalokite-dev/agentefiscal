@@ -28,7 +28,7 @@ export default function Home() {
       >
         <div className="flex items-baseline gap-0">
           <span className="font-sans font-bold" style={{ fontSize: '14px', color: 'rgba(215,210,203,0.45)', letterSpacing: '-0.03em' }}>Asesor</span>
-          <span className="font-sans font-bold" style={{ fontSize: '14px', color: 'rgba(234,170,0,0.45)', letterSpacing: '-0.03em' }}>IA</span>
+          <span className="font-sans font-bold" style={{ fontSize: '14px', color: 'rgba(234,170,0,0.45)', letterSpacing: '-0.03em', position: 'relative', top: '-3px' }}>IA</span>
           <span style={{ fontSize: '11px', color: 'rgba(215,210,203,0.4)', marginLeft: '10px' }}>
             Pollença, Illes Balears
           </span>
