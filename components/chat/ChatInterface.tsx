@@ -145,7 +145,10 @@ export default function ChatInterface() {
     const assistantId = newId();
 
     try {
-      const apiMessages = newMessages.map((m) => ({ role: m.role, content: m.content }));
+      const apiMessages = newMessages.map((m) => ({
+        role: m.role,
+        content: m.content || (m.attachedFile ? `[Archivo adjunto: ${m.attachedFile.name}]` : ' '),
+      }));
 
       const res = await fetch('/api/chat', {
         method: 'POST',

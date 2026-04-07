@@ -70,9 +70,13 @@ export async function POST(req: Request) {
         };
 
         // Agentic loop: Claude may call tools multiple times before giving a final answer
-        const conversationMessages: Anthropic.MessageParam[] = [
-          ...(processedMessages as Anthropic.MessageParam[]),
-        ];
+        const conversationMessages: Anthropic.MessageParam[] = (
+          processedMessages as Anthropic.MessageParam[]
+        ).filter((m) => {
+          if (typeof m.content === 'string') return m.content.trim() !== '';
+          if (Array.isArray(m.content)) return m.content.length > 0;
+          return true;
+        });
 
         try {
           let continueLoop = true;
