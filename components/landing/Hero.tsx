@@ -54,29 +54,53 @@ export default function Hero() {
               lineHeight: 1.75,
             }}
           >
-            Consulta el BOE, la DGT y la AEAT en tiempo real. Analiza documentos, calcula cuotas
-            y redacta escritos. Especializado en fiscalidad española y normativa de Illes Balears.
+            Tu asistente fiscal técnico, siempre disponible. Consulta normativa, analiza documentos
+            y redacta escritos en segundos — fundamentado en el BOE, la DGT y la AEAT, con criterio
+            propio de Illes Balears.
           </p>
 
           {/* Trust pills */}
           <div className="flex flex-wrap gap-2 mb-10">
             {[
-              '⚡ Respuestas en segundos',
-              '📄 Analiza PDFs y documentos',
-              '🔍 Consulta BOE · DGT · AEAT',
+              {
+                label: 'Respuestas en segundos',
+                icon: (
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                  </svg>
+                ),
+              },
+              {
+                label: 'Analiza PDFs y documentos',
+                icon: (
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                  </svg>
+                ),
+              },
+              {
+                label: 'BOE · DGT · AEAT en tiempo real',
+                icon: (
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                ),
+              },
             ].map((pill) => (
               <span
-                key={pill}
-                className="font-sans"
+                key={pill.label}
+                className="font-sans flex items-center gap-1.5"
                 style={{
                   fontSize: '12px',
-                  color: 'rgba(215,210,203,0.7)',
+                  color: 'rgba(215,210,203,0.75)',
                   border: '1px solid rgba(215,210,203,0.2)',
                   borderRadius: '9999px',
                   padding: '4px 12px',
                 }}
               >
-                {pill}
+                {pill.icon}
+                {pill.label}
               </span>
             ))}
           </div>

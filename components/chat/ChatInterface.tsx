@@ -1,5 +1,6 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import MessageBubble from './MessageBubble';
 import InputBar from './InputBar';
 import Link from 'next/link';
@@ -35,6 +36,7 @@ function getGreeting() {
 }
 
 export default function ChatInterface() {
+  const searchParams = useSearchParams();
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConvId, setCurrentConvId] = useState<string>('');
@@ -60,6 +62,12 @@ export default function ChatInterface() {
       setCurrentConvId(newId());
     }
   }, []);
+
+  // Pre-fill input from ?q= URL param (e.g. from landing examples)
+  useEffect(() => {
+    const q = searchParams.get('q');
+    if (q) setInput(q);
+  }, [searchParams]);
 
   // Save conversation whenever messages change
   useEffect(() => {

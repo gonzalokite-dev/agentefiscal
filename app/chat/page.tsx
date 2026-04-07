@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import ChatInterface from '@/components/chat/ChatInterface';
 
 export const metadata = {
@@ -5,5 +6,9 @@ export const metadata = {
 };
 
 export default function ChatPage() {
-  return <ChatInterface />;
+  return (
+    <Suspense fallback={null}>
+      <ChatInterface />
+    </Suspense>
+  );
 }

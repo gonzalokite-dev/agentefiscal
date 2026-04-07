@@ -1,46 +1,43 @@
-const items = [
-  'IRPF · IVA · IS · IRNR · ITP · ISD',
-  'Normativa Illes Balears',
-  'BOE · DGT · AEAT en tiempo real',
-  'Análisis de documentos PDF',
-  'Borradores de escritos y recursos',
+const stats = [
+  { value: '6', label: 'Impuestos cubiertos', sub: 'IRPF · IVA · IS · IRNR · ITP · ISD' },
+  { value: '3', label: 'Fuentes en tiempo real', sub: 'BOE · DGT · AEAT' },
+  { value: '24/7', label: 'Siempre disponible', sub: 'Sin colas ni esperas' },
+  { value: '∞', label: 'Sin límite de consultas', sub: 'Para todo el equipo' },
 ];
 
 export default function TrustBar() {
   return (
     <div
-      className="px-6 py-5"
+      className="px-6 py-8"
       style={{
         backgroundColor: '#F7F6F4',
         borderTop: '1px solid #E2DED9',
         borderBottom: '1px solid #E2DED9',
       }}
     >
-      <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-3">
-        {items.map((item, idx) => (
-          <div key={item} className="flex items-center gap-2">
-            {idx > 0 && (
-              <span
-                className="hidden md:block"
-                style={{ color: 'rgba(0,0,0,0.15)', fontSize: '14px', marginRight: '8px' }}
-              >
-                |
-              </span>
-            )}
-            <div
-              className="flex-shrink-0"
-              style={{
-                width: '6px',
-                height: '6px',
-                borderRadius: '50%',
-                backgroundColor: '#EAAA00',
-              }}
-            />
+      <div
+        className="mx-auto grid grid-cols-2 md:grid-cols-4 gap-6"
+        style={{ maxWidth: '900px' }}
+      >
+        {stats.map((stat, idx) => (
+          <div key={idx} className="flex flex-col items-center text-center">
             <span
-              className="font-sans"
-              style={{ fontSize: '13px', color: '#5F5E5A' }}
+              className="font-sans font-bold"
+              style={{ fontSize: '32px', color: '#002A3A', lineHeight: 1, letterSpacing: '-0.03em' }}
             >
-              {item}
+              {stat.value}
+            </span>
+            <span
+              className="font-sans font-semibold mt-1"
+              style={{ fontSize: '13px', color: '#002A3A' }}
+            >
+              {stat.label}
+            </span>
+            <span
+              className="font-sans mt-0.5"
+              style={{ fontSize: '11px', color: '#5F5E5A' }}
+            >
+              {stat.sub}
             </span>
           </div>
         ))}

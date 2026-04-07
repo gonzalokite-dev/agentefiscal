@@ -38,10 +38,11 @@ export default function Examples() {
         {/* Pills grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-10">
           {examples.map((text, idx) => (
-            <div
+            <a
               key={text}
-              className="flex items-center gap-3 px-5 py-3 rounded-full font-sans bg-white"
-              style={{ border: '1px solid #E2DED9' }}
+              href={`/chat?q=${encodeURIComponent(text)}`}
+              className="flex items-center gap-3 px-5 py-3 rounded-full font-sans bg-white transition-all hover:border-amber-300 hover:shadow-sm"
+              style={{ border: '1px solid #E2DED9', textDecoration: 'none' }}
             >
               <div
                 className="flex items-center justify-center flex-shrink-0"
@@ -59,8 +60,11 @@ export default function Examples() {
                   {idx + 1}
                 </span>
               </div>
-              <span style={{ fontSize: '14px', color: '#002A3A' }}>{text}</span>
-            </div>
+              <span style={{ fontSize: '14px', color: '#002A3A', flex: 1 }}>{text}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#EAAA00" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+              </svg>
+            </a>
           ))}
         </div>
 
