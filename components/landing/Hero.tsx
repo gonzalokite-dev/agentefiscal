@@ -32,10 +32,11 @@ export default function Hero() {
           </p>
 
           <h1
-            className="font-serif font-semibold text-white mb-6"
+            className="font-sans font-bold text-white mb-6"
             style={{
-              fontSize: 'clamp(36px, 5vw, 56px)',
-              lineHeight: 1.15,
+              fontSize: 'clamp(38px, 5vw, 58px)',
+              lineHeight: 1.1,
+              letterSpacing: '-0.03em',
             }}
           >
             Toda la normativa fiscal,
@@ -84,12 +85,12 @@ export default function Hero() {
           <div className="flex flex-wrap gap-3">
             <a
               href="/chat"
-              className="font-sans font-medium transition-opacity hover:opacity-90"
+              className="font-sans font-bold transition-opacity hover:opacity-90"
               style={{
                 backgroundColor: '#EAAA00',
                 color: '#002A3A',
                 padding: '14px 32px',
-                borderRadius: '8px',
+                borderRadius: '10px',
                 fontSize: '15px',
                 textDecoration: 'none',
               }}
@@ -98,13 +99,13 @@ export default function Hero() {
             </a>
             <button
               onClick={scrollToCapabilities}
-              className="font-sans font-medium transition-opacity hover:opacity-80"
+              className="font-sans font-semibold transition-opacity hover:opacity-80"
               style={{
                 background: 'transparent',
                 border: '1px solid rgba(215,210,203,0.4)',
                 color: '#D7D2CB',
                 padding: '14px 32px',
-                borderRadius: '8px',
+                borderRadius: '10px',
                 fontSize: '15px',
                 cursor: 'pointer',
               }}

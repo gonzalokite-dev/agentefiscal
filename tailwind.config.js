@@ -17,8 +17,8 @@ module.exports = {
         border: '#E2DED9',
       },
       fontFamily: {
-        serif: ['Lora', 'Georgia', 'serif'],
-        sans: ['Kumbh Sans', 'sans-serif'],
+        serif: ['Sora', 'sans-serif'],
+        sans: ['Sora', 'sans-serif'],
       },
     },
   },

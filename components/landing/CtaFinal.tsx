@@ -22,8 +22,8 @@ export default function CtaFinal() {
       </p>
 
       <h2
-        className="font-serif font-semibold text-white mb-5"
-        style={{ fontSize: 'clamp(32px, 5vw, 52px)', lineHeight: 1.15, maxWidth: '640px' }}
+        className="font-sans font-bold text-white mb-5"
+        style={{ fontSize: 'clamp(32px, 5vw, 52px)', lineHeight: 1.1, maxWidth: '640px', letterSpacing: '-0.03em' }}
       >
         El despacho que trabaja con inteligencia
       </h2>
@@ -44,12 +44,12 @@ export default function CtaFinal() {
       <div className="flex flex-wrap gap-3 justify-center mb-8">
         <a
           href="/chat"
-          className="font-sans font-medium transition-opacity hover:opacity-90"
+          className="font-sans font-bold transition-opacity hover:opacity-90"
           style={{
             backgroundColor: '#EAAA00',
             color: '#002A3A',
             padding: '15px 36px',
-            borderRadius: '8px',
+            borderRadius: '10px',
             fontSize: '15px',
             textDecoration: 'none',
           }}

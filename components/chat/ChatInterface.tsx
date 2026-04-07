@@ -456,7 +456,7 @@ export default function ChatInterface() {
               >
                 <span style={{ fontSize: '14px', fontWeight: 700, color: '#EAAA00', fontFamily: 'serif' }}>BA</span>
               </div>
-              <h2 className="font-serif font-semibold mb-2" style={{ fontSize: '22px', color: '#111827' }}>
+              <h2 className="font-sans font-bold mb-2" style={{ fontSize: '22px', color: '#111827', letterSpacing: '-0.02em' }}>
                 {getGreeting()}
               </h2>
               <p className="font-sans mb-8" style={{ fontSize: '15px', color: '#6B7280', maxWidth: '420px' }}>

@@ -22,8 +22,8 @@ export default function ChatShowcase() {
             En acción
           </p>
           <h2
-            className="font-serif font-semibold text-white mb-3"
-            style={{ fontSize: '40px', lineHeight: 1.2 }}
+            className="font-sans font-bold text-white mb-3"
+            style={{ fontSize: '40px', lineHeight: 1.1, letterSpacing: '-0.025em' }}
           >
             Así trabaja el agente
           </h2>
@@ -74,7 +74,7 @@ export default function ChatShowcase() {
               className="flex-shrink-0 p-4 flex flex-col"
               style={{ width: '208px', backgroundColor: '#171717', borderRight: '1px solid rgba(255,255,255,0.06)' }}
             >
-              <p className="font-serif text-white mb-0.5" style={{ fontSize: '12px' }}>
+              <p className="font-sans font-semibold text-white mb-0.5" style={{ fontSize: '12px' }}>
                 Benavides Asociados
               </p>
               <p className="font-sans mb-4" style={{ fontSize: '10px', color: '#EAAA00' }}>

@@ -25,8 +25,8 @@ export default function Examples() {
             Consultas frecuentes
           </p>
           <h2
-            className="font-serif font-semibold mb-3"
-            style={{ fontSize: '36px', color: '#002A3A', lineHeight: 1.2 }}
+            className="font-sans font-bold mb-3"
+            style={{ fontSize: '36px', color: '#002A3A', lineHeight: 1.1, letterSpacing: '-0.025em' }}
           >
             Consultas del día a día
           </h2>

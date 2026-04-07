@@ -33,8 +33,8 @@ export default function KnowledgeLoop() {
           Herramienta viva
         </p>
         <h2
-          className="font-serif font-semibold text-white mb-3"
-          style={{ fontSize: '40px', lineHeight: 1.2 }}
+          className="font-sans font-bold text-white mb-3"
+          style={{ fontSize: '40px', lineHeight: 1.1, letterSpacing: '-0.025em' }}
         >
           Un agente que crece con el despacho
         </h2>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Kumbh+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -39,11 +39,12 @@ body {
 .typing-dot:nth-child(3) { animation-delay: 0.4s; }
 
 .prose-fiscal h1, .prose-fiscal h2, .prose-fiscal h3 {
-  font-family: 'Lora', Georgia, serif;
-  font-weight: 600;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
   color: #002A3A;
   margin-top: 1.2em;
   margin-bottom: 0.4em;
+  letter-spacing: -0.02em;
 }
 .prose-fiscal h1 { font-size: 1.25rem; }
 .prose-fiscal h2 { font-size: 1.1rem; }

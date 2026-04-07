@@ -79,8 +79,8 @@ export default function Capabilities() {
             Capacidades
           </p>
           <h2
-            className="font-serif font-semibold mb-3"
-            style={{ fontSize: '40px', color: '#002A3A', lineHeight: 1.2 }}
+            className="font-sans font-bold mb-3"
+            style={{ fontSize: '40px', color: '#002A3A', lineHeight: 1.1, letterSpacing: '-0.025em' }}
           >
             Lo que el agente hace por ti
           </h2>
