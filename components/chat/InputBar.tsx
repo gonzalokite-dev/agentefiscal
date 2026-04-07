@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 interface InputBarProps {
   input: string;
@@ -22,6 +22,7 @@ export default function InputBar({
 }: InputBarProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const ta = textareaRef.current;
@@ -29,6 +30,16 @@ export default function InputBar({
     ta.style.height = 'auto';
     ta.style.height = Math.min(ta.scrollHeight, 160) + 'px';
   }, [input]);
+
+  useEffect(() => {
+    if (!attachedFile || !attachedFile.type.startsWith('image/')) {
+      setPreviewUrl(null);
+      return;
+    }
+    const url = URL.createObjectURL(attachedFile);
+    setPreviewUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [attachedFile]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -60,36 +71,76 @@ export default function InputBar({
       style={{ backgroundColor: 'white' }}
     >
       <div style={{ maxWidth: '720px', margin: '0 auto' }}>
-        {/* File chip */}
+        {/* File preview */}
         {attachedFile && (
           <div className="mb-2 flex">
-            <div
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full font-sans text-xs"
-              style={{
-                background: 'rgba(234,170,0,0.1)',
-                border: '1px solid rgba(234,170,0,0.3)',
-                color: '#002A3A',
-              }}
-            >
-              {attachedFile.type.startsWith('image/') ? (
-                <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <polyline points="21 15 16 10 5 21" />
-                </svg>
-              ) : (
-                <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                </svg>
-              )}
-              <span>{attachedFile.name}</span>
-              <button
-                onClick={onFileRemove}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#5F5E5A', lineHeight: 1, padding: 0 }}
+            {attachedFile.type.startsWith('image/') && previewUrl ? (
+              /* Image thumbnail */
+              <div className="relative" style={{ display: 'inline-block' }}>
+                <img
+                  src={previewUrl}
+                  alt={attachedFile.name}
+                  style={{
+                    height: '80px',
+                    maxWidth: '200px',
+                    objectFit: 'cover',
+                    borderRadius: '10px',
+                    border: '1px solid #E2DED9',
+                    display: 'block',
+                  }}
+                />
+                <button
+                  onClick={onFileRemove}
+                  className="flex items-center justify-center"
+                  style={{
+                    position: 'absolute',
+                    top: '-6px',
+                    right: '-6px',
+                    width: '18px',
+                    height: '18px',
+                    borderRadius: '50%',
+                    backgroundColor: '#002A3A',
+                    color: 'white',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: '11px',
+                    lineHeight: 1,
+                  }}
+                >
+                  ×
+                </button>
+              </div>
+            ) : (
+              /* PDF / doc chip */
+              <div
+                className="flex items-center gap-2 px-3 py-2 rounded-xl font-sans"
+                style={{
+                  background: 'rgba(234,170,0,0.08)',
+                  border: '1px solid rgba(234,170,0,0.3)',
+                  color: '#002A3A',
+                  fontSize: '12px',
+                  maxWidth: '260px',
+                }}
               >
-                ×
-              </button>
-            </div>
+                <svg width="18" height="18" fill="none" stroke="#EAAA00" strokeWidth="1.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <div className="flex flex-col min-w-0">
+                  <span style={{ fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {attachedFile.name}
+                  </span>
+                  <span style={{ fontSize: '10px', color: '#9ca3af' }}>
+                    {(attachedFile.size / 1024).toFixed(0)} KB
+                  </span>
+                </div>
+                <button
+                  onClick={onFileRemove}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af', lineHeight: 1, padding: 0, flexShrink: 0 }}
+                >
+                  ×
+                </button>
+              </div>
+            )}
           </div>
         )}
 
