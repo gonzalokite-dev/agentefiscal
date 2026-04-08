@@ -1,6 +1,7 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Logo from '@/components/ui/Logo';
 import MessageBubble from './MessageBubble';
 import InputBar from './InputBar';
 import Link from 'next/link';
@@ -255,11 +256,8 @@ export default function ChatInterface() {
     >
       {/* Header */}
       <div className="p-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-        <div className="flex items-baseline" style={{ gap: '0px', marginBottom: '2px' }}>
-          <span className="font-sans font-bold" style={{ fontSize: '18px', color: 'white', letterSpacing: '-0.04em', lineHeight: 1 }}>Asesor</span>
-          <span className="font-sans font-bold" style={{ fontSize: '18px', color: '#EAAA00', letterSpacing: '-0.04em', lineHeight: 1, position: 'relative', top: '-4px' }}>IA</span>
-        </div>
-        <p className="font-sans" style={{ fontSize: '11px', color: 'rgba(215,210,203,0.5)', marginTop: '2px' }}>
+        <Logo size="sm" variant="light" />
+        <p className="font-sans" style={{ fontSize: '10px', color: 'rgba(215,210,203,0.45)', marginTop: '3px' }}>
           Asesoría fiscal con IA
         </p>
       </div>

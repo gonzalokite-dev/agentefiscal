@@ -1,4 +1,5 @@
 import Navbar from '@/components/landing/Navbar';
+import Logo from '@/components/ui/Logo';
 import Hero from '@/components/landing/Hero';
 import TrustBar from '@/components/landing/TrustBar';
 import Capabilities from '@/components/landing/Capabilities';
@@ -26,10 +27,9 @@ export default function Home() {
         className="flex flex-col md:flex-row items-center justify-between px-12 py-5 font-sans"
         style={{ backgroundColor: '#001824' }}
       >
-        <div className="flex items-baseline gap-0">
-          <span className="font-sans font-bold" style={{ fontSize: '14px', color: 'rgba(215,210,203,0.45)', letterSpacing: '-0.03em' }}>Asesor</span>
-          <span className="font-sans font-bold" style={{ fontSize: '14px', color: 'rgba(234,170,0,0.45)', letterSpacing: '-0.03em', position: 'relative', top: '-3px' }}>IA</span>
-          <span style={{ fontSize: '11px', color: 'rgba(215,210,203,0.4)', marginLeft: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', opacity: 0.45 }}>
+          <Logo size="xs" variant="light" />
+          <span style={{ fontSize: '11px', color: 'rgba(215,210,203,0.9)' }}>
             Pollença, Illes Balears
           </span>
         </div>

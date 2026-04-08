@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import Logo from '@/components/ui/Logo';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -21,20 +22,7 @@ export default function Navbar() {
         transition: 'background-color 0.3s ease, backdrop-filter 0.3s ease',
       }}
     >
-      <div className="flex items-baseline" style={{ gap: '0px' }}>
-        <span
-          className="font-sans font-bold"
-          style={{ fontSize: '22px', color: 'white', letterSpacing: '-0.04em', lineHeight: 1 }}
-        >
-          Asesor
-        </span>
-        <span
-          className="font-sans font-bold"
-          style={{ fontSize: '22px', color: '#EAAA00', letterSpacing: '-0.04em', lineHeight: 1, position: 'relative', top: '-5px' }}
-        >
-          IA
-        </span>
-      </div>
+      <Logo size="md" variant="light" />
 
       <a
         href="/chat"
