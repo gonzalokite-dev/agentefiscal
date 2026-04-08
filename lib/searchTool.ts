@@ -75,18 +75,36 @@ export async function executeSearch(
       ? DOMAIN_MAP[fuente]
       : DOMAIN_MAP['todas'];
 
-  const res = await fetch('https://api.tavily.com/search', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      api_key: apiKey,
-      query,
-      search_depth: 'advanced',
-      include_answer: true,
-      include_domains: includeDomains,
-      max_results: 5,
-    }),
-  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 12000);
+
+  let res: Response;
+  try {
+    res = await fetch('https://api.tavily.com/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        api_key: apiKey,
+        query,
+        search_depth: 'basic',
+        include_answer: true,
+        include_domains: includeDomains,
+        max_results: 4,
+      }),
+      signal: controller.signal,
+    });
+  } catch (err: unknown) {
+    clearTimeout(timeout);
+    const isAbort = err instanceof Error && err.name === 'AbortError';
+    return {
+      text: isAbort
+        ? '[La búsqueda tardó demasiado. Respondo con conocimiento base.]'
+        : `[Error de red en la búsqueda: ${String(err)}]`,
+      count: 0,
+    };
+  } finally {
+    clearTimeout(timeout);
+  }
 
   if (!res.ok) {
     return { text: `[Error en la búsqueda: ${res.statusText}]`, count: 0 };

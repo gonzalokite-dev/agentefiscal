@@ -2,7 +2,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { SYSTEM_PROMPT } from '@/lib/systemPrompt';
 import { FISCAL_TOOLS, TOOLS_ADDENDUM, executeSearch, getSourceLabel } from '@/lib/searchTool';
 
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 interface MessageContent {
   type: string;
@@ -117,7 +117,13 @@ export async function POST(req: Request) {
                 // Notify the client that a search is in progress
                 emit({ searching: { query: input.query, source: sourceLabel } });
 
+                // Send periodic heartbeats while waiting so the SSE connection stays alive
+                const heartbeatInterval = setInterval(() => {
+                  try { emit({ heartbeat: true }); } catch {}
+                }, 5000);
+
                 const result = await executeSearch(input.query, input.fuente);
+                clearInterval(heartbeatInterval);
 
                 // Notify the client that the search is done
                 emit({ searched: { query: input.query, source: sourceLabel, count: result.count } });
