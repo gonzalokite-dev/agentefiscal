@@ -8,10 +8,10 @@ interface LogoProps {
 }
 
 const sizes = {
-  xs: { icon: 18, font: 13, gap: 6, top: -2 },
-  sm: { icon: 22, font: 16, gap: 7, top: -3 },
-  md: { icon: 26, font: 20, gap: 8, top: -4 },
-  lg: { icon: 32, font: 24, gap: 10, top: -5 },
+  xs: { icon: 18, font: 13, gap: 6, top: -1 },
+  sm: { icon: 22, font: 16, gap: 7, top: -1 },
+  md: { icon: 26, font: 20, gap: 8, top: -2 },
+  lg: { icon: 32, font: 24, gap: 10, top: -2 },
 };
 
 export default function Logo({
@@ -51,22 +51,24 @@ export default function Logo({
               fontWeight: 700,
               fontSize: s.font,
               color: wordColor,
-              letterSpacing: '-0.04em',
+              letterSpacing: '0.06em',
               lineHeight: 1,
+              textTransform: 'uppercase',
             }}
           >
-            Asesor
+            ASESOR
           </span>
           <span
             style={{
               fontFamily: 'Sora, sans-serif',
               fontWeight: 700,
-              fontSize: s.font,
+              fontSize: s.font * 0.7,
               color: '#EAAA00',
-              letterSpacing: '-0.04em',
+              letterSpacing: '0.08em',
               lineHeight: 1,
               position: 'relative',
               top: s.top,
+              opacity: 0.9,
             }}
           >
             IA
