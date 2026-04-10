@@ -43,7 +43,7 @@ export default function CtaFinal() {
 
       <div className="flex flex-wrap gap-3 justify-center mb-8">
         <a
-          href="/chat"
+          href="/login"
           className="font-sans font-bold transition-opacity hover:opacity-90"
           style={{
             backgroundColor: '#EAAA00',
@@ -54,7 +54,7 @@ export default function CtaFinal() {
             textDecoration: 'none',
           }}
         >
-          Abrir el agente →
+          Acceder →
         </a>
         <a
           href="#capacidades"

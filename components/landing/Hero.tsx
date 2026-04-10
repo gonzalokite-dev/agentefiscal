@@ -107,7 +107,7 @@ export default function Hero() {
           {/* CTAs */}
           <div className="flex flex-wrap gap-3">
             <a
-              href="/chat"
+              href="/login"
               className="font-sans font-bold transition-opacity hover:opacity-90"
               style={{
                 backgroundColor: '#EAAA00',
@@ -118,7 +118,7 @@ export default function Hero() {
                 textDecoration: 'none',
               }}
             >
-              Abrir el agente →
+              Acceder →
             </a>
             <button
               onClick={scrollToCapabilities}
