@@ -1,6 +1,7 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useSession, signOut } from 'next-auth/react';
 import Logo from '@/components/ui/Logo';
 import MessageBubble from './MessageBubble';
 import InputBar from './InputBar';
@@ -13,6 +14,8 @@ import {
   groupByDate,
   type Conversation,
 } from '@/lib/storage';
+
+const ADMIN_EMAIL = 'gbenavides@benavidesasociados.com';
 
 interface Message {
   id: string;
@@ -37,6 +40,9 @@ function getGreeting() {
 }
 
 export default function ChatInterface() {
+  const { data: session } = useSession();
+  const userEmail = session?.user?.email ?? '';
+  const isAdmin = userEmail === ADMIN_EMAIL;
   const searchParams = useSearchParams();
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -47,6 +53,7 @@ export default function ChatInterface() {
   const [toolStatus, setToolStatus] = useState<string | null>(null);
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [feedbackMap, setFeedbackMap] = useState<Record<string, 'up' | 'down'>>({});
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Load conversations from localStorage on mount
@@ -124,6 +131,38 @@ export default function ChatInterface() {
         startNewConversation();
       }
     }
+  };
+
+  const handleFeedback = async (messageId: string, rating: 'up' | 'down') => {
+    if (feedbackMap[messageId]) return; // ya valorado
+    setFeedbackMap((prev) => ({ ...prev, [messageId]: rating }));
+
+    // Find the assistant message and the user message just before it
+    const msgIndex = messages.findIndex((m) => m.id === messageId);
+    const agentResponse = messages[msgIndex]?.content ?? '';
+    const userQuestion = messages
+      .slice(0, msgIndex)
+      .filter((m) => m.role === 'user')
+      .at(-1)?.content ?? '';
+
+    // Build readable conversation context (last 8 messages)
+    const contextSlice = messages.slice(Math.max(0, msgIndex - 7), msgIndex + 1);
+    const conversationContext = contextSlice
+      .map((m) => `[${m.role === 'user' ? 'USUARIO' : 'AGENTE'}]\n${m.content}`)
+      .join('\n\n---\n\n');
+
+    await fetch('/api/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        rating,
+        messageId,
+        conversationId: currentConvId,
+        userQuestion,
+        agentResponse,
+        conversationContext,
+      }),
+    });
   };
 
   const handleSend = async (overrideInput?: string) => {
@@ -367,9 +406,47 @@ export default function ChatInterface() {
           </svg>
           Volver a la landing
         </Link>
-        <p className="font-sans" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.25)' }}>
-          Uso interno · v2.0
-        </p>
+        {isAdmin && (
+          <Link
+            href="/admin/feedback"
+            className="font-sans flex items-center gap-1.5 hover:opacity-80 transition-opacity mb-2"
+            style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }}
+          >
+            <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            Panel de feedback
+          </Link>
+        )}
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '8px', marginTop: '4px' }}>
+          <p
+            className="font-sans"
+            style={{
+              fontSize: '11px',
+              color: 'rgba(255,255,255,0.3)',
+              marginBottom: '4px',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {userEmail}
+          </p>
+          <button
+            onClick={() => signOut({ callbackUrl: '/login' })}
+            className="font-sans hover:opacity-80 transition-opacity"
+            style={{
+              fontSize: '11px',
+              color: 'rgba(255,255,255,0.35)',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: 0,
+            }}
+          >
+            Cerrar sesión
+          </button>
+        </div>
       </div>
     </aside>
   );
@@ -500,6 +577,8 @@ export default function ChatInterface() {
                   key={msg.id}
                   message={msg}
                   isStreaming={msg.id === streamingMsgId}
+                  onFeedback={msg.role === 'assistant' ? (r) => handleFeedback(msg.id, r) : undefined}
+                  feedbackRating={feedbackMap[msg.id] ?? null}
                 />
               ))}
 

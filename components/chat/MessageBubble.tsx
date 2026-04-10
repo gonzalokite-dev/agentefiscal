@@ -14,9 +14,13 @@ interface Message {
 export default function MessageBubble({
   message,
   isStreaming = false,
+  onFeedback,
+  feedbackRating,
 }: {
   message: Message;
   isStreaming?: boolean;
+  onFeedback?: (rating: 'up' | 'down') => void;
+  feedbackRating?: 'up' | 'down' | null;
 }) {
   const [copied, setCopied] = useState(false);
   const isUser = message.role === 'user';
@@ -133,6 +137,49 @@ export default function MessageBubble({
                 </>
               )}
             </button>
+
+            {onFeedback && (
+              <>
+                <div style={{ width: '1px', height: '14px', backgroundColor: '#E5E7EB', margin: '0 2px' }} />
+                <button
+                  onClick={() => onFeedback('up')}
+                  className="flex items-center gap-1 px-2 py-1 rounded-md font-sans transition-colors hover:bg-gray-100"
+                  style={{
+                    fontSize: '12px',
+                    background: 'none',
+                    border: 'none',
+                    cursor: feedbackRating ? 'default' : 'pointer',
+                    color: feedbackRating === 'up' ? '#16a34a' : '#9CA3AF',
+                    fontWeight: feedbackRating === 'up' ? 600 : 400,
+                  }}
+                  title="Buena respuesta"
+                  disabled={!!feedbackRating}
+                >
+                  👍
+                </button>
+                <button
+                  onClick={() => onFeedback('down')}
+                  className="flex items-center gap-1 px-2 py-1 rounded-md font-sans transition-colors hover:bg-gray-100"
+                  style={{
+                    fontSize: '12px',
+                    background: 'none',
+                    border: 'none',
+                    cursor: feedbackRating ? 'default' : 'pointer',
+                    color: feedbackRating === 'down' ? '#dc2626' : '#9CA3AF',
+                    fontWeight: feedbackRating === 'down' ? 600 : 400,
+                  }}
+                  title="Respuesta mejorable"
+                  disabled={!!feedbackRating}
+                >
+                  👎
+                </button>
+                {feedbackRating && (
+                  <span className="font-sans" style={{ fontSize: '11px', color: '#9CA3AF', marginLeft: '2px' }}>
+                    {feedbackRating === 'up' ? 'Gracias' : 'Anotado para mejorar'}
+                  </span>
+                )}
+              </>
+            )}
           </div>
         )}
       </div>

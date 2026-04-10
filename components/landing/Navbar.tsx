@@ -25,7 +25,7 @@ export default function Navbar() {
       <Logo size="md" variant="light" />
 
       <a
-        href="/chat"
+        href="/login"
         className="font-sans font-semibold transition-opacity hover:opacity-90"
         style={{
           fontSize: '12px',
@@ -36,7 +36,7 @@ export default function Navbar() {
           borderRadius: '9999px',
         }}
       >
-        Abrir el agente →
+        Acceder →
       </a>
     </nav>
   );

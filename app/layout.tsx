@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { Providers } from '@/components/Providers';
 
 export const metadata: Metadata = {
   title: 'AsesorIA — Asesoría Fiscal con Inteligencia Artificial',
@@ -16,7 +17,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

@@ -7,14 +7,14 @@ export default function Hero() {
 
   return (
     <section
-      className="py-24 px-6"
+      className="py-14 px-5 md:py-24 md:px-6"
       style={{
         background:
           'radial-gradient(ellipse at 75% 25%, rgba(234,170,0,0.13) 0%, transparent 55%), linear-gradient(160deg, #002A3A 0%, #001520 100%)',
       }}
     >
       <div
-        className="mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"
+        className="mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center"
         style={{ maxWidth: '1200px' }}
       >
         {/* LEFT COLUMN */}
@@ -39,8 +39,7 @@ export default function Hero() {
               letterSpacing: '-0.03em',
             }}
           >
-            Toda la normativa fiscal,
-            <br />
+            Toda la normativa fiscal,{' '}
             <span className="gradient-text">en una sola</span>{' '}
             conversación
           </h1>
@@ -140,7 +139,7 @@ export default function Hero() {
         </div>
 
         {/* RIGHT COLUMN — chat mockup */}
-        <div className="flex justify-center lg:justify-end">
+        <div className="flex justify-center lg:justify-end pb-2 lg:pb-0">
           <div
             style={{
               borderRadius: '16px',
@@ -175,7 +174,7 @@ export default function Hero() {
             {/* Chat area */}
             <div
               className="bg-white"
-              style={{ height: '340px', overflow: 'hidden', padding: '20px' }}
+              style={{ height: 'clamp(240px, 45vw, 340px)', overflow: 'hidden', padding: '16px' }}
             >
               {/* User message */}
               <div className="flex justify-end">
