@@ -79,8 +79,12 @@ body {
   font-family: 'Courier New', monospace;
   font-size: 0.82rem;
   white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
   margin: 0.5em 0;
   border-radius: 0 4px 4px 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .prose-fiscal :not(pre) > code {
@@ -90,12 +94,21 @@ body {
   border-radius: 3px;
   font-size: 0.85em;
   display: inline;
+  word-break: break-word;
 }
 
+/* Tables — scrollable on small screens */
+.prose-fiscal .table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0.75em 0;
+  border-radius: 6px;
+}
 .prose-fiscal table {
   width: 100%;
+  min-width: 400px;
   border-collapse: collapse;
-  margin: 0.75em 0;
   font-size: 0.88rem;
 }
 .prose-fiscal th {
@@ -104,6 +117,7 @@ body {
   padding: 6px 12px;
   text-align: left;
   font-weight: 500;
+  white-space: nowrap;
 }
 .prose-fiscal td {
   padding: 6px 12px;

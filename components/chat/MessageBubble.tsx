@@ -99,9 +99,18 @@ export default function MessageBubble({
       <div className="flex-1 min-w-0">
         <div
           className="prose-fiscal"
-          style={{ fontSize: '15px', lineHeight: 1.75, color: '#1a1a1a' }}
+          style={{ fontSize: '15px', lineHeight: 1.75, color: '#1a1a1a', minWidth: 0, overflowWrap: 'break-word', wordBreak: 'break-word' }}
         >
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              table: ({ children }) => (
+                <div className="table-wrapper">
+                  <table>{children}</table>
+                </div>
+              ),
+            }}
+          >{message.content}</ReactMarkdown>
           {isStreaming && (
             <span
               style={{

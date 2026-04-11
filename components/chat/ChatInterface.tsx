@@ -452,7 +452,7 @@ export default function ChatInterface() {
   );
 
   return (
-    <div className="flex overflow-hidden" style={{ height: '100dvh', backgroundColor: 'white', overflowX: 'hidden', touchAction: 'pan-y' }}>
+    <div className="flex overflow-hidden" style={{ height: '100dvh', backgroundColor: 'white', overflowX: 'hidden' }}>
       {/* Sidebar — desktop */}
       <div className="hidden md:flex flex-col" style={{ width: '260px', flexShrink: 0 }}>
         <Sidebar />
@@ -534,8 +534,8 @@ export default function ChatInterface() {
 
         {/* Messages area */}
         <div
-          className="flex-1 overflow-y-auto overflow-x-hidden"
-          style={{ WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y' } as React.CSSProperties}
+          className="flex-1 overflow-y-auto"
+          style={{ WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain' } as React.CSSProperties}
         >
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center px-4 py-8">
