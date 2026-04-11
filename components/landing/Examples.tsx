@@ -82,7 +82,7 @@ export default function Examples() {
             </p>
           </div>
           <a
-            href="/chat"
+            href="/login"
             className="font-sans font-medium flex-shrink-0 transition-opacity hover:opacity-90"
             style={{
               backgroundColor: '#EAAA00',

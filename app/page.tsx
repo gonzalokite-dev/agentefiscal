@@ -2,13 +2,16 @@ import Navbar from '@/components/landing/Navbar';
 import Logo from '@/components/ui/Logo';
 import Hero from '@/components/landing/Hero';
 import TrustBar from '@/components/landing/TrustBar';
+import PainPoints from '@/components/landing/PainPoints';
 import Capabilities from '@/components/landing/Capabilities';
 import ChatShowcase from '@/components/landing/ChatShowcase';
 import Comparativa from '@/components/landing/Comparativa';
 import Examples from '@/components/landing/Examples';
 import HowTo from '@/components/landing/HowTo';
 import KnowledgeLoop from '@/components/landing/KnowledgeLoop';
+import Seguridad from '@/components/landing/Seguridad';
 import Limits from '@/components/landing/Limits';
+import FAQ from '@/components/landing/FAQ';
 import CtaFinal from '@/components/landing/CtaFinal';
 
 export default function Home() {
@@ -17,13 +20,16 @@ export default function Home() {
       <Navbar />
       <Hero />
       <TrustBar />
-      <Capabilities />
+      <PainPoints />
       <ChatShowcase />
       <Comparativa />
+      <Capabilities />
       <Examples />
-      <HowTo />
       <KnowledgeLoop />
+      <HowTo />
+      <Seguridad />
       <Limits />
+      <FAQ />
       <CtaFinal />
       <footer
         className="flex flex-col md:flex-row items-center justify-between px-12 py-5 font-sans"

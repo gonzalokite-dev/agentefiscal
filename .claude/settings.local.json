@@ -8,7 +8,23 @@
       "Bash(mkdir -p \"C:/Users/GonzaloBenavidesLópe/OneDrive - Benavides Asociados/Escritorio/PROYECTOS/Fiscal.IA/lib\")",
       "Bash(npm install:*)",
       "Bash(vercel:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(cp \"C:/Users/GonzaloBenavidesLópe/Downloads/BENAVIDES LOGO/BENAVIDES LOGO/SVG Vectorial/Logo_Benavides_Negativo_Simple.svg\" \"C:/Users/GonzaloBenavidesLópe/OneDrive - Benavides Asociados/Escritorio/PROYECTOS/Fiscal.IA/public/logo-blanco.svg\")",
+      "Bash(cp \"C:/Users/GonzaloBenavidesLópe/Downloads/BENAVIDES LOGO/BENAVIDES LOGO/SVG Vectorial/Logo_Benavides_Principal_Simple.svg\" \"C:/Users/GonzaloBenavidesLópe/OneDrive - Benavides Asociados/Escritorio/PROYECTOS/Fiscal.IA/public/logo-color.svg\")",
+      "Bash(cp \"C:/Users/GonzaloBenavidesLópe/Downloads/BENAVIDES LOGO/BENAVIDES LOGO/SVG Vectorial/Logo_Benavides_Negativo_Tagline.svg\" \"C:/Users/GonzaloBenavidesLópe/OneDrive - Benavides Asociados/Escritorio/PROYECTOS/Fiscal.IA/public/logo-blanco-tagline.svg\")",
+      "WebFetch(domain:www.taxfinch.com)",
+      "Bash(gh run:*)",
+      "Bash(npx vercel:*)",
+      "mcp__claude_ai_Airtable__search_bases",
+      "mcp__claude_ai_Airtable__list_bases",
+      "mcp__claude_ai_Airtable__list_tables_for_base",
+      "mcp__claude_ai_Airtable__create_table",
+      "WebSearch",
+      "WebFetch(domain:petete.tributos.hacienda.gob.es)",
+      "WebFetch(domain:www.iberley.es)",
+      "WebFetch(domain:www.supercontable.com)",
+      "Bash(node -e \"const p=require\\('./package.json'\\); console.log\\('next:', p.dependencies.next, 'node:', process.version\\)\")",
+      "Bash(npx tsc:*)"
     ]
   }
 }

@@ -19,29 +19,33 @@ export default function Hero() {
       >
         {/* LEFT COLUMN */}
         <div>
-          <p
-            className="font-sans font-medium mb-6"
+          {/* Social proof badge */}
+          <div
+            className="font-sans inline-flex items-center gap-2 mb-6"
             style={{
-              fontSize: '11px',
-              letterSpacing: '0.14em',
-              color: '#EAAA00',
-              textTransform: 'uppercase',
+              fontSize: '12px',
+              color: 'rgba(234,170,0,0.9)',
+              border: '1px solid rgba(234,170,0,0.25)',
+              borderRadius: '9999px',
+              padding: '5px 14px',
+              backgroundColor: 'rgba(234,170,0,0.07)',
             }}
           >
-            AsesorIA · Fiscalidad española con IA
-          </p>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#22c55e', display: 'inline-block', flexShrink: 0 }} />
+            4 despachos de Baleares · 20 asesores activos
+          </div>
 
           <h1
             className="font-sans font-bold text-white mb-6"
             style={{
-              fontSize: 'clamp(38px, 5vw, 58px)',
-              lineHeight: 1.1,
+              fontSize: 'clamp(36px, 5vw, 56px)',
+              lineHeight: 1.08,
               letterSpacing: '-0.03em',
             }}
           >
-            Toda la normativa fiscal,{' '}
-            <span className="gradient-text">en una sola</span>{' '}
-            conversación
+            El despacho fiscal<br />
+            que responde <span className="gradient-text">antes</span><br />
+            que la competencia
           </h1>
 
           <p
@@ -53,19 +57,27 @@ export default function Hero() {
               lineHeight: 1.75,
             }}
           >
-            Tu asistente fiscal técnico, siempre disponible. Consulta normativa, analiza documentos
-            y redacta escritos en segundos — fundamentado en el BOE, la DGT y la AEAT, con criterio
-            propio de Illes Balears.
+            Asistente fiscal técnico conectado en tiempo real al BOE, la DGT y la AEAT.
+            Consultas fundamentadas, análisis de documentos y escritos redactados —
+            con normativa estatal y balear.
           </p>
 
           {/* Trust pills */}
           <div className="flex flex-wrap gap-2 mb-10">
             {[
               {
-                label: 'Respuestas en segundos',
+                label: 'BOE · DGT · AEAT en tiempo real',
                 icon: (
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                    <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                ),
+              },
+              {
+                label: 'Normativa estatal + balear',
+                icon: (
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                   </svg>
                 ),
               },
@@ -75,14 +87,6 @@ export default function Hero() {
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                     <polyline points="14 2 14 8 20 8" />
-                  </svg>
-                ),
-              },
-              {
-                label: 'BOE · DGT · AEAT en tiempo real',
-                icon: (
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
                   </svg>
                 ),
               },
@@ -118,7 +122,7 @@ export default function Hero() {
                 textDecoration: 'none',
               }}
             >
-              Acceder →
+              Acceder al despacho →
             </a>
             <button
               onClick={scrollToCapabilities}

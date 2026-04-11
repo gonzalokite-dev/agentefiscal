@@ -1,8 +1,8 @@
 const stats = [
-  { value: '6', label: 'Impuestos cubiertos', sub: 'IRPF · IVA · IS · IRNR · ITP · ISD' },
+  { value: '4', label: 'Despachos en Baleares', sub: '20 asesores activos' },
   { value: '3', label: 'Fuentes en tiempo real', sub: 'BOE · DGT · AEAT' },
+  { value: '6', label: 'Impuestos cubiertos', sub: 'IRPF · IVA · IS · IRNR · ITP · ISD' },
   { value: '24/7', label: 'Siempre disponible', sub: 'Sin colas ni esperas' },
-  { value: '∞', label: 'Sin límite de consultas', sub: 'Para todo el equipo' },
 ];
 
 export default function TrustBar() {
