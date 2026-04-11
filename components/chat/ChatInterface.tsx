@@ -452,7 +452,7 @@ export default function ChatInterface() {
   );
 
   return (
-    <div className="flex h-screen overflow-hidden" style={{ backgroundColor: 'white' }}>
+    <div className="flex overflow-hidden" style={{ height: '100dvh', backgroundColor: 'white' }}>
       {/* Sidebar — desktop */}
       <div className="hidden md:flex flex-col" style={{ width: '260px', flexShrink: 0 }}>
         <Sidebar />
@@ -461,7 +461,7 @@ export default function ChatInterface() {
       {/* Sidebar — mobile drawer */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden">
-          <div className="flex flex-col h-full" style={{ width: '260px' }}>
+          <div className="flex flex-col" style={{ width: '280px', height: '100dvh' }}>
             <Sidebar />
           </div>
           <div className="flex-1 bg-black bg-opacity-50" onClick={() => setSidebarOpen(false)} />
@@ -472,7 +472,7 @@ export default function ChatInterface() {
       <div className="flex flex-col flex-1 min-w-0">
         {/* Minimal header */}
         <div
-          className="flex items-center justify-between px-6 py-3"
+          className="flex items-center justify-between px-4 md:px-6 py-3"
           style={{ borderBottom: '1px solid #F3F4F6', flexShrink: 0 }}
         >
           <div className="flex items-center gap-3">
@@ -533,27 +533,30 @@ export default function ChatInterface() {
         </div>
 
         {/* Messages area */}
-        <div className="flex-1 overflow-y-auto">
+        <div
+          className="flex-1 overflow-y-auto"
+          style={{ WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain' } as React.CSSProperties}
+        >
           {messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-center px-6">
+            <div className="flex flex-col items-center justify-center h-full text-center px-4 py-8">
               <div
-                className="flex items-center justify-center rounded-full mb-5"
-                style={{ width: '48px', height: '48px', backgroundColor: '#002A3A' }}
+                className="flex items-center justify-center rounded-full mb-4"
+                style={{ width: '44px', height: '44px', backgroundColor: '#002A3A', flexShrink: 0 }}
               >
-                <span style={{ fontSize: '14px', fontWeight: 700, color: '#EAAA00', fontFamily: 'serif' }}>BA</span>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: '#EAAA00', fontFamily: 'serif' }}>BA</span>
               </div>
-              <h2 className="font-sans font-bold mb-2" style={{ fontSize: '22px', color: '#111827', letterSpacing: '-0.02em' }}>
+              <h2 className="font-sans font-bold mb-2" style={{ fontSize: 'clamp(18px, 5vw, 22px)', color: '#111827', letterSpacing: '-0.02em' }}>
                 {getGreeting()}
               </h2>
-              <p className="font-sans mb-8" style={{ fontSize: '15px', color: '#6B7280', maxWidth: '420px' }}>
+              <p className="font-sans mb-6" style={{ fontSize: '14px', color: '#6B7280', maxWidth: '380px', lineHeight: 1.6 }}>
                 Formula tu consulta o sube un documento para empezar.
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-xl">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full" style={{ maxWidth: '560px' }}>
                 {QUICK_SUGGESTIONS.map((s) => (
                   <button
                     key={s}
                     onClick={() => handleSend(s)}
-                    className="text-left p-4 rounded-xl font-sans transition-colors"
+                    className="text-left rounded-xl font-sans transition-colors active:bg-gray-100"
                     style={{
                       border: '1px solid #E5E7EB',
                       fontSize: '13px',
@@ -561,6 +564,7 @@ export default function ChatInterface() {
                       background: 'white',
                       cursor: 'pointer',
                       lineHeight: 1.5,
+                      padding: '12px 14px',
                     }}
                     onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#F9FAFB')}
                     onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
@@ -571,7 +575,7 @@ export default function ChatInterface() {
               </div>
             </div>
           ) : (
-            <div style={{ maxWidth: '720px', margin: '0 auto', padding: '32px 24px' }}>
+            <div className="max-w-[720px] mx-auto px-4 md:px-6 py-5 md:py-8">
               {messages.map((msg) => (
                 <MessageBubble
                   key={msg.id}

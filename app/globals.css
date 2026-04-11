@@ -16,6 +16,17 @@ body {
   overflow-x: hidden;
 }
 
+/* Prevent overscroll bounce on mobile (chat layout) */
+body {
+  overscroll-behavior: none;
+}
+
+/* Dynamic viewport height fallback for iOS */
+.h-dvh {
+  height: 100vh;
+  height: 100dvh;
+}
+
 @keyframes blink-cursor {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }

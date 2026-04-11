@@ -67,8 +67,12 @@ export default function InputBar({
 
   return (
     <div
-      className="px-4 pb-6 pt-2"
-      style={{ backgroundColor: 'white' }}
+      className="px-3 md:px-4 pt-2"
+      style={{
+        backgroundColor: 'white',
+        paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 16px)',
+        flexShrink: 0,
+      }}
     >
       <div style={{ maxWidth: '720px', margin: '0 auto' }}>
         {/* File preview */}
@@ -163,11 +167,11 @@ export default function InputBar({
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             onPaste={handlePaste}
-            placeholder="Escribe tu consulta o arrastra un documento..."
+            placeholder="Escribe tu consulta..."
             rows={1}
             className="flex-1 font-sans resize-none outline-none bg-transparent"
             style={{
-              fontSize: '15px',
+              fontSize: '16px',
               color: '#1a1a1a',
               lineHeight: '24px',
               border: 'none',
@@ -229,7 +233,7 @@ export default function InputBar({
           </div>
         </div>
 
-        <p className="text-center font-sans mt-2" style={{ fontSize: '11px', color: '#9ca3af' }}>
+        <p className="hidden md:block text-center font-sans mt-2" style={{ fontSize: '11px', color: '#9ca3af' }}>
           Enter para enviar · Shift+Enter para nueva línea · Pega capturas con Ctrl+V
         </p>
       </div>
