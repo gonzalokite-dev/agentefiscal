@@ -76,8 +76,8 @@ export default function Hero() {
 
           {/* Headline */}
           <h1
-            className="font-sans font-bold mb-5"
-            style={{ fontSize: 'clamp(36px, 5.5vw, 60px)', lineHeight: 1.06, letterSpacing: '-0.03em', color: '#0D2E35' }}
+            className="font-serif font-bold mb-5"
+            style={{ fontSize: 'clamp(36px, 5.5vw, 60px)', lineHeight: 1.06, letterSpacing: '-0.02em', color: '#0D2E35' }}
           >
             El copiloto fiscal<br />
             para asesorías<br />
@@ -182,7 +182,7 @@ export default function Hero() {
               </span>
               <div
                 className="absolute right-3 flex items-center gap-1"
-                style={{ fontSize: '10px', color: '#22c55e', fontFamily: 'Sora, sans-serif' }}
+                style={{ fontSize: '10px', color: '#22c55e' }}
               >
                 <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#22c55e', display: 'inline-block' }} />
                 En línea

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -51,7 +49,7 @@ body {
 .typing-dot:nth-child(3) { animation-delay: 0.4s; }
 
 .prose-fiscal h1, .prose-fiscal h2, .prose-fiscal h3 {
-  font-family: 'Sora', sans-serif;
+  font-family: 'Playfair Display', serif;
   font-weight: 700;
   color: #0D2E35;
   margin-top: 1.2em;

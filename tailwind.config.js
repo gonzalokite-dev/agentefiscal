@@ -17,8 +17,9 @@ module.exports = {
         border: '#E5E7EB',
       },
       fontFamily: {
-        serif: ['Sora', 'sans-serif'],
-        sans: ['Sora', 'sans-serif'],
+        sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-playfair)', 'Playfair Display', 'Georgia', 'serif'],
+        display: ['var(--font-playfair)', 'Playfair Display', 'Georgia', 'serif'],
       },
     },
   },

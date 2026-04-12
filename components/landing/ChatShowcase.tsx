@@ -201,7 +201,7 @@ export default function ChatShowcase() {
             Respuestas verificadas
           </p>
           <h2
-            className="font-sans font-bold mb-4"
+            className="font-serif font-bold mb-4"
             style={{ fontSize: 'clamp(26px, 3.5vw, 38px)', color: '#0D2E35', lineHeight: 1.15, letterSpacing: '-0.03em' }}
           >
             Respuestas fiables, conectadas a la normativa en tiempo real

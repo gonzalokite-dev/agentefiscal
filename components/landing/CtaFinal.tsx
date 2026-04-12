@@ -24,7 +24,7 @@ export default function CtaFinal() {
       </p>
 
       <h2
-        className="font-sans font-bold text-white mb-5"
+        className="font-serif font-bold text-white mb-5"
         style={{ fontSize: 'clamp(32px, 5vw, 52px)', lineHeight: 1.1, maxWidth: '640px', letterSpacing: '-0.03em' }}
       >
         Trabaja mejor. Un mejor servicio.<br />Haz crecer tu asesoría.

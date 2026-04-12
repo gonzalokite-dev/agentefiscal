@@ -53,7 +53,7 @@ export default function Testimonials() {
             Testimonios
           </p>
           <h2
-            className="font-sans"
+            className="font-serif"
             style={{
               fontSize: 'clamp(28px, 4vw, 40px)',
               fontWeight: 800,

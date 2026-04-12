@@ -105,7 +105,7 @@ export default function Capabilities() {
             Capacidades
           </p>
           <h2
-            className="font-sans font-bold mb-3"
+            className="font-serif font-bold mb-3"
             style={{ fontSize: 'clamp(28px, 4vw, 40px)', color: '#0D2E35', lineHeight: 1.1, letterSpacing: '-0.03em' }}
           >
             Todo lo que tu asesoría necesita,<br />en un solo copiloto
@@ -153,7 +153,7 @@ export default function Capabilities() {
                 </span>
               </div>
               <h3
-                className="font-sans font-semibold mb-2"
+                className="font-serif font-semibold mb-2"
                 style={{ fontSize: '15px', color: '#0D2E35', lineHeight: 1.35 }}
               >
                 {cap.title}
