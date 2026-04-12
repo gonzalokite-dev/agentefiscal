@@ -93,7 +93,7 @@ export default function RegisterPage() {
               style={{
                 fontSize: '26px',
                 fontWeight: 700,
-                color: '#002A3A',
+                color: '#0D2E35',
                 letterSpacing: '-0.04em',
                 fontFamily: 'Lora, Georgia, serif',
               }}
@@ -104,7 +104,7 @@ export default function RegisterPage() {
               style={{
                 fontSize: '26px',
                 fontWeight: 700,
-                color: '#EAAA00',
+                color: '#00B5AD',
                 letterSpacing: '-0.04em',
                 fontFamily: 'Lora, Georgia, serif',
                 position: 'relative',
@@ -136,7 +136,7 @@ export default function RegisterPage() {
             Crear cuenta
           </h1>
           <p style={{ fontSize: '13px', color: '#6B7280', margin: '0 0 24px', fontFamily: 'sans-serif' }}>
-            Accede a AsesorIA con inteligencia artificial fiscal
+            Accede a Victoria con inteligencia artificial fiscal
           </p>
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -173,7 +173,7 @@ export default function RegisterPage() {
                   transition: 'border-color 0.15s',
                   color: '#111827',
                 }}
-                onFocus={(e) => { e.target.style.borderColor = '#002A3A'; }}
+                onFocus={(e) => { e.target.style.borderColor = '#0D2E35'; }}
                 onBlur={(e) => { e.target.style.borderColor = '#E5E7EB'; }}
               />
             </div>
@@ -210,7 +210,7 @@ export default function RegisterPage() {
                   transition: 'border-color 0.15s',
                   color: '#111827',
                 }}
-                onFocus={(e) => { e.target.style.borderColor = '#002A3A'; }}
+                onFocus={(e) => { e.target.style.borderColor = '#0D2E35'; }}
                 onBlur={(e) => { e.target.style.borderColor = '#E5E7EB'; }}
               />
             </div>
@@ -248,7 +248,7 @@ export default function RegisterPage() {
                   transition: 'border-color 0.15s',
                   color: '#111827',
                 }}
-                onFocus={(e) => { e.target.style.borderColor = '#002A3A'; }}
+                onFocus={(e) => { e.target.style.borderColor = '#0D2E35'; }}
                 onBlur={(e) => { e.target.style.borderColor = '#E5E7EB'; }}
               />
             </div>
@@ -277,7 +277,7 @@ export default function RegisterPage() {
                 padding: '10px',
                 borderRadius: '8px',
                 border: 'none',
-                backgroundColor: loading ? '#9CA3AF' : '#002A3A',
+                backgroundColor: loading ? '#9CA3AF' : '#0D2E35',
                 color: 'white',
                 fontSize: '14px',
                 fontWeight: 600,
@@ -302,7 +302,7 @@ export default function RegisterPage() {
           }}
         >
           ¿Ya tienes cuenta?{' '}
-          <Link href="/login" style={{ color: '#002A3A', fontWeight: 600, textDecoration: 'none' }}>
+          <Link href="/login" style={{ color: '#0D2E35', fontWeight: 600, textDecoration: 'none' }}>
             Iniciar sesión
           </Link>
         </p>

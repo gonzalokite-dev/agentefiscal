@@ -50,7 +50,7 @@ export default function LoginPage() {
               style={{
                 fontSize: '26px',
                 fontWeight: 700,
-                color: '#002A3A',
+                color: '#0D2E35',
                 letterSpacing: '-0.04em',
                 fontFamily: 'Lora, Georgia, serif',
               }}
@@ -61,7 +61,7 @@ export default function LoginPage() {
               style={{
                 fontSize: '26px',
                 fontWeight: 700,
-                color: '#EAAA00',
+                color: '#00B5AD',
                 letterSpacing: '-0.04em',
                 fontFamily: 'Lora, Georgia, serif',
                 position: 'relative',
@@ -93,7 +93,7 @@ export default function LoginPage() {
             Iniciar sesión
           </h1>
           <p style={{ fontSize: '13px', color: '#6B7280', margin: '0 0 24px', fontFamily: 'sans-serif' }}>
-            Accede a tu cuenta de AsesorIA
+            Accede a tu cuenta de Victoria
           </p>
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -130,7 +130,7 @@ export default function LoginPage() {
                   transition: 'border-color 0.15s',
                   color: '#111827',
                 }}
-                onFocus={(e) => { e.target.style.borderColor = '#002A3A'; }}
+                onFocus={(e) => { e.target.style.borderColor = '#0D2E35'; }}
                 onBlur={(e) => { e.target.style.borderColor = '#E5E7EB'; }}
               />
             </div>
@@ -167,7 +167,7 @@ export default function LoginPage() {
                   transition: 'border-color 0.15s',
                   color: '#111827',
                 }}
-                onFocus={(e) => { e.target.style.borderColor = '#002A3A'; }}
+                onFocus={(e) => { e.target.style.borderColor = '#0D2E35'; }}
                 onBlur={(e) => { e.target.style.borderColor = '#E5E7EB'; }}
               />
             </div>
@@ -196,7 +196,7 @@ export default function LoginPage() {
                 padding: '10px',
                 borderRadius: '8px',
                 border: 'none',
-                backgroundColor: loading ? '#9CA3AF' : '#002A3A',
+                backgroundColor: loading ? '#9CA3AF' : '#0D2E35',
                 color: 'white',
                 fontSize: '14px',
                 fontWeight: 600,
@@ -221,7 +221,7 @@ export default function LoginPage() {
           }}
         >
           ¿No tienes cuenta?{' '}
-          <Link href="/register" style={{ color: '#002A3A', fontWeight: 600, textDecoration: 'none' }}>
+          <Link href="/register" style={{ color: '#0D2E35', fontWeight: 600, textDecoration: 'none' }}>
             Crear cuenta
           </Link>
         </p>

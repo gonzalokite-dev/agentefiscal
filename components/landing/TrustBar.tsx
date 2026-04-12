@@ -10,9 +10,9 @@ export default function TrustBar() {
     <div
       className="px-6 py-8"
       style={{
-        backgroundColor: '#F7F6F4',
-        borderTop: '1px solid #E2DED9',
-        borderBottom: '1px solid #E2DED9',
+        backgroundColor: '#F7F9FA',
+        borderTop: '1px solid #E5E7EB',
+        borderBottom: '1px solid #E5E7EB',
       }}
     >
       <div
@@ -23,19 +23,19 @@ export default function TrustBar() {
           <div key={idx} className="flex flex-col items-center text-center">
             <span
               className="font-sans font-bold"
-              style={{ fontSize: '32px', color: '#002A3A', lineHeight: 1, letterSpacing: '-0.03em' }}
+              style={{ fontSize: '32px', color: '#0D2E35', lineHeight: 1, letterSpacing: '-0.03em' }}
             >
               {stat.value}
             </span>
             <span
               className="font-sans font-semibold mt-1"
-              style={{ fontSize: '13px', color: '#002A3A' }}
+              style={{ fontSize: '13px', color: '#0D2E35' }}
             >
               {stat.label}
             </span>
             <span
               className="font-sans mt-0.5"
-              style={{ fontSize: '11px', color: '#5F5E5A' }}
+              style={{ fontSize: '11px', color: '#6B7280' }}
             >
               {stat.sub}
             </span>

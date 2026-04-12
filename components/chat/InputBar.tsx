@@ -103,7 +103,7 @@ export default function InputBar({
                     width: '18px',
                     height: '18px',
                     borderRadius: '50%',
-                    backgroundColor: '#002A3A',
+                    backgroundColor: '#0D2E35',
                     color: 'white',
                     border: 'none',
                     cursor: 'pointer',
@@ -119,14 +119,14 @@ export default function InputBar({
               <div
                 className="flex items-center gap-2 px-3 py-2 rounded-xl font-sans"
                 style={{
-                  background: 'rgba(234,170,0,0.08)',
-                  border: '1px solid rgba(234,170,0,0.3)',
-                  color: '#002A3A',
+                  background: 'rgba(0,181,173,0.08)',
+                  border: '1px solid rgba(0,181,173,0.3)',
+                  color: '#0D2E35',
                   fontSize: '12px',
                   maxWidth: '260px',
                 }}
               >
-                <svg width="18" height="18" fill="none" stroke="#EAAA00" strokeWidth="1.5" viewBox="0 0 24 24">
+                <svg width="18" height="18" fill="none" stroke="#00B5AD" strokeWidth="1.5" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
                 <div className="flex flex-col min-w-0">
@@ -197,7 +197,7 @@ export default function InputBar({
               className="p-2 rounded-lg transition-colors"
               style={{ color: '#9ca3af', border: 'none', background: 'none', cursor: 'pointer' }}
               title="Adjuntar documento"
-              onMouseEnter={(e) => (e.currentTarget.style.color = '#002A3A')}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#0D2E35')}
               onMouseLeave={(e) => (e.currentTarget.style.color = '#9ca3af')}
             >
               <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -210,7 +210,7 @@ export default function InputBar({
               disabled={!canSend}
               className="flex items-center justify-center rounded-xl transition-all"
               style={{
-                backgroundColor: canSend ? '#002A3A' : '#E2DED9',
+                backgroundColor: canSend ? '#0D2E35' : '#E2DED9',
                 color: canSend ? 'white' : '#9ca3af',
                 width: '34px',
                 height: '34px',

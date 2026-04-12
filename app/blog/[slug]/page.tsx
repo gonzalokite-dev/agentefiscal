@@ -56,7 +56,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                 fontSize: '10px',
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
-                color: '#EAAA00',
+                color: '#00B5AD',
                 backgroundColor: 'rgba(234,170,0,0.1)',
                 padding: '3px 8px',
                 borderRadius: '4px',
@@ -72,7 +72,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           className="font-sans font-bold mb-4"
           style={{
             fontSize: 'clamp(24px, 4vw, 36px)',
-            color: '#002A3A',
+            color: '#0D2E35',
             lineHeight: 1.2,
             letterSpacing: '-0.02em',
           }}
@@ -102,7 +102,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                 style={{
                   fontSize: '10px',
                   letterSpacing: '0.06em',
-                  color: '#002A3A',
+                  color: '#0D2E35',
                   backgroundColor: 'rgba(0,42,58,0.07)',
                   padding: '3px 8px',
                   borderRadius: '20px',
@@ -135,7 +135,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         <section className="mb-12">
           <h2
             className="font-sans font-bold mb-4"
-            style={{ fontSize: '15px', color: '#002A3A', letterSpacing: '-0.01em' }}
+            style={{ fontSize: '15px', color: '#0D2E35', letterSpacing: '-0.01em' }}
           >
             Fuentes consultadas
           </h2>
@@ -152,12 +152,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                   backgroundColor: 'white',
                   textDecoration: 'none',
                   fontSize: '13px',
-                  color: '#002A3A',
+                  color: '#0D2E35',
                 }}
               >
                 <span
                   className="font-sans font-bold flex-shrink-0"
-                  style={{ fontSize: '11px', color: '#EAAA00' }}
+                  style={{ fontSize: '11px', color: '#00B5AD' }}
                 >
                   ↗
                 </span>
@@ -177,7 +177,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       {/* CTA */}
       <div
         className="flex flex-col sm:flex-row items-center justify-between gap-4 p-7 rounded-2xl"
-        style={{ backgroundColor: '#002A3A' }}
+        style={{ backgroundColor: '#0D2E35' }}
       >
         <div>
           <p className="font-sans font-semibold text-white mb-1" style={{ fontSize: '16px' }}>
@@ -191,8 +191,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           href="/login"
           className="font-sans font-semibold flex-shrink-0 transition-opacity hover:opacity-90"
           style={{
-            backgroundColor: '#EAAA00',
-            color: '#002A3A',
+            backgroundColor: '#00B5AD',
+            color: '#0D2E35',
             padding: '12px 24px',
             borderRadius: '8px',
             fontSize: '14px',

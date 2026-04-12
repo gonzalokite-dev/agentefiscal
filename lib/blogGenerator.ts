@@ -78,7 +78,7 @@ Usa la herramienta publish_article para entregar el resultado estructurado.`;
     tools: [
       {
         name: 'publish_article',
-        description: 'Publica el artículo generado en el blog de AsesorIA',
+        description: 'Publica el artículo generado en el blog de Victoria',
         input_schema: {
           type: 'object' as const,
           properties: {

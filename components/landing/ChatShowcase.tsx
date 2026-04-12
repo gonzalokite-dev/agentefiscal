@@ -61,21 +61,21 @@ export default function ChatShowcase() {
     <section
       className="py-16 px-4 md:py-24 md:px-6"
       style={{
-        background: 'radial-gradient(ellipse at 80% 90%, rgba(234,170,0,0.1) 0%, transparent 50%), #002A3A',
+        background: 'radial-gradient(ellipse at 80% 90%, rgba(0,181,173,0.1) 0%, transparent 50%), #0D2E35',
       }}
     >
       <div className="mx-auto" style={{ maxWidth: '1100px' }}>
 
         {/* Header */}
         <div className="text-center mb-10 md:mb-12">
-          <p className="font-sans font-medium mb-3" style={{ fontSize: '11px', letterSpacing: '0.14em', color: '#EAAA00', textTransform: 'uppercase' }}>
+          <p className="font-sans font-medium mb-3" style={{ fontSize: '11px', letterSpacing: '0.14em', color: '#00B5AD', textTransform: 'uppercase' }}>
             El agente en acción
           </p>
           <h2 className="font-sans font-bold text-white mb-3" style={{ fontSize: 'clamp(26px, 5vw, 40px)', lineHeight: 1.1, letterSpacing: '-0.025em' }}>
             Cada respuesta, con su fuente jurídica.
           </h2>
-          <p className="font-sans" style={{ fontSize: 'clamp(14px, 2vw, 16px)', color: '#D7D2CB', maxWidth: '520px', margin: '0 auto' }}>
-            AsesorIA localiza las consultas vinculantes de la DGT relevantes para su caso y las presenta con contexto aplicable directo.
+          <p className="font-sans" style={{ fontSize: 'clamp(14px, 2vw, 16px)', color: '#D1D5DB', maxWidth: '520px', margin: '0 auto' }}>
+            Victoria localiza las consultas vinculantes de la DGT relevantes para su caso y las presenta con contexto aplicable directo.
           </p>
         </div>
 
@@ -98,7 +98,7 @@ export default function ChatShowcase() {
             <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#FFBD2E', flexShrink: 0 }} />
             <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#28CA41', flexShrink: 0 }} />
             <div className="flex-1 flex items-center justify-center" style={{ backgroundColor: 'rgba(255,255,255,0.07)', borderRadius: '5px', padding: '3px 12px', maxWidth: '260px', margin: '0 auto' }}>
-              <span className="font-sans" style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>asesoria.ia/chat</span>
+              <span className="font-sans" style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>victoria.ai/chat</span>
             </div>
           </div>
 
@@ -109,10 +109,10 @@ export default function ChatShowcase() {
             <div className="hidden md:flex flex-shrink-0 flex-col" style={{ width: '192px', backgroundColor: '#161616', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
               <div className="px-4 pt-4 pb-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
                 <div className="flex items-baseline">
-                  <span className="font-sans font-bold" style={{ fontSize: '15px', color: 'white', letterSpacing: '-0.04em' }}>Asesor</span>
-                  <span className="font-sans font-bold" style={{ fontSize: '15px', color: '#EAAA00', letterSpacing: '-0.04em', position: 'relative', top: '-3px' }}>IA</span>
+                  <span className="font-sans font-bold italic" style={{ fontSize: '15px', color: 'white', letterSpacing: '-0.02em' }}>victor</span>
+                  <span className="font-sans font-bold italic" style={{ fontSize: '15px', color: '#00B5AD', letterSpacing: '-0.02em' }}>ia</span>
                 </div>
-                <p className="font-sans" style={{ fontSize: '10px', color: 'rgba(215,210,203,0.4)', marginTop: '1px' }}>Asesoría fiscal con IA</p>
+                <p className="font-sans" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', marginTop: '1px' }}>Copiloto fiscal con IA</p>
               </div>
               <div className="px-3 pt-3 pb-2">
                 <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ border: '1px dashed rgba(255,255,255,0.13)' }}>
@@ -134,10 +134,10 @@ export default function ChatShowcase() {
 
               {/* Chat header */}
               <div className="flex items-center gap-2 px-4 py-2" style={{ borderBottom: '1px solid #F0F0F0', flexShrink: 0 }}>
-                <div className="flex items-center justify-center flex-shrink-0" style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#002A3A' }}>
-                  <span className="font-sans font-bold" style={{ fontSize: '7px', color: '#EAAA00' }}>AI</span>
+                <div className="flex items-center justify-center flex-shrink-0" style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#0D2E35' }}>
+                  <span className="font-sans font-bold italic" style={{ fontSize: '7px', color: '#00B5AD' }}>vi</span>
                 </div>
-                <span className="font-sans font-semibold" style={{ fontSize: '13px', color: '#111' }}>AsesorIA</span>
+                <span className="font-sans font-semibold italic" style={{ fontSize: '13px', color: '#111' }}>victoria</span>
                 <div className="flex items-center gap-1 ml-1">
                   <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#22c55e' }} />
                   <span className="font-sans" style={{ fontSize: '10px', color: '#6B7280' }}>Disponible</span>
@@ -145,7 +145,7 @@ export default function ChatShowcase() {
                 <div className="flex items-center gap-1 ml-auto">
                   {['DGT', 'BOE', 'CDI'].map((badge, i) => (
                     <span key={badge} className={i === 2 ? 'hidden sm:inline' : ''}>
-                      <span className="font-sans font-semibold" style={{ fontSize: '9px', color: 'rgba(0,42,58,0.5)', backgroundColor: 'rgba(0,42,58,0.07)', borderRadius: '4px', padding: '2px 5px' }}>{badge}</span>
+                      <span className="font-sans font-semibold" style={{ fontSize: '9px', color: 'rgba(13,46,53,0.5)', backgroundColor: 'rgba(13,46,53,0.07)', borderRadius: '4px', padding: '2px 5px' }}>{badge}</span>
                     </span>
                   ))}
                 </div>
@@ -174,11 +174,11 @@ export default function ChatShowcase() {
                       s(2) && 'Consultando DGT · hacienda.gob.es',
                       s(3) && 'Consultando Convenio España-NL · boe.es',
                     ].filter(Boolean).map((label) => (
-                      <div key={label as string} className="flex items-center gap-2" style={{ width: 'fit-content', backgroundColor: 'rgba(234,170,0,0.07)', border: '1px solid rgba(234,170,0,0.22)', borderRadius: '20px', padding: '4px 11px' }}>
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#EAAA00" strokeWidth="2.5" strokeLinecap="round" style={{ animation: 'spin 1.1s linear infinite', flexShrink: 0 }}>
+                      <div key={label as string} className="flex items-center gap-2" style={{ width: 'fit-content', backgroundColor: 'rgba(0,181,173,0.07)', border: '1px solid rgba(0,181,173,0.22)', borderRadius: '20px', padding: '4px 11px' }}>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#00B5AD" strokeWidth="2.5" strokeLinecap="round" style={{ animation: 'spin 1.1s linear infinite', flexShrink: 0 }}>
                           <path d="M21 12a9 9 0 1 1-6.219-8.56" />
                         </svg>
-                        <span className="font-sans" style={{ fontSize: '10px', color: '#EAAA00' }}>{label as string}</span>
+                        <span className="font-sans" style={{ fontSize: '10px', color: '#00B5AD' }}>{label as string}</span>
                       </div>
                     ))}
                   </div>
@@ -199,8 +199,8 @@ export default function ChatShowcase() {
                 {/* AI response */}
                 {s(5) && (
                   <div className="flex gap-2 anim-fade-up">
-                    <div className="flex items-center justify-center flex-shrink-0" style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#002A3A', marginTop: '2px' }}>
-                      <span className="font-sans font-bold" style={{ fontSize: '6px', color: '#EAAA00' }}>AI</span>
+                    <div className="flex items-center justify-center flex-shrink-0" style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#0D2E35', marginTop: '2px' }}>
+                      <span className="font-sans font-bold" style={{ fontSize: '6px', color: '#00B5AD' }}>AI</span>
                     </div>
                     <div className="flex flex-col gap-2" style={{ flex: 1, minWidth: 0 }}>
                       <p className="font-sans" style={{ fontSize: '12px', color: '#111', lineHeight: 1.6 }}>
@@ -212,8 +212,8 @@ export default function ChatShowcase() {
                       {(s(6) || s(7) || s(8)) && (
                         <div className="flex flex-col gap-1.5">
                           {CONSULTAS.map((c, i) => s(6 + i) && (
-                            <div key={c.id} className="flex items-start gap-2 anim-fade-up" style={{ borderLeft: '2px solid rgba(234,170,0,0.5)', paddingLeft: '8px' }}>
-                              <span className="font-sans font-bold flex-shrink-0" style={{ fontSize: '10px', color: '#002A3A', backgroundColor: 'rgba(0,42,58,0.08)', border: '1px solid rgba(0,42,58,0.14)', borderRadius: '4px', padding: '1px 5px', fontFamily: 'monospace' }}>
+                            <div key={c.id} className="flex items-start gap-2 anim-fade-up" style={{ borderLeft: '2px solid rgba(0,181,173,0.5)', paddingLeft: '8px' }}>
+                              <span className="font-sans font-bold flex-shrink-0" style={{ fontSize: '10px', color: '#0D2E35', backgroundColor: 'rgba(13,46,53,0.08)', border: '1px solid rgba(13,46,53,0.14)', borderRadius: '4px', padding: '1px 5px', fontFamily: 'monospace' }}>
                                 {c.id}
                               </span>
                               <span className="font-sans" style={{ fontSize: '11px', color: '#374151', lineHeight: 1.45 }}>{c.desc}</span>
@@ -226,17 +226,17 @@ export default function ChatShowcase() {
                       {s(9) && (
                         <div className="flex flex-wrap gap-1.5 anim-fade-up">
                           {['Art. 23.2 LIRPF', 'Ley 12/2023', 'D.Foral Baleares'].map((ref) => (
-                            <span key={ref} className="font-sans" style={{ fontSize: '10px', color: '#002A3A', backgroundColor: 'rgba(0,42,58,0.07)', border: '1px solid rgba(0,42,58,0.12)', borderRadius: '5px', padding: '2px 6px' }}>{ref}</span>
+                            <span key={ref} className="font-sans" style={{ fontSize: '10px', color: '#0D2E35', backgroundColor: 'rgba(13,46,53,0.07)', border: '1px solid rgba(13,46,53,0.12)', borderRadius: '5px', padding: '2px 6px' }}>{ref}</span>
                           ))}
                         </div>
                       )}
 
                       {/* Warning */}
                       {s(10) && (
-                        <div className="flex items-start gap-2 rounded-lg px-3 py-2 anim-fade-up" style={{ backgroundColor: 'rgba(234,170,0,0.08)', border: '1px solid rgba(234,170,0,0.25)' }}>
+                        <div className="flex items-start gap-2 rounded-lg px-3 py-2 anim-fade-up" style={{ backgroundColor: 'rgba(0,181,173,0.08)', border: '1px solid rgba(0,181,173,0.25)' }}>
                           <span style={{ fontSize: '11px', flexShrink: 0 }}>⚠️</span>
-                          <span className="font-sans" style={{ fontSize: '11px', color: '#5F5E5A', lineHeight: 1.5 }}>
-                            La reducción del <strong style={{ color: '#002A3A' }}>90% exige nuevo contrato</strong> con renta ≥5% inferior a la anterior (V0540-25). Si Pollença no está declarada zona tensionada, el máximo aplicable es el <strong style={{ color: '#002A3A' }}>50% general</strong>.
+                          <span className="font-sans" style={{ fontSize: '11px', color: '#6B7280', lineHeight: 1.5 }}>
+                            La reducción del <strong style={{ color: '#0D2E35' }}>90% exige nuevo contrato</strong> con renta ≥5% inferior a la anterior (V0540-25). Si Pollença no está declarada zona tensionada, el máximo aplicable es el <strong style={{ color: '#0D2E35' }}>50% general</strong>.
                           </span>
                         </div>
                       )}
@@ -255,11 +255,11 @@ export default function ChatShowcase() {
 
                 {/* Searching 2 */}
                 {s(12) && (
-                  <div className="flex items-center gap-2 pl-1 anim-fade-up" style={{ width: 'fit-content', backgroundColor: 'rgba(234,170,0,0.07)', border: '1px solid rgba(234,170,0,0.22)', borderRadius: '20px', padding: '4px 11px' }}>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#EAAA00" strokeWidth="2.5" strokeLinecap="round" style={{ animation: 'spin 1.1s linear infinite', flexShrink: 0 }}>
+                  <div className="flex items-center gap-2 pl-1 anim-fade-up" style={{ width: 'fit-content', backgroundColor: 'rgba(0,181,173,0.07)', border: '1px solid rgba(0,181,173,0.22)', borderRadius: '20px', padding: '4px 11px' }}>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#00B5AD" strokeWidth="2.5" strokeLinecap="round" style={{ animation: 'spin 1.1s linear infinite', flexShrink: 0 }}>
                       <path d="M21 12a9 9 0 1 1-6.219-8.56" />
                     </svg>
-                    <span className="font-sans" style={{ fontSize: '10px', color: '#EAAA00' }}>Consultando DGT · hacienda.gob.es</span>
+                    <span className="font-sans" style={{ fontSize: '10px', color: '#00B5AD' }}>Consultando DGT · hacienda.gob.es</span>
                   </div>
                 )}
 
@@ -279,8 +279,8 @@ export default function ChatShowcase() {
               <div className="flex items-center gap-2 px-4 py-2.5" style={{ borderTop: '1px solid #F0F0F0', backgroundColor: '#FAFAFA', flexShrink: 0 }}>
                 <div style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: 'rgba(0,42,58,0.07)', flexShrink: 0 }} />
                 <span className="font-sans flex-1" style={{ fontSize: '12px', color: '#9CA3AF' }}>Escribe tu consulta fiscal...</span>
-                <div className="flex items-center justify-center" style={{ backgroundColor: '#002A3A', borderRadius: '7px', padding: '6px', flexShrink: 0 }}>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#EAAA00" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <div className="flex items-center justify-center" style={{ backgroundColor: '#00B5AD', borderRadius: '7px', padding: '6px', flexShrink: 0 }}>
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#00B5AD" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" />
                   </svg>
                 </div>
@@ -314,7 +314,7 @@ export default function ChatShowcase() {
           display: inline-block;
           width: 2px;
           height: 13px;
-          background: #002A3A;
+          background: #0D2E35;
           margin-left: 2px;
           vertical-align: middle;
           animation: cursorBlink 0.75s step-end infinite;

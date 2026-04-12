@@ -47,21 +47,21 @@ export default function Seguridad() {
           <div>
             <p
               className="font-sans"
-              style={{ fontSize: '11px', letterSpacing: '0.14em', color: '#EAAA00', textTransform: 'uppercase', fontWeight: 600, marginBottom: '14px' }}
+              style={{ fontSize: '11px', letterSpacing: '0.14em', color: '#00B5AD', textTransform: 'uppercase', fontWeight: 600, marginBottom: '14px' }}
             >
               Privacidad y seguridad
             </p>
             <h2
               className="font-sans"
-              style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 800, color: '#002A3A', letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: '16px' }}
+              style={{ fontSize: 'clamp(26px, 3.5vw, 38px)', fontWeight: 800, color: '#0D2E35', letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: '16px' }}
             >
               Los datos de tus clientes,<br />solo en tus manos.
             </h2>
             <p
               className="font-sans"
-              style={{ fontSize: '15px', color: '#5F5E5A', lineHeight: 1.75, maxWidth: '420px' }}
+              style={{ fontSize: '15px', color: '#6B7280', lineHeight: 1.75, maxWidth: '420px' }}
             >
-              Un despacho trabaja con información fiscal sensible. AsesorIA está diseñado
+              Un despacho trabaja con información fiscal sensible. Victoria está diseñada
               para que esa información nunca salga de tu control.
             </p>
           </div>
@@ -81,16 +81,16 @@ export default function Seguridad() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0,
-                    color: '#002A3A',
+                    color: '#0D2E35',
                   }}
                 >
                   {p.icon}
                 </div>
                 <div>
-                  <p className="font-sans" style={{ fontSize: '14px', fontWeight: 600, color: '#002A3A', marginBottom: '3px' }}>
+                  <p className="font-sans" style={{ fontSize: '14px', fontWeight: 600, color: '#0D2E35', marginBottom: '3px' }}>
                     {p.title}
                   </p>
-                  <p className="font-sans" style={{ fontSize: '13px', color: '#5F5E5A', lineHeight: 1.65 }}>
+                  <p className="font-sans" style={{ fontSize: '13px', color: '#6B7280', lineHeight: 1.65 }}>
                     {p.description}
                   </p>
                 </div>

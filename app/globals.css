@@ -41,7 +41,7 @@ body {
 .typing-dot {
   width: 7px;
   height: 7px;
-  background: #5F5E5A;
+  background: #6B7280;
   border-radius: 50%;
   display: inline-block;
   animation: bounce-dot 1.2s infinite;
@@ -53,7 +53,7 @@ body {
 .prose-fiscal h1, .prose-fiscal h2, .prose-fiscal h3 {
   font-family: 'Sora', sans-serif;
   font-weight: 700;
-  color: #002A3A;
+  color: #0D2E35;
   margin-top: 1.2em;
   margin-bottom: 0.4em;
   letter-spacing: -0.02em;
@@ -69,11 +69,11 @@ body {
 }
 .prose-fiscal li { margin-bottom: 0.25em; }
 
-.prose-fiscal strong { font-weight: 600; color: #002A3A; }
+.prose-fiscal strong { font-weight: 600; color: #0D2E35; }
 
 .prose-fiscal code {
-  background: #F7F6F4;
-  border-left: 3px solid #EAAA00;
+  background: #F7F9FA;
+  border-left: 3px solid #00B5AD;
   padding: 0.75em 1em;
   display: block;
   font-family: 'Courier New', monospace;
@@ -88,7 +88,7 @@ body {
 }
 
 .prose-fiscal :not(pre) > code {
-  background: #F7F6F4;
+  background: #F7F9FA;
   border-left: none;
   padding: 0.1em 0.4em;
   border-radius: 3px;
@@ -112,7 +112,7 @@ body {
   font-size: 0.88rem;
 }
 .prose-fiscal th {
-  background: #002A3A;
+  background: #0D2E35;
   color: white;
   padding: 6px 12px;
   text-align: left;
@@ -121,19 +121,19 @@ body {
 }
 .prose-fiscal td {
   padding: 6px 12px;
-  border-bottom: 1px solid #E2DED9;
+  border-bottom: 1px solid #E5E7EB;
 }
-.prose-fiscal tr:nth-child(even) td { background: #F7F6F4; }
+.prose-fiscal tr:nth-child(even) td { background: #F7F9FA; }
 
 .prose-fiscal blockquote {
-  border-left: 3px solid #EAAA00;
+  border-left: 3px solid #00B5AD;
   padding-left: 1em;
-  color: #5F5E5A;
+  color: #6B7280;
   margin: 0.75em 0;
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #EAAA00 0%, #F5C518 60%, #EAAA00 100%);
+  background: linear-gradient(135deg, #00B5AD 0%, #00D4CA 60%, #00B5AD 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -143,11 +143,85 @@ body {
 }
 .card-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(0,42,58,0.1);
+  box-shadow: 0 12px 32px rgba(13,46,53,0.1);
 }
 .knowledge-card {
   transition: background-color 0.2s ease;
 }
 .knowledge-card:hover {
   background-color: rgba(255,255,255,0.08) !important;
+}
+
+/* ── Infinite scroll strip ─────────────────────────────── */
+@keyframes scroll-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.strip-wrap {
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+.strip-track {
+  display: flex;
+  width: max-content;
+  animation: scroll-left 36s linear infinite;
+}
+.strip-track:hover {
+  animation-play-state: paused;
+}
+
+/* ── Gradient animated CTA button ──────────────────────── */
+@keyframes glow-gradient {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+.btn-glow {
+  background: linear-gradient(270deg, #00B5AD, #00D4CA, #00B5AD, #009D96);
+  background-size: 300% 300%;
+  animation: glow-gradient 3.1s ease infinite;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.btn-glow:hover {
+  opacity: 0.93;
+  transform: translateY(-1px);
+}
+
+/* ── Capability card hover with teal border glow ───────── */
+.cap-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.cap-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(13,46,53,0.12), 0 0 0 1px rgba(0,181,173,0.25);
+  border-color: rgba(0,181,173,0.3) !important;
+}
+
+/* ── Testimonial card ──────────────────────────────────── */
+.testimonial-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.testimonial-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 48px rgba(13,46,53,0.14);
+}
+
+/* ── Ping / live dot ────────────────────────────────────── */
+@keyframes ping {
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+
+/* ── Chat mockup fade animation ─────────────────────────── */
+@keyframes chat-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.chat-msg {
+  animation: chat-fade-in 0.4s ease forwards;
+}
+
+/* ── Section fade-in on scroll (progressive enhancement) ─ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

@@ -9,8 +9,8 @@ export default function Limits() {
     <section
       className="px-6"
       style={{
-        backgroundColor: 'rgba(234,170,0,0.06)',
-        borderTop: '1px solid rgba(234,170,0,0.2)',
+        backgroundColor: 'rgba(0,181,173,0.06)',
+        borderTop: '1px solid rgba(0,181,173,0.2)',
         paddingTop: '56px',
         paddingBottom: '56px',
       }}
@@ -18,7 +18,7 @@ export default function Limits() {
       <div className="max-w-3xl mx-auto">
         <p
           className="font-sans font-medium mb-6"
-          style={{ fontSize: '14px', color: '#002A3A' }}
+          style={{ fontSize: '14px', color: '#0D2E35' }}
         >
           Recuerda: lo que el agente no hace
         </p>
@@ -30,11 +30,11 @@ export default function Limits() {
                 style={{
                   width: '18px',
                   height: '18px',
-                  border: '1.5px solid #EAAA00',
+                  border: '1.5px solid #00B5AD',
                   minWidth: '18px',
                 }}
               />
-              <p className="font-sans" style={{ fontSize: '14px', color: '#5F5E5A', lineHeight: 1.65 }}>
+              <p className="font-sans" style={{ fontSize: '14px', color: '#6B7280', lineHeight: 1.65 }}>
                 {text}
               </p>
             </div>

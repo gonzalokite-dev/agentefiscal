@@ -4,19 +4,19 @@ import { useState } from 'react';
 const faqs = [
   {
     q: '¿Puedo firmar un escrito basándome en la respuesta del agente?',
-    a: 'AsesorIA genera orientación técnica fundamentada en fuentes primarias, no asesoramiento definitivo. Los escritos que redacta son borradores que el asesor debe revisar, adaptar al caso concreto y firmar bajo su responsabilidad profesional. Es una herramienta de apoyo, no un sustituto del criterio del asesor.',
+    a: 'Victoria genera orientación técnica fundamentada en fuentes primarias, no asesoramiento definitivo. Los escritos que redacta son borradores que el asesor debe revisar, adaptar al caso concreto y firmar bajo su responsabilidad profesional. Es una herramienta de apoyo, no un sustituto del criterio del asesor.',
   },
   {
     q: '¿Qué pasa si cambia la normativa o la DGT publica una consulta nueva?',
-    a: 'AsesorIA está conectado en tiempo real al BOE, la DGT y la AEAT. No responde de memoria: consulta las fuentes en el momento de cada pregunta. Si hoy se publica una nueva consulta vinculante, mañana ya está disponible para fundamentar tus respuestas.',
+    a: 'Victoria está conectado en tiempo real al BOE, la DGT y la AEAT. No responde de memoria: consulta las fuentes en el momento de cada pregunta. Si hoy se publica una nueva consulta vinculante, mañana ya está disponible para fundamentar tus respuestas.',
   },
   {
-    q: '¿Pueden usar AsesorIA todos los miembros de mi equipo?',
+    q: '¿Pueden usar Victoria todos los miembros de mi equipo?',
     a: 'Sí. Cada miembro del equipo accede con su propia cuenta individual. El historial de conversaciones es personal y no se comparte entre usuarios. Puedes dar acceso a tantos asesores como necesites.',
   },
   {
     q: '¿Funciona solo para Baleares o también para normativa estatal?',
-    a: 'Las dos cosas. AsesorIA cubre toda la normativa fiscal estatal española — IRPF, IVA, IS, IRNR — más la normativa autonómica específica de Illes Balears: tipos propios de ITP e ISD, pactos sucesorios de la Compilació de Dret Civil, ecotasa y deducciones autonómicas.',
+    a: 'Las dos cosas. Victoria cubre toda la normativa fiscal estatal española — IRPF, IVA, IS, IRNR — más la normativa autonómica específica de Illes Balears: tipos propios de ITP e ISD, pactos sucesorios de la Compilació de Dret Civil, ecotasa y deducciones autonómicas.',
   },
   {
     q: '¿Qué hago si la respuesta es incorrecta o incompleta?',
@@ -38,13 +38,13 @@ export default function FAQ() {
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
           <p
             className="font-sans"
-            style={{ fontSize: '11px', letterSpacing: '0.14em', color: '#EAAA00', textTransform: 'uppercase', fontWeight: 600, marginBottom: '12px' }}
+            style={{ fontSize: '11px', letterSpacing: '0.14em', color: '#00B5AD', textTransform: 'uppercase', fontWeight: 600, marginBottom: '12px' }}
           >
             Preguntas frecuentes
           </p>
           <h2
             className="font-sans"
-            style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 800, color: '#002A3A', letterSpacing: '-0.03em', lineHeight: 1.2 }}
+            style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 800, color: '#0D2E35', letterSpacing: '-0.03em', lineHeight: 1.2 }}
           >
             Lo que los despachos preguntan antes de empezar
           </h2>
@@ -95,7 +95,7 @@ export default function FAQ() {
                 </button>
                 {isOpen && (
                   <div style={{ padding: '0 20px 18px' }}>
-                    <p className="font-sans" style={{ fontSize: '14px', color: '#5F5E5A', lineHeight: 1.75 }}>
+                    <p className="font-sans" style={{ fontSize: '14px', color: '#6B7280', lineHeight: 1.75 }}>
                       {faq.a}
                     </p>
                   </div>

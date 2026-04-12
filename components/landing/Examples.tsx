@@ -9,7 +9,7 @@ const examples = [
 
 export default function Examples() {
   return (
-    <section className="py-20 px-6" style={{ backgroundColor: '#F7F6F4' }}>
+    <section className="py-20 px-6" style={{ backgroundColor: '#F7F9FA' }}>
       <div className="mx-auto" style={{ maxWidth: '900px' }}>
         {/* Header */}
         <div className="text-center mb-10">
@@ -18,7 +18,7 @@ export default function Examples() {
             style={{
               fontSize: '11px',
               letterSpacing: '0.14em',
-              color: '#EAAA00',
+              color: '#00B5AD',
               textTransform: 'uppercase',
             }}
           >
@@ -26,11 +26,11 @@ export default function Examples() {
           </p>
           <h2
             className="font-sans font-bold mb-3"
-            style={{ fontSize: '36px', color: '#002A3A', lineHeight: 1.1, letterSpacing: '-0.025em' }}
+            style={{ fontSize: '36px', color: '#0D2E35', lineHeight: 1.1, letterSpacing: '-0.025em' }}
           >
             Consultas del día a día
           </h2>
-          <p className="font-sans" style={{ fontSize: '15px', color: '#5F5E5A' }}>
+          <p className="font-sans" style={{ fontSize: '15px', color: '#6B7280' }}>
             Preguntas reales que el equipo formula al agente cada semana.
           </p>
         </div>
@@ -42,7 +42,7 @@ export default function Examples() {
               key={text}
               href={`/chat?q=${encodeURIComponent(text)}`}
               className="flex items-center gap-3 px-5 py-3 rounded-full font-sans bg-white transition-all hover:border-amber-300 hover:shadow-sm"
-              style={{ border: '1px solid #E2DED9', textDecoration: 'none' }}
+              style={{ border: '1px solid #E5E7EB', textDecoration: 'none' }}
             >
               <div
                 className="flex items-center justify-center flex-shrink-0"
@@ -50,18 +50,18 @@ export default function Examples() {
                   width: '20px',
                   height: '20px',
                   borderRadius: '50%',
-                  backgroundColor: 'rgba(234,170,0,0.15)',
+                  backgroundColor: 'rgba(0,181,173,0.15)',
                 }}
               >
                 <span
                   className="font-sans font-bold"
-                  style={{ fontSize: '10px', color: '#002A3A' }}
+                  style={{ fontSize: '10px', color: '#0D2E35' }}
                 >
                   {idx + 1}
                 </span>
               </div>
-              <span style={{ fontSize: '14px', color: '#002A3A', flex: 1 }}>{text}</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#EAAA00" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <span style={{ fontSize: '14px', color: '#0D2E35', flex: 1 }}>{text}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00B5AD" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                 <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
               </svg>
             </a>
@@ -71,13 +71,13 @@ export default function Examples() {
         {/* CTA banner */}
         <div
           className="flex flex-col sm:flex-row justify-between items-center gap-4 p-6 rounded-2xl"
-          style={{ backgroundColor: '#002A3A' }}
+          style={{ backgroundColor: '#0D2E35' }}
         >
           <div>
             <p className="font-sans font-medium text-white" style={{ fontSize: '15px', marginBottom: '4px' }}>
               ¿Tienes una consulta urgente?
             </p>
-            <p className="font-sans" style={{ fontSize: '13px', color: '#D7D2CB' }}>
+            <p className="font-sans" style={{ fontSize: '13px', color: '#D1D5DB' }}>
               Formula tu pregunta al agente ahora mismo
             </p>
           </div>
@@ -85,8 +85,8 @@ export default function Examples() {
             href="/login"
             className="font-sans font-medium flex-shrink-0 transition-opacity hover:opacity-90"
             style={{
-              backgroundColor: '#EAAA00',
-              color: '#002A3A',
+              backgroundColor: '#00B5AD',
+              color: '#0D2E35',
               padding: '12px 24px',
               borderRadius: '8px',
               fontSize: '14px',

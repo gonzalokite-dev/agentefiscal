@@ -17,7 +17,7 @@ function TeaserCard({ post }: { post: BlogPost }) {
     >
       <div
         className="h-full rounded-xl bg-white transition-all duration-200 group-hover:shadow-md"
-        style={{ border: '1px solid #E2DED9', padding: '22px' }}
+        style={{ border: '1px solid #E5E7EB', padding: '22px' }}
       >
         {/* Top tag */}
         <span
@@ -26,8 +26,8 @@ function TeaserCard({ post }: { post: BlogPost }) {
             fontSize: '10px',
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
-            color: '#EAAA00',
-            backgroundColor: 'rgba(234,170,0,0.1)',
+            color: '#00B5AD',
+            backgroundColor: 'rgba(0,181,173,0.1)',
             padding: '2px 8px',
             borderRadius: '4px',
           }}
@@ -37,7 +37,7 @@ function TeaserCard({ post }: { post: BlogPost }) {
 
         <h3
           className="font-sans font-semibold mb-2 group-hover:text-amber-600 transition-colors"
-          style={{ fontSize: '15px', color: '#002A3A', lineHeight: 1.4 }}
+          style={{ fontSize: '15px', color: '#0D2E35', lineHeight: 1.4 }}
         >
           {post.title}
         </h3>
@@ -46,7 +46,7 @@ function TeaserCard({ post }: { post: BlogPost }) {
           className="font-sans mb-4"
           style={{
             fontSize: '13px',
-            color: '#5F5E5A',
+            color: '#6B7280',
             lineHeight: 1.65,
             display: '-webkit-box',
             WebkitLineClamp: 2,
@@ -63,7 +63,7 @@ function TeaserCard({ post }: { post: BlogPost }) {
           </span>
           <span
             className="font-sans font-semibold"
-            style={{ fontSize: '12px', color: '#EAAA00' }}
+            style={{ fontSize: '12px', color: '#00B5AD' }}
           >
             Leer →
           </span>
@@ -86,7 +86,7 @@ export default async function BlogTeaser() {
   const featured = posts.slice(0, 3);
 
   return (
-    <section className="py-20 px-6" style={{ backgroundColor: '#F7F6F4' }}>
+    <section className="py-20 px-6" style={{ backgroundColor: '#F7F9FA' }}>
       <div className="mx-auto" style={{ maxWidth: '1100px' }}>
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
@@ -96,7 +96,7 @@ export default async function BlogTeaser() {
               style={{
                 fontSize: '11px',
                 letterSpacing: '0.14em',
-                color: '#EAAA00',
+                color: '#00B5AD',
                 textTransform: 'uppercase',
               }}
             >
@@ -104,11 +104,11 @@ export default async function BlogTeaser() {
             </p>
             <h2
               className="font-sans font-bold mb-2"
-              style={{ fontSize: 'clamp(24px, 3.5vw, 34px)', color: '#002A3A', lineHeight: 1.15, letterSpacing: '-0.02em' }}
+              style={{ fontSize: 'clamp(24px, 3.5vw, 34px)', color: '#0D2E35', lineHeight: 1.15, letterSpacing: '-0.02em' }}
             >
               Lo último del BOE, DGT y AEAT
             </h2>
-            <p className="font-sans" style={{ fontSize: '14px', color: '#5F5E5A' }}>
+            <p className="font-sans" style={{ fontSize: '14px', color: '#6B7280' }}>
               Análisis semanales extraídos directamente de las fuentes oficiales.
             </p>
           </div>
@@ -117,7 +117,7 @@ export default async function BlogTeaser() {
             className="font-sans font-semibold flex-shrink-0 transition-opacity hover:opacity-80"
             style={{
               fontSize: '13px',
-              color: '#002A3A',
+              color: '#0D2E35',
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',

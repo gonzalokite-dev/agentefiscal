@@ -23,20 +23,20 @@ const items = [
 
 export default function PainPoints() {
   return (
-    <section style={{ backgroundColor: '#002A3A', paddingTop: '96px', paddingBottom: '96px' }}>
+    <section style={{ backgroundColor: '#0D2E35', paddingTop: '96px', paddingBottom: '96px' }}>
       <div style={{ maxWidth: '920px', margin: '0 auto', padding: '0 24px' }}>
 
         {/* Header */}
         <div style={{ marginBottom: '52px' }}>
           <p
             className="font-sans"
-            style={{ fontSize: '11px', letterSpacing: '0.14em', color: '#EAAA00', textTransform: 'uppercase', fontWeight: 600, marginBottom: '14px' }}
+            style={{ fontSize: '11px', letterSpacing: '0.14em', color: '#00B5AD', textTransform: 'uppercase', fontWeight: 600, marginBottom: '14px' }}
           >
             El tiempo que consumes buscando
           </p>
           <h2
             className="font-sans"
-            style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: 'white', letterSpacing: '-0.03em', lineHeight: 1.15, maxWidth: '580px' }}
+            style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, color: 'white', letterSpacing: '-0.03em', lineHeight: 1.15, maxWidth: '580px' }}
           >
             Cada consulta que tardas horas en resolver,<br className="hidden md:inline" /> resuelta en segundos.
           </h2>
@@ -74,8 +74,8 @@ export default function PainPoints() {
                   style={{
                     fontSize: '15px',
                     fontWeight: 700,
-                    color: '#EAAA00',
-                    backgroundColor: 'rgba(234,170,0,0.12)',
+                    color: '#00B5AD',
+                    backgroundColor: 'rgba(0,181,173,0.12)',
                     padding: '3px 10px',
                     borderRadius: '20px',
                   }}
@@ -100,8 +100,8 @@ export default function PainPoints() {
           <p className="font-sans" style={{ fontSize: '11px', color: 'rgba(215,210,203,0.35)', textAlign: 'center', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
             Antes
           </p>
-          <p className="font-sans" style={{ fontSize: '11px', color: 'rgba(234,170,0,0.6)', textAlign: 'center', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-            Con AsesorIA
+          <p className="font-sans" style={{ fontSize: '11px', color: 'rgba(0,181,173,0.8)', textAlign: 'center', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+            Con Victoria
           </p>
         </div>
 

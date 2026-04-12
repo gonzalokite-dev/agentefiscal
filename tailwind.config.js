@@ -8,13 +8,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#002A3A',
-        accent: '#EAAA00',
-        stone: '#D7D2CB',
-        surface: '#F7F6F4',
-        'text-main': '#002A3A',
-        muted: '#5F5E5A',
-        border: '#E2DED9',
+        primary: '#0D2E35',
+        accent: '#00B5AD',
+        stone: '#6B7280',
+        surface: '#F7F9FA',
+        'text-main': '#0D2E35',
+        muted: '#6B7280',
+        border: '#E5E7EB',
       },
       fontFamily: {
         serif: ['Sora', 'sans-serif'],

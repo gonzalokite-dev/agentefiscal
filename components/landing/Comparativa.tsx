@@ -1,7 +1,7 @@
 const CHECK = (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-    <circle cx="8" cy="8" r="8" fill="#002A3A" fillOpacity="0.08" />
-    <path d="M4.5 8.5l2.5 2.5 4-5" stroke="#002A3A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx="8" cy="8" r="8" fill="#0D2E35" fillOpacity="0.08" />
+    <path d="M4.5 8.5l2.5 2.5 4-5" stroke="#00B5AD" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
@@ -82,13 +82,13 @@ export default function Comparativa() {
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
           <p
             className="font-sans"
-            style={{ fontSize: '11px', letterSpacing: '0.14em', color: '#EAAA00', textTransform: 'uppercase', fontWeight: 600, marginBottom: '12px' }}
+            style={{ fontSize: '11px', letterSpacing: '0.14em', color: '#00B5AD', textTransform: 'uppercase', fontWeight: 600, marginBottom: '12px' }}
           >
-            ¿Por qué AsesorIA?
+            ¿Por qué Victoria?
           </p>
           <h2
             className="font-sans"
-            style={{ fontSize: 'clamp(26px, 4vw, 36px)', fontWeight: 800, color: '#002A3A', letterSpacing: '-0.03em', marginBottom: '14px', lineHeight: 1.15 }}
+            style={{ fontSize: 'clamp(26px, 4vw, 36px)', fontWeight: 800, color: '#0D2E35', letterSpacing: '-0.03em', marginBottom: '14px', lineHeight: 1.15 }}
           >
             Conectado a las fuentes oficiales.<br />No a un modelo desactualizado.
           </h2>
@@ -121,12 +121,12 @@ export default function Comparativa() {
             }}
           >
             <div style={{ padding: '14px 20px' }} />
-            {/* AsesorIA header — highlighted */}
+            {/* Victoria header — highlighted */}
             <div
               style={{
                 padding: '14px 8px',
                 textAlign: 'center',
-                backgroundColor: '#002A3A',
+                backgroundColor: '#0D2E35',
                 position: 'relative',
               }}
             >
@@ -134,7 +134,7 @@ export default function Comparativa() {
                 className="font-sans"
                 style={{ fontSize: '13px', fontWeight: 700, color: 'white', letterSpacing: '-0.02em' }}
               >
-                Asesor<span style={{ color: '#EAAA00', position: 'relative', top: '-1px' }}>IA</span>
+                <span style={{ fontStyle: 'italic' }}>victor<span style={{ color: '#00B5AD' }}>ia</span></span>
               </span>
             </div>
             <div style={{ padding: '14px 8px', textAlign: 'center' }}>
@@ -180,16 +180,16 @@ export default function Comparativa() {
                 )}
               </div>
 
-              {/* AsesorIA cell — highlighted column */}
+              {/* Victoria cell — highlighted column */}
               <div
                 style={{
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
                   padding: '14px 8px',
-                  backgroundColor: 'rgba(0,42,58,0.03)',
-                  borderLeft: '1px solid rgba(0,42,58,0.08)',
-                  borderRight: '1px solid rgba(0,42,58,0.08)',
+                  backgroundColor: 'rgba(0,181,173,0.05)',
+                  borderLeft: '1px solid rgba(0,181,173,0.15)',
+                  borderRight: '1px solid rgba(0,181,173,0.15)',
                 }}
               >
                 {row.asesor}
@@ -226,7 +226,7 @@ export default function Comparativa() {
             }}
           />
           <p className="font-sans" style={{ fontSize: '12px', color: '#9CA3AF', lineHeight: 1.6 }}>
-            La conexión en tiempo real con BOE, DGT y AEAT significa que AsesorIA responde siempre con la normativa vigente en el momento de la consulta.
+            La conexión en tiempo real con BOE, DGT y AEAT significa que Victoria siempre responde con la normativa vigente en el momento de la consulta.
           </p>
         </div>
 

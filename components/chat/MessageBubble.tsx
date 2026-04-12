@@ -40,7 +40,7 @@ export default function MessageBubble({
               className="flex items-center gap-2 mb-1.5 px-3 py-1 rounded-full font-sans text-xs ml-auto w-fit"
               style={{
                 background: 'rgba(0,42,58,0.08)',
-                color: '#002A3A',
+                color: '#0D2E35',
               }}
             >
               <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -78,7 +78,7 @@ export default function MessageBubble({
           width: '28px',
           height: '28px',
           borderRadius: '50%',
-          backgroundColor: '#002A3A',
+          backgroundColor: '#0D2E35',
           marginTop: '2px',
         }}
       >
@@ -86,7 +86,7 @@ export default function MessageBubble({
           style={{
             fontSize: '9px',
             fontWeight: 700,
-            color: '#EAAA00',
+            color: '#00B5AD',
             fontFamily: 'Lora, Georgia, serif',
             letterSpacing: '0.02em',
           }}
@@ -109,6 +109,16 @@ export default function MessageBubble({
                   <table>{children}</table>
                 </div>
               ),
+              a: ({ href, children }) => (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: '#00B5AD', textDecoration: 'underline', textUnderlineOffset: '3px' }}
+                >
+                  {children}
+                </a>
+              ),
             }}
           >{message.content}</ReactMarkdown>
           {isStreaming && (
@@ -117,7 +127,7 @@ export default function MessageBubble({
                 display: 'inline-block',
                 width: '2px',
                 height: '15px',
-                backgroundColor: '#002A3A',
+                backgroundColor: '#0D2E35',
                 marginLeft: '2px',
                 verticalAlign: 'middle',
                 animation: 'blink-cursor 0.8s step-end infinite',

@@ -55,7 +55,7 @@ RESPUESTA DEL AGENTE: ${(f['Respuesta del agente'] ?? '').slice(0, 600)}`;
         role: 'user',
         content: `Eres un experto en diseño de system prompts para agentes de IA fiscales.
 
-A continuación tienes ${records.length} caso(s) donde el agente AsesorIA recibió una valoración negativa (👎) del usuario.
+A continuación tienes ${records.length} caso(s) donde el agente Victoria recibió una valoración negativa (👎) del usuario.
 
 SYSTEM PROMPT ACTUAL (fragmento relevante para contexto):
 ${SYSTEM_PROMPT.slice(0, 2000)}...

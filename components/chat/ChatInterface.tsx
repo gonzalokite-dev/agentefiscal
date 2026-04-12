@@ -488,12 +488,12 @@ export default function ChatInterface() {
             <div className="flex items-center gap-2">
               <div
                 className="flex items-center justify-center rounded-full"
-                style={{ width: '24px', height: '24px', backgroundColor: '#002A3A' }}
+                style={{ width: '24px', height: '24px', backgroundColor: '#0D2E35' }}
               >
-                <span style={{ fontSize: '7px', fontWeight: 700, color: '#EAAA00', fontFamily: 'sans-serif' }}>AI</span>
+                <span style={{ fontSize: '7px', fontWeight: 700, color: '#00B5AD', fontFamily: 'sans-serif' }}>AI</span>
               </div>
               <span className="font-sans font-medium" style={{ fontSize: '14px', color: '#111827' }}>
-                AsesorIA
+                Victoria
               </span>
             </div>
           </div>
@@ -505,7 +505,7 @@ export default function ChatInterface() {
                 style={{
                   width: '6px',
                   height: '6px',
-                  backgroundColor: toolStatus ? '#EAAA00' : '#22c55e',
+                  backgroundColor: toolStatus ? '#00B5AD' : '#22c55e',
                   animation: 'pulse 2s infinite',
                 }}
               />
@@ -541,9 +541,9 @@ export default function ChatInterface() {
             <div className="flex flex-col items-center justify-center h-full text-center px-4 py-8">
               <div
                 className="flex items-center justify-center rounded-full mb-4"
-                style={{ width: '44px', height: '44px', backgroundColor: '#002A3A', flexShrink: 0 }}
+                style={{ width: '44px', height: '44px', backgroundColor: '#0D2E35', flexShrink: 0 }}
               >
-                <span style={{ fontSize: '13px', fontWeight: 700, color: '#EAAA00', fontFamily: 'serif' }}>BA</span>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: '#00B5AD', fontFamily: 'serif' }}>BA</span>
               </div>
               <h2 className="font-sans font-bold mb-2" style={{ fontSize: 'clamp(18px, 5vw, 22px)', color: '#111827', letterSpacing: '-0.02em' }}>
                 {getGreeting()}
@@ -591,22 +591,22 @@ export default function ChatInterface() {
                 <div className="flex gap-3 mb-6">
                   <div
                     className="flex items-center justify-center flex-shrink-0"
-                    style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#002A3A', marginTop: '2px' }}
+                    style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#0D2E35', marginTop: '2px' }}
                   >
-                    <span style={{ fontSize: '9px', fontWeight: 700, color: '#EAAA00', fontFamily: 'serif' }}>BA</span>
+                    <span style={{ fontSize: '9px', fontWeight: 700, color: '#00B5AD', fontFamily: 'serif' }}>BA</span>
                   </div>
                   <div
                     className="flex items-center gap-2 font-sans"
                     style={{
-                      backgroundColor: 'rgba(234,170,0,0.08)',
-                      border: '1px solid rgba(234,170,0,0.25)',
+                      backgroundColor: 'rgba(0,181,173,0.08)',
+                      border: '1px solid rgba(0,181,173,0.25)',
                       borderRadius: '10px',
                       padding: '8px 14px',
                       fontSize: '13px',
                       color: '#5F5E5A',
                     }}
                   >
-                    <svg className="animate-spin flex-shrink-0" width="13" height="13" fill="none" stroke="#EAAA00" strokeWidth="2.5" viewBox="0 0 24 24">
+                    <svg className="animate-spin flex-shrink-0" width="13" height="13" fill="none" stroke="#00B5AD" strokeWidth="2.5" viewBox="0 0 24 24">
                       <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
                       <path d="M12 2a10 10 0 0110 10" />
                     </svg>
@@ -621,9 +621,9 @@ export default function ChatInterface() {
                 <div className="flex gap-3 mb-6">
                   <div
                     className="flex items-center justify-center flex-shrink-0"
-                    style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#002A3A', marginTop: '2px' }}
+                    style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#0D2E35', marginTop: '2px' }}
                   >
-                    <span style={{ fontSize: '9px', fontWeight: 700, color: '#EAAA00', fontFamily: 'serif' }}>BA</span>
+                    <span style={{ fontSize: '9px', fontWeight: 700, color: '#00B5AD', fontFamily: 'serif' }}>BA</span>
                   </div>
                   <div className="flex items-center" style={{ paddingTop: '6px' }}>
                     <div className="flex gap-1">

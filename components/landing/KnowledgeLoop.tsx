@@ -6,7 +6,7 @@ const sources = [
     name: 'Boletín Oficial del Estado',
     description:
       'Leyes, reglamentos y reales decretos tributarios vigentes. El agente consulta siempre la versión consolidada más reciente.',
-    color: '#002A3A',
+    color: '#0D2E35',
   },
   {
     code: 'DGT',
@@ -37,13 +37,13 @@ export default function KnowledgeLoop() {
       className="py-20 px-6"
       style={{
         background:
-          'radial-gradient(ellipse at 20% 80%, rgba(234,170,0,0.08) 0%, transparent 50%), #002A3A',
+          'radial-gradient(ellipse at 20% 80%, rgba(0,181,173,0.08) 0%, transparent 50%), #0D2E35',
       }}
     >
       <div className="mx-auto" style={{ maxWidth: '1100px' }}>
         <p
           className="font-sans font-medium mb-3"
-          style={{ fontSize: '11px', letterSpacing: '0.14em', color: '#EAAA00', textTransform: 'uppercase' }}
+          style={{ fontSize: '11px', letterSpacing: '0.14em', color: '#00B5AD', textTransform: 'uppercase' }}
         >
           Fuentes de conocimiento
         </p>
@@ -55,7 +55,7 @@ export default function KnowledgeLoop() {
         </h2>
         <p
           className="font-sans mb-12"
-          style={{ fontSize: '16px', color: '#D7D2CB', maxWidth: '540px', lineHeight: 1.7 }}
+          style={{ fontSize: '16px', color: '#D1D5DB', maxWidth: '540px', lineHeight: 1.7 }}
         >
           Cada respuesta se fundamenta en fuentes primarias consultadas en el momento de la pregunta,
           no en un modelo entrenado con datos estáticos.
@@ -84,13 +84,13 @@ export default function KnowledgeLoop() {
                   style={{
                     width: '44px',
                     height: '44px',
-                    backgroundColor: 'rgba(234,170,0,0.12)',
-                    border: '1px solid rgba(234,170,0,0.25)',
+                    backgroundColor: 'rgba(0,181,173,0.12)',
+                    border: '1px solid rgba(0,181,173,0.25)',
                   }}
                 >
                   <span
                     className="font-sans font-bold"
-                    style={{ fontSize: '11px', color: '#EAAA00', letterSpacing: '0.02em' }}
+                    style={{ fontSize: '11px', color: '#00B5AD', letterSpacing: '0.02em' }}
                   >
                     {src.code}
                   </span>
@@ -104,7 +104,7 @@ export default function KnowledgeLoop() {
                   </p>
                   <p
                     className="font-sans"
-                    style={{ fontSize: '13px', color: '#D7D2CB', lineHeight: 1.65 }}
+                    style={{ fontSize: '13px', color: '#D1D5DB', lineHeight: 1.65 }}
                   >
                     {src.description}
                   </p>
@@ -118,8 +118,8 @@ export default function KnowledgeLoop() {
         <div
           className="flex items-start gap-3 rounded-lg p-4"
           style={{
-            background: 'rgba(234,170,0,0.08)',
-            border: '1px solid rgba(234,170,0,0.3)',
+            background: 'rgba(0,181,173,0.08)',
+            border: '1px solid rgba(0,181,173,0.3)',
           }}
         >
           <svg
@@ -127,7 +127,7 @@ export default function KnowledgeLoop() {
             height="16"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#EAAA00"
+            stroke="#00B5AD"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -137,7 +137,7 @@ export default function KnowledgeLoop() {
             <line x1="12" y1="8" x2="12" y2="12" />
             <line x1="12" y1="16" x2="12.01" y2="16" />
           </svg>
-          <p className="font-sans" style={{ fontSize: '13px', color: '#D7D2CB', lineHeight: 1.7 }}>
+          <p className="font-sans" style={{ fontSize: '13px', color: '#D1D5DB', lineHeight: 1.7 }}>
             El agente busca en estas fuentes en el momento de cada consulta. Nunca genera normativa de memoria:
             si no encuentra una referencia fiable, lo indica explícitamente y recomienda contrastar con
             la fuente oficial.

@@ -75,10 +75,10 @@ export default function FeedbackAdminPage() {
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#F9FAFB', fontFamily: 'sans-serif' }}>
       {/* Header */}
-      <div style={{ backgroundColor: '#002A3A', padding: '16px 32px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+      <div style={{ backgroundColor: '#0D2E35', padding: '16px 32px', display: 'flex', alignItems: 'center', gap: '16px' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '0' }}>
           <span style={{ fontSize: '18px', fontWeight: 700, color: 'white', letterSpacing: '-0.04em' }}>Asesor</span>
-          <span style={{ fontSize: '18px', fontWeight: 700, color: '#EAAA00', letterSpacing: '-0.04em', position: 'relative', top: '-2px' }}>IA</span>
+          <span style={{ fontSize: '18px', fontWeight: 700, color: '#00B5AD', letterSpacing: '-0.04em', position: 'relative', top: '-2px' }}>IA</span>
         </div>
         <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '14px' }}>·</span>
         <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>Panel de feedback</span>
@@ -96,8 +96,8 @@ export default function FeedbackAdminPage() {
               style={{
                 padding: '6px 14px',
                 borderRadius: '20px',
-                border: filter === f ? '1.5px solid #002A3A' : '1px solid #E5E7EB',
-                backgroundColor: filter === f ? '#002A3A' : 'white',
+                border: filter === f ? '1.5px solid #0D2E35' : '1px solid #E5E7EB',
+                backgroundColor: filter === f ? '#0D2E35' : 'white',
                 color: filter === f ? 'white' : '#374151',
                 fontSize: '13px',
                 cursor: 'pointer',
@@ -116,8 +116,8 @@ export default function FeedbackAdminPage() {
               padding: '8px 18px',
               borderRadius: '8px',
               border: 'none',
-              backgroundColor: analyzing ? '#9CA3AF' : '#EAAA00',
-              color: '#002A3A',
+              backgroundColor: analyzing ? '#9CA3AF' : '#00B5AD',
+              color: '#0D2E35',
               fontSize: '13px',
               fontWeight: 700,
               cursor: analyzing ? 'not-allowed' : 'pointer',
@@ -141,9 +141,9 @@ export default function FeedbackAdminPage() {
 
         {/* AI Suggestions panel */}
         {suggestions && (
-          <div style={{ backgroundColor: 'white', border: '1.5px solid #EAAA00', borderRadius: '12px', padding: '20px 24px', marginBottom: '24px' }}>
+          <div style={{ backgroundColor: 'white', border: '1.5px solid #00B5AD', borderRadius: '12px', padding: '20px 24px', marginBottom: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-              <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#002A3A', margin: 0 }}>
+              <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#0D2E35', margin: 0 }}>
                 ✦ Sugerencias de mejora del prompt
               </h2>
               <button

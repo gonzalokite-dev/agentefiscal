@@ -1,20 +1,53 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+
+const CHATS = [
+  {
+    query: '¿Tributa en IRPF el pacto sucesorio de una finca en Pollença?',
+    answer: 'No. Los pactos sucesorios regulados en la Compilació de Dret Civil de les Illes Balears no generan ganancia patrimonial en IRPF para el transmitente...',
+    source: 'Consultando DGT · hacienda.gob.es',
+  },
+  {
+    query: '¿Cuál es el tipo de ITP vigente en Illes Balears para una vivienda de 350.000€?',
+    answer: 'El tipo aplicable es del 8%. Para inmuebles hasta 400.000€ la escala balear aplica el tipo reducido del 8%, según la Ley 11/2023 de Illes Balears...',
+    source: 'Consultando BOE · boe.es',
+  },
+  {
+    query: '¿Cómo calculo la retención de un no residente en venta de inmueble?',
+    answer: 'La retención es del 3% sobre el precio de transmisión. El comprador debe ingresar el importe en el modelo 211, conforme al art. 25.2 TRLIRNR...',
+    source: 'Consultando AEAT · agenciatributaria.gob.es',
+  },
+];
+
 export default function Hero() {
-  const scrollToCapabilities = () => {
-    document.getElementById('capacidades')?.scrollIntoView({ behavior: 'smooth' });
+  const [chatIdx, setChatIdx] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setChatIdx((i) => (i + 1) % CHATS.length);
+        setVisible(true);
+      }, 350);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const chat = CHATS[chatIdx];
+
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <section
-      className="py-14 px-5 md:py-24 md:px-6"
-      style={{
-        background:
-          'radial-gradient(ellipse at 75% 25%, rgba(234,170,0,0.13) 0%, transparent 55%), linear-gradient(160deg, #002A3A 0%, #001520 100%)',
-      }}
+      className="py-16 px-5 md:py-28 md:px-6"
+      style={{ backgroundColor: '#FFFFFF' }}
     >
       <div
-        className="mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center"
+        className="mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center"
         style={{ maxWidth: '1200px' }}
       >
         {/* LEFT COLUMN */}
@@ -24,86 +57,75 @@ export default function Hero() {
             className="font-sans inline-flex items-center gap-2 mb-6"
             style={{
               fontSize: '12px',
-              color: 'rgba(234,170,0,0.9)',
-              border: '1px solid rgba(234,170,0,0.25)',
+              color: '#374151',
+              border: '1px solid #E5E7EB',
               borderRadius: '9999px',
               padding: '5px 14px',
-              backgroundColor: 'rgba(234,170,0,0.07)',
+              backgroundColor: '#F9FAFB',
             }}
           >
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#22c55e', display: 'inline-block', flexShrink: 0 }} />
+            <span style={{ position: 'relative', display: 'inline-flex', width: '8px', height: '8px', flexShrink: 0 }}>
+              <span style={{
+                position: 'absolute', inset: 0,
+                borderRadius: '50%',
+                backgroundColor: '#22c55e',
+                animation: 'ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite',
+                opacity: 0.5,
+              }} />
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e', display: 'inline-block' }} />
+            </span>
             4 despachos de Baleares · 20 asesores activos
           </div>
 
           <h1
-            className="font-sans font-bold text-white mb-6"
+            className="font-sans font-bold mb-5"
             style={{
-              fontSize: 'clamp(36px, 5vw, 56px)',
+              fontSize: 'clamp(34px, 5vw, 58px)',
               lineHeight: 1.08,
               letterSpacing: '-0.03em',
+              color: '#0D2E35',
             }}
           >
-            El despacho fiscal<br />
-            que responde <span className="gradient-text">antes</span><br />
-            que la competencia
+            El copiloto fiscal para<br />
+            <span style={{ color: '#00B5AD' }}>asesorías y gestorías</span>
           </h1>
 
           <p
             className="font-sans mb-8"
             style={{
-              fontSize: '16px',
-              color: '#D7D2CB',
+              fontSize: '17px',
+              color: '#4B5563',
               maxWidth: '480px',
-              lineHeight: 1.75,
+              lineHeight: 1.7,
             }}
           >
-            Asistente fiscal técnico conectado en tiempo real al BOE, la DGT y la AEAT.
-            Consultas fundamentadas, análisis de documentos y escritos redactados —
-            con normativa estatal y balear.
+            Victoria es tu asistente fiscal inteligente. Resuelve consultas,
+            interpreta normativa y te ayuda a tomar mejores decisiones para tus clientes.
           </p>
 
           {/* Trust pills */}
           <div className="flex flex-wrap gap-2 mb-10">
             {[
-              {
-                label: 'BOE · DGT · AEAT en tiempo real',
-                icon: (
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
-                  </svg>
-                ),
-              },
-              {
-                label: 'Normativa estatal + balear',
-                icon: (
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
-                  </svg>
-                ),
-              },
-              {
-                label: 'Analiza PDFs y documentos',
-                icon: (
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                    <polyline points="14 2 14 8 20 8" />
-                  </svg>
-                ),
-              },
-            ].map((pill) => (
+              'Resolución en el momento',
+              'Interpretaciones complejas',
+              'Seguro y confiable',
+            ].map((label) => (
               <span
-                key={pill.label}
+                key={label}
                 className="font-sans flex items-center gap-1.5"
                 style={{
                   fontSize: '12px',
-                  color: 'rgba(215,210,203,0.75)',
-                  border: '1px solid rgba(215,210,203,0.2)',
+                  color: '#374151',
+                  border: '1px solid #E5E7EB',
                   borderRadius: '9999px',
                   padding: '4px 12px',
+                  backgroundColor: '#F9FAFB',
                 }}
               >
-                {pill.icon}
-                {pill.label}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00B5AD" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                {label}
               </span>
             ))}
           </div>
@@ -112,44 +134,62 @@ export default function Hero() {
           <div className="flex flex-wrap gap-3">
             <a
               href="/login"
-              className="font-sans font-bold transition-opacity hover:opacity-90"
+              className="font-sans font-bold"
               style={{
-                backgroundColor: '#EAAA00',
-                color: '#002A3A',
+                color: '#FFFFFF',
+                backgroundColor: '#00B5AD',
                 padding: '14px 32px',
                 borderRadius: '10px',
                 fontSize: '15px',
                 textDecoration: 'none',
+                display: 'inline-block',
+                transition: 'opacity 0.2s, transform 0.15s',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.opacity = '0.9';
+                (e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.opacity = '1';
+                (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
               }}
             >
-              Acceder al despacho →
+              Hablar con Victoria →
             </a>
             <button
-              onClick={scrollToCapabilities}
-              className="font-sans font-semibold transition-opacity hover:opacity-80"
+              onClick={() => scrollToSection('como-funciona')}
+              className="font-sans font-semibold"
               style={{
                 background: 'transparent',
-                border: '1px solid rgba(215,210,203,0.4)',
-                color: '#D7D2CB',
+                border: '1px solid #D1D5DB',
+                color: '#374151',
                 padding: '14px 32px',
                 borderRadius: '10px',
                 fontSize: '15px',
                 cursor: 'pointer',
+                transition: 'border-color 0.2s, color 0.2s',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = '#00B5AD';
+                (e.currentTarget as HTMLElement).style.color = '#00B5AD';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = '#D1D5DB';
+                (e.currentTarget as HTMLElement).style.color = '#374151';
               }}
             >
-              Ver capacidades
+              Ver cómo funciona
             </button>
           </div>
         </div>
 
-        {/* RIGHT COLUMN — chat mockup */}
+        {/* RIGHT COLUMN — animated chat mockup */}
         <div className="flex justify-center lg:justify-end pb-2 lg:pb-0">
           <div
             style={{
               borderRadius: '16px',
               overflow: 'hidden',
-              boxShadow: '0 32px 80px rgba(0,0,0,0.4)',
-              border: '1px solid rgba(255,255,255,0.1)',
+              boxShadow: '0 24px 64px rgba(13,46,53,0.14), 0 0 0 1px rgba(0,0,0,0.06)',
               maxWidth: '460px',
               width: '100%',
             }}
@@ -157,36 +197,44 @@ export default function Hero() {
             {/* Browser top bar */}
             <div
               className="flex items-center px-3 gap-1.5 relative"
-              style={{ backgroundColor: '#1a1a1a', height: '36px' }}
+              style={{ backgroundColor: '#F3F4F6', height: '36px', borderBottom: '1px solid #E5E7EB' }}
             >
               <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#FF5F57', flexShrink: 0 }} />
               <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#FFBD2E', flexShrink: 0 }} />
               <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#28CA41', flexShrink: 0 }} />
               <span
-                className="absolute left-1/2 font-sans"
+                className="absolute left-1/2 font-sans italic"
                 style={{
                   transform: 'translateX(-50%)',
-                  fontSize: '10px',
-                  color: 'rgba(255,255,255,0.6)',
-                  letterSpacing: '0.02em',
+                  fontSize: '11px',
+                  color: '#6B7280',
+                  letterSpacing: '0.01em',
+                  fontWeight: 600,
                 }}
               >
-                AsesorIA
+                <span style={{ color: '#0D2E35' }}>victor</span>
+                <span style={{ color: '#00B5AD' }}>ia</span>
               </span>
             </div>
 
             {/* Chat area */}
             <div
               className="bg-white"
-              style={{ height: 'clamp(240px, 45vw, 340px)', overflow: 'hidden', padding: '16px' }}
+              style={{
+                height: 'clamp(240px, 45vw, 340px)',
+                overflow: 'hidden',
+                padding: '16px',
+                transition: 'opacity 0.35s ease',
+                opacity: visible ? 1 : 0,
+              }}
             >
               {/* User message */}
-              <div className="flex justify-end">
+              <div className="flex justify-end chat-msg">
                 <div
                   className="font-sans"
                   style={{
-                    background: '#F4F4F4',
-                    borderRadius: '16px',
+                    background: '#F3F4F6',
+                    borderRadius: '16px 16px 4px 16px',
                     padding: '10px 16px',
                     fontSize: '13px',
                     color: '#1a1a1a',
@@ -194,42 +242,41 @@ export default function Hero() {
                     lineHeight: 1.5,
                   }}
                 >
-                  ¿Tributa en IRPF el pacto sucesorio de una finca en Pollença?
+                  {chat.query}
                 </div>
               </div>
 
               {/* Agent message */}
-              <div className="flex gap-2 mt-4">
+              <div className="flex gap-2 mt-4 chat-msg" style={{ animationDelay: '0.15s' }}>
                 <div
                   className="flex items-center justify-center flex-shrink-0"
                   style={{
-                    width: '20px',
-                    height: '20px',
+                    width: '24px',
+                    height: '24px',
                     borderRadius: '50%',
-                    backgroundColor: '#002A3A',
+                    backgroundColor: '#0D2E35',
                     marginTop: '2px',
                   }}
                 >
-                  <span className="font-sans font-bold" style={{ fontSize: '7px', color: '#EAAA00' }}>BA</span>
+                  <span className="font-sans font-bold italic" style={{ fontSize: '8px', color: '#00B5AD' }}>vi</span>
                 </div>
                 <div
                   className="font-sans"
                   style={{ fontSize: '13px', color: '#1a1a1a', lineHeight: 1.6, flex: 1 }}
                 >
-                  No. Los pactos sucesorios regulados en la{' '}
-                  <strong>Compilació de Dret Civil de les Illes Balears</strong>{' '}
-                  no generan ganancia patrimonial en IRPF para el transmitente...
+                  {chat.answer}
                 </div>
               </div>
 
               {/* Search indicator */}
               <div
-                className="flex items-center gap-2 mt-3"
+                className="flex items-center gap-2 mt-3 chat-msg"
                 style={{
-                  background: 'rgba(234,170,0,0.08)',
-                  border: '1px solid rgba(234,170,0,0.25)',
+                  background: 'rgba(0,181,173,0.07)',
+                  border: '1px solid rgba(0,181,173,0.2)',
                   borderRadius: '8px',
                   padding: '8px 12px',
+                  animationDelay: '0.25s',
                 }}
               >
                 <svg
@@ -237,7 +284,7 @@ export default function Hero() {
                   height="12"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#EAAA00"
+                  stroke="#00B5AD"
                   strokeWidth="2.5"
                   strokeLinecap="round"
                   style={{ flexShrink: 0, animation: 'spin 1.5s linear infinite' }}
@@ -246,9 +293,9 @@ export default function Hero() {
                 </svg>
                 <span
                   className="font-sans"
-                  style={{ fontSize: '11px', color: '#EAAA00' }}
+                  style={{ fontSize: '11px', color: '#00B5AD' }}
                 >
-                  Consultando DGT · hacienda.gob.es
+                  {chat.source}
                 </span>
               </div>
             </div>
@@ -257,26 +304,26 @@ export default function Hero() {
             <div
               className="flex items-center gap-2 px-4 py-3"
               style={{
-                backgroundColor: '#F9F9F9',
+                backgroundColor: '#F9FAFB',
                 borderTop: '1px solid #E5E7EB',
               }}
             >
               <span
                 className="font-sans flex-1"
-                style={{ fontSize: '14px', color: '#9CA3AF' }}
+                style={{ fontSize: '13px', color: '#9CA3AF' }}
               >
                 Escribe tu consulta...
               </span>
               <div
                 className="flex items-center justify-center"
                 style={{
-                  backgroundColor: '#002A3A',
+                  backgroundColor: '#00B5AD',
                   borderRadius: '8px',
                   padding: '6px',
                   flexShrink: 0,
                 }}
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EAAA00" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="22" y1="2" x2="11" y2="13" />
                   <polygon points="22 2 15 22 11 13 2 9 22 2" />
                 </svg>
