@@ -13,6 +13,7 @@ import Seguridad from '@/components/landing/Seguridad';
 import Limits from '@/components/landing/Limits';
 import FAQ from '@/components/landing/FAQ';
 import CtaFinal from '@/components/landing/CtaFinal';
+import BlogTeaser from '@/components/landing/BlogTeaser';
 
 export default function Home() {
   return (
@@ -30,6 +31,7 @@ export default function Home() {
       <Seguridad />
       <Limits />
       <FAQ />
+      <BlogTeaser />
       <CtaFinal />
       <footer
         className="flex flex-col md:flex-row items-center justify-between px-12 py-5 font-sans"
