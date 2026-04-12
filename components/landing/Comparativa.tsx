@@ -131,9 +131,9 @@ export default function Comparativa() {
               }}
             >
               <img
-                src="/logo-victoria.png"
+                src="/logo-victoria-transparent.png"
                 alt="victoria"
-                style={{ height: '16px', width: 'auto', filter: 'brightness(0) invert(1)' }}
+                style={{ height: '20px', width: 'auto', filter: 'brightness(0) invert(1)' }}
               />
             </div>
             <div style={{ padding: '14px 8px', textAlign: 'center' }}>

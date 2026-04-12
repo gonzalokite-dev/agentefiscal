@@ -46,7 +46,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <a href="/" style={{ textDecoration: 'none', display: 'inline-block' }}>
-            <img src="/logo-victoria.png" alt="victoria" style={{ height: '28px', width: 'auto' }} />
+            <img src="/logo-victoria-transparent.png" alt="victoria" style={{ height: '42px', width: 'auto' }} />
           </a>
         </div>
 

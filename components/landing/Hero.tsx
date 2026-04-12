@@ -175,10 +175,10 @@ export default function Hero() {
               <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#FFBD2E' }} />
               <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#28CA41' }} />
               <img
-                src="/logo-victoria.png"
+                src="/logo-victoria-transparent.png"
                 alt="victoria"
                 className="absolute left-1/2"
-                style={{ transform: 'translateX(-50%)', height: '14px', width: 'auto' }}
+                style={{ transform: 'translateX(-50%)', height: '16px', width: 'auto' }}
               />
               <div
                 className="absolute right-3 flex items-center gap-1"
