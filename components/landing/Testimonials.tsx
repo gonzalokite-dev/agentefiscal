@@ -8,27 +8,37 @@ const testimonials = [
   },
   {
     quote:
-      'Lo usamos sobre todo para ITP balear y pactos sucesorios. La normativa autonómica siempre fue el punto débil de los genéricos. Victoria la tiene integrada y con referencias.',
+      'Lo usamos para ITP balear y pactos sucesorios. La normativa autonómica siempre fue el punto débil de los genéricos. Victoria la tiene integrada y con referencias exactas.',
     name: 'Despacho Jurídico Menorca',
     role: 'Gestor fiscal · Maó',
     initial: 'M',
   },
   {
     quote:
-      'Un cliente nos envió una liquidación de la AEAT por WhatsApp un viernes a las 7pm. Subimos el PDF, el agente detectó el error de cálculo y tuvimos el borrador de recurso listo en 12 minutos.',
+      'Un cliente nos envió una liquidación de la AEAT un viernes a las 7pm. Subimos el PDF, Victoria detectó el error y tuvimos el borrador de recurso listo en 12 minutos.',
     name: 'Bufete Eivissa & Associats',
     role: 'Socio fundador · Eivissa',
     initial: 'E',
   },
 ];
 
+const Stars = () => (
+  <div className="flex gap-0.5">
+    {[...Array(5)].map((_, i) => (
+      <svg key={i} width="14" height="14" viewBox="0 0 20 20" fill="#F59E0B">
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+      </svg>
+    ))}
+  </div>
+);
+
 export default function Testimonials() {
   return (
-    <section style={{ backgroundColor: '#F7F9FA', paddingTop: '96px', paddingBottom: '96px' }}>
+    <section style={{ backgroundColor: '#FFFFFF', paddingTop: '96px', paddingBottom: '96px' }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
 
         {/* Header */}
-        <div style={{ marginBottom: '52px' }}>
+        <div style={{ marginBottom: '52px', textAlign: 'center' }}>
           <p
             className="font-sans"
             style={{
@@ -40,7 +50,7 @@ export default function Testimonials() {
               marginBottom: '14px',
             }}
           >
-            Despachos en Baleares
+            Testimonios
           </p>
           <h2
             className="font-sans"
@@ -50,10 +60,9 @@ export default function Testimonials() {
               color: '#0D2E35',
               letterSpacing: '-0.03em',
               lineHeight: 1.15,
-              maxWidth: '560px',
             }}
           >
-            Lo que dicen los asesores que lo usan cada día
+            Asesores que ya trabajan con Victoria
           </h2>
         </div>
 
@@ -72,43 +81,31 @@ export default function Testimonials() {
               style={{
                 backgroundColor: '#FFFFFF',
                 borderRadius: '16px',
-                padding: '32px',
+                padding: '28px',
                 border: '1px solid #E5E7EB',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '20px',
+                gap: '16px',
               }}
             >
-              {/* Quote mark */}
-              <div
-                style={{
-                  fontSize: '42px',
-                  lineHeight: 1,
-                  color: '#00B5AD',
-                  fontFamily: 'Georgia, serif',
-                  opacity: 0.6,
-                  marginTop: '-8px',
-                }}
-              >
-                "
-              </div>
+              {/* Stars */}
+              <Stars />
 
               {/* Quote text */}
               <p
                 className="font-sans"
                 style={{
-                  fontSize: '15px',
-                  color: '#0D2E35',
+                  fontSize: '14px',
+                  color: '#374151',
                   lineHeight: 1.75,
                   flex: 1,
-                  marginTop: '-16px',
                 }}
               >
-                {t.quote}
+                "{t.quote}"
               </p>
 
               {/* Author */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', borderTop: '1px solid #F3F4F6', paddingTop: '16px' }}>
                 <div
                   className="font-sans font-bold flex items-center justify-center flex-shrink-0"
                   style={{
@@ -126,7 +123,7 @@ export default function Testimonials() {
                   <p className="font-sans font-semibold" style={{ fontSize: '13px', color: '#0D2E35' }}>
                     {t.name}
                   </p>
-                  <p className="font-sans" style={{ fontSize: '11px', color: '#6B7280', marginTop: '2px' }}>
+                  <p className="font-sans" style={{ fontSize: '11px', color: '#9CA3AF', marginTop: '2px' }}>
                     {t.role}
                   </p>
                 </div>
@@ -140,7 +137,7 @@ export default function Testimonials() {
           className="font-sans"
           style={{
             fontSize: '12px',
-            color: 'rgba(95,94,90,0.6)',
+            color: '#9CA3AF',
             textAlign: 'center',
             marginTop: '36px',
           }}

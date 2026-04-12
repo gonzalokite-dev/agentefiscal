@@ -21,11 +21,12 @@ export const FISCAL_TOOLS: Anthropic.Tool[] = [
         },
         fuente: {
           type: 'string',
-          enum: ['boe', 'dgt', 'aeat', 'todas'],
+          enum: ['boe', 'dgt', 'aeat', 'teac', 'todas'],
           description:
             '"boe" para legislación y normas publicadas en el BOE. ' +
             '"dgt" para consultas vinculantes y criterios de la Dirección General de Tributos. ' +
             '"aeat" para instrucciones, modelos y procedimientos de la Agencia Tributaria. ' +
+            '"teac" para resoluciones del Tribunal Económico-Administrativo Central (DYCTEA). ' +
             '"todas" para buscar en todas las fuentes simultáneamente.',
         },
       },
@@ -41,7 +42,8 @@ export function getSourceLabel(fuente?: string): string {
     boe: 'BOE',
     dgt: 'DGT',
     aeat: 'AEAT',
-    todas: 'BOE · DGT · AEAT',
+    teac: 'TEAC · DYCTEA',
+    todas: 'BOE · DGT · AEAT · TEAC',
   };
   return labels[fuente ?? ''] ?? 'fuentes oficiales';
 }
@@ -52,7 +54,8 @@ const DOMAIN_MAP: Record<string, string[]> = {
   boe: ['boe.es'],
   dgt: ['hacienda.gob.es', 'petete.tributos.hacienda.gob.es'],
   aeat: ['agenciatributaria.gob.es'],
-  todas: ['boe.es', 'hacienda.gob.es', 'agenciatributaria.gob.es', 'petete.tributos.hacienda.gob.es'],
+  teac: ['serviciostelematicosext.hacienda.gob.es'],
+  todas: ['boe.es', 'hacienda.gob.es', 'agenciatributaria.gob.es', 'petete.tributos.hacienda.gob.es', 'serviciostelematicosext.hacienda.gob.es'],
 };
 
 // ─── Tavily search executor ────────────────────────────────────────────────────
@@ -137,19 +140,26 @@ Tienes acceso a la herramienta \`buscar_normativa\` que te permite consultar en 
 - **BOE** (boe.es) — Legislación vigente, reales decretos, leyes.
 - **DGT** (hacienda.gob.es) — Consultas vinculantes, criterios interpretativos.
 - **AEAT** (agenciatributaria.gob.es) — Modelos, instrucciones, plazos actualizados.
+- **TEAC** (serviciostelematicosext.hacienda.gob.es/TEAC/DYCTEA/) — Resoluciones del Tribunal Económico-Administrativo Central. Base de datos DYCTEA con doctrina administrativa vinculante.
 
 **Cuándo usarla:**
 - Cuando el usuario pregunte por normativa que pueda haber cambiado después de agosto de 2025.
 - Cuando necesites localizar una consulta vinculante específica de la DGT.
 - Cuando debas confirmar tipos impositivos, plazos o importes actuales.
 - Cuando el usuario mencione una norma concreta y quieras verificar su vigencia.
+- Cuando la consulta implique un conflicto interpretativo o un recurso económico-administrativo — usa "teac" para buscar doctrina del TEAC sobre ese criterio.
 
 **Cómo usarla bien:**
 - Formula queries específicas: "consulta vinculante DGT alquiler turístico IVA 2025" mejor que "IVA alquiler".
-- Elige la fuente correcta: usa "dgt" para consultas vinculantes, "boe" para textos legales, "aeat" para modelos y plazos.
+- Elige la fuente correcta: usa "dgt" para consultas vinculantes, "boe" para textos legales, "aeat" para modelos y plazos, "teac" para doctrina administrativa del TEAC.
 - Puedes hacer varias búsquedas seguidas si necesitas contrastar información de distintas fuentes.
+- Para resolver reclamaciones o recursos, combina "dgt" (criterio interpretativo) con "teac" (doctrina administrativa).
 
 **Después de buscar:**
-- Cita siempre la URL de la fuente encontrada.
+- **Siempre incluye las fuentes como links markdown clicables** con este formato exacto: \`[Título descriptivo](URL)\`.
+  - Ejemplo DGT: \`[Consulta Vinculante V1234-23, DGT](https://petete.tributos.hacienda.gob.es/...)\`
+  - Ejemplo BOE: \`[Ley 35/2006, de 28 de noviembre, del IRPF](https://www.boe.es/...)\`
+  - Ejemplo TEAC: \`[Resolución TEAC 00/1234/2023](https://serviciostelematicosext.hacienda.gob.es/TEAC/DYCTEA/...)\`
+- Coloca los links al final de la respuesta en una sección **"Fuentes"** o dentro del texto junto a la afirmación que fundamentan.
 - Si el resultado no es concluyente, indícalo y recomienda verificar directamente en la sede electrónica.
 `;

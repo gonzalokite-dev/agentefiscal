@@ -1,19 +1,11 @@
 import Navbar from '@/components/landing/Navbar';
-import Logo from '@/components/ui/Logo';
 import Hero from '@/components/landing/Hero';
 import TrustBar from '@/components/landing/TrustBar';
-import PainPoints from '@/components/landing/PainPoints';
 import Capabilities from '@/components/landing/Capabilities';
 import ChatShowcase from '@/components/landing/ChatShowcase';
-import Comparativa from '@/components/landing/Comparativa';
-import Examples from '@/components/landing/Examples';
-import HowTo from '@/components/landing/HowTo';
-import KnowledgeLoop from '@/components/landing/KnowledgeLoop';
-import Seguridad from '@/components/landing/Seguridad';
-import Limits from '@/components/landing/Limits';
-import FAQ from '@/components/landing/FAQ';
+import Testimonials from '@/components/landing/Testimonials';
 import CtaFinal from '@/components/landing/CtaFinal';
-import BlogTeaser from '@/components/landing/BlogTeaser';
+import Footer from '@/components/landing/Footer';
 
 export default function Home() {
   return (
@@ -21,30 +13,11 @@ export default function Home() {
       <Navbar />
       <Hero />
       <TrustBar />
-      <PainPoints />
-      <ChatShowcase />
-      <Comparativa />
       <Capabilities />
-      <Examples />
-      <KnowledgeLoop />
-      <HowTo />
-      <Seguridad />
-      <Limits />
-      <FAQ />
-      <BlogTeaser />
+      <ChatShowcase />
+      <Testimonials />
       <CtaFinal />
-      <footer
-        className="flex flex-col md:flex-row items-center justify-between px-12 py-5 font-sans"
-        style={{ backgroundColor: '#001824' }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', opacity: 0.45 }}>
-          <Logo size="xs" variant="light" />
-          <span style={{ fontSize: '11px', color: 'rgba(215,210,203,0.9)' }}>
-            Pollença, Illes Balears
-          </span>
-        </div>
-        <p style={{ fontSize: '11px', color: 'rgba(215,210,203,0.4)' }}>AsesorIA v2.0</p>
-      </footer>
+      <Footer />
     </main>
   );
 }
