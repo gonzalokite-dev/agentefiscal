@@ -70,29 +70,55 @@ REQUISITOS DEL ARTÍCULO:
 - Fecha de referencia: ${today}
 - Incluye una sección "## Puntos clave para el despacho" al final con 4-5 bullets accionables
 
-Responde ÚNICAMENTE con un objeto JSON válido (sin bloque de código markdown, sin texto antes ni después):
-{
-  "title": "Título específico y atractivo del artículo",
-  "excerpt": "Resumen de 2-3 frases que aparecerá en el listado del blog",
-  "content": "Artículo completo en formato Markdown...",
-  "tags": ["Tag1", "Tag2"],
-  "readTime": 5,
-  "sources": [{"title": "Nombre de la fuente", "url": "https://url.com"}]
-}`;
+Usa la herramienta publish_article para entregar el resultado estructurado.`;
 
   const response = await client.messages.create({
     model: 'claude-opus-4-6',
     max_tokens: 2500,
+    tools: [
+      {
+        name: 'publish_article',
+        description: 'Publica el artículo generado en el blog de AsesorIA',
+        input_schema: {
+          type: 'object' as const,
+          properties: {
+            title: { type: 'string', description: 'Título del artículo' },
+            excerpt: { type: 'string', description: 'Resumen de 2-3 frases' },
+            content: { type: 'string', description: 'Artículo completo en Markdown' },
+            tags: { type: 'array', items: { type: 'string' } },
+            readTime: { type: 'number', description: 'Minutos de lectura estimados' },
+            sources: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  title: { type: 'string' },
+                  url: { type: 'string' },
+                },
+                required: ['title', 'url'],
+              },
+            },
+          },
+          required: ['title', 'excerpt', 'content', 'tags', 'readTime', 'sources'],
+        },
+      },
+    ],
+    tool_choice: { type: 'tool', name: 'publish_article' },
     messages: [{ role: 'user', content: prompt }],
   });
 
-  const text = response.content[0].type === 'text' ? response.content[0].text.trim() : '';
-
-  // Extract JSON — handle cases where Claude wraps it in markdown
-  const jsonMatch = text.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) throw new Error(`JSON no encontrado en respuesta para: ${topic.key}`);
-
-  const parsed = JSON.parse(jsonMatch[0]);
+  const toolBlock = response.content.find((b) => b.type === 'tool_use');
+  if (!toolBlock || toolBlock.type !== 'tool_use') {
+    throw new Error(`tool_use block no encontrado para: ${topic.key}`);
+  }
+  const parsed = toolBlock.input as {
+    title: string;
+    excerpt: string;
+    content: string;
+    tags: string[];
+    readTime: number;
+    sources: Array<{ title: string; url: string }>;
+  };
 
   // Merge topic base tags with Claude's generated tags, deduplicate
   const allTags = [...topic.tags, ...(parsed.tags || [])].filter(
