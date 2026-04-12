@@ -1,30 +1,31 @@
+import Image from 'next/image';
+
 interface LogoProps {
   variant?: 'light' | 'dark';
   size?: 'xs' | 'sm' | 'md' | 'lg';
 }
 
-const sizes = { xs: 17, sm: 20, md: 26, lg: 34 };
+const heights = { xs: 18, sm: 22, md: 28, lg: 36 };
 
 export default function Logo({ variant = 'dark', size = 'md' }: LogoProps) {
-  const fontSize = sizes[size];
-  const victorColor = variant === 'light' ? '#FFFFFF' : '#0D2E35';
+  const h = heights[size];
+  // Approximate 3.4:1 aspect ratio from the image
+  const w = Math.round(h * 3.4);
 
   return (
-    <span
+    <Image
+      src="/logo-victoria.png"
+      alt="victoria"
+      width={w}
+      height={h}
       style={{
-        display: 'inline-flex',
-        alignItems: 'baseline',
-        lineHeight: 1,
-        fontFamily: 'var(--font-playfair), "Playfair Display", Georgia, serif',
-        fontStyle: 'italic',
-        fontWeight: 700,
-        fontSize: `${fontSize}px`,
-        letterSpacing: '-0.01em',
+        height: `${h}px`,
+        width: 'auto',
+        display: 'inline-block',
+        filter: variant === 'light' ? 'brightness(0) invert(1)' : 'none',
         userSelect: 'none',
       }}
-    >
-      <span style={{ color: victorColor }}>victor</span>
-      <span style={{ color: '#00B5AD' }}>ia</span>
-    </span>
+      priority
+    />
   );
 }

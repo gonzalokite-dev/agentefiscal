@@ -174,12 +174,12 @@ export default function Hero() {
               <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#FF5F57' }} />
               <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#FFBD2E' }} />
               <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#28CA41' }} />
-              <span
-                className="absolute left-1/2 font-sans italic font-bold"
-                style={{ transform: 'translateX(-50%)', fontSize: '11px', color: '#374151' }}
-              >
-                <span style={{ color: '#0D2E35' }}>victor</span><span style={{ color: '#00B5AD' }}>ia</span>
-              </span>
+              <img
+                src="/logo-victoria.png"
+                alt="victoria"
+                className="absolute left-1/2"
+                style={{ transform: 'translateX(-50%)', height: '14px', width: 'auto' }}
+              />
               <div
                 className="absolute right-3 flex items-center gap-1"
                 style={{ fontSize: '10px', color: '#22c55e' }}

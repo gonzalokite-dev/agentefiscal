@@ -130,12 +130,11 @@ export default function Comparativa() {
                 position: 'relative',
               }}
             >
-              <span
-                className="font-sans"
-                style={{ fontSize: '13px', fontWeight: 700, color: 'white', letterSpacing: '-0.02em' }}
-              >
-                <span style={{ fontStyle: 'italic' }}>victor<span style={{ color: '#00B5AD' }}>ia</span></span>
-              </span>
+              <img
+                src="/logo-victoria.png"
+                alt="victoria"
+                style={{ height: '16px', width: 'auto', filter: 'brightness(0) invert(1)' }}
+              />
             </div>
             <div style={{ padding: '14px 8px', textAlign: 'center' }}>
               <span className="font-sans" style={{ fontSize: '12px', fontWeight: 600, color: '#9CA3AF' }}>

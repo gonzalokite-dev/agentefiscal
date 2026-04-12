@@ -46,30 +46,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <a href="/" style={{ textDecoration: 'none', display: 'inline-block' }}>
-            <span
-              style={{
-                fontSize: '26px',
-                fontWeight: 700,
-                color: '#0D2E35',
-                letterSpacing: '-0.04em',
-                fontFamily: 'Lora, Georgia, serif',
-              }}
-            >
-              Asesor
-            </span>
-            <span
-              style={{
-                fontSize: '26px',
-                fontWeight: 700,
-                color: '#00B5AD',
-                letterSpacing: '-0.04em',
-                fontFamily: 'Lora, Georgia, serif',
-                position: 'relative',
-                top: '-2px',
-              }}
-            >
-              IA
-            </span>
+            <img src="/logo-victoria.png" alt="victoria" style={{ height: '28px', width: 'auto' }} />
           </a>
         </div>
 
