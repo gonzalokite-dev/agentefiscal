@@ -89,7 +89,7 @@ export default function RegisterPage() {
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <a href="/" style={{ textDecoration: 'none', display: 'inline-block' }}>
-            <img src="/logo-victoria-transparent.png" alt="victoria" style={{ height: '42px', width: 'auto' }} />
+            <img src="/logo-victoria-transparent.png" alt="victoria" style={{ height: '52px', width: 'auto' }} />
           </a>
         </div>
 

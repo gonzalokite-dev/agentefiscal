@@ -485,17 +485,11 @@ export default function ChatInterface() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            <div className="flex items-center gap-2">
-              <div
-                className="flex items-center justify-center rounded-full"
-                style={{ width: '24px', height: '24px', backgroundColor: '#0D2E35' }}
-              >
-                <span style={{ fontSize: '7px', fontWeight: 700, color: '#00B5AD', fontFamily: 'sans-serif' }}>AI</span>
-              </div>
-              <span className="font-sans font-medium" style={{ fontSize: '14px', color: '#111827' }}>
-                Victoria
-              </span>
-            </div>
+            <img
+              src="/logo-victoria-transparent.png"
+              alt="victoria"
+              style={{ height: '30px', width: 'auto' }}
+            />
           </div>
 
           <div className="flex items-center gap-3">
@@ -539,12 +533,11 @@ export default function ChatInterface() {
         >
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center px-4 py-8">
-              <div
-                className="flex items-center justify-center rounded-full mb-4"
-                style={{ width: '44px', height: '44px', backgroundColor: '#0D2E35', flexShrink: 0 }}
-              >
-                <span style={{ fontSize: '13px', fontWeight: 700, color: '#00B5AD', fontFamily: 'serif' }}>BA</span>
-              </div>
+              <img
+                src="/logo-victoria-transparent.png"
+                alt="victoria"
+                style={{ height: '48px', width: 'auto', marginBottom: '16px', flexShrink: 0 }}
+              />
               <h2 className="font-sans font-bold mb-2" style={{ fontSize: 'clamp(18px, 5vw, 22px)', color: '#111827', letterSpacing: '-0.02em' }}>
                 {getGreeting()}
               </h2>
@@ -593,7 +586,7 @@ export default function ChatInterface() {
                     className="flex items-center justify-center flex-shrink-0"
                     style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#0D2E35', marginTop: '2px' }}
                   >
-                    <span style={{ fontSize: '9px', fontWeight: 700, color: '#00B5AD', fontFamily: 'serif' }}>BA</span>
+                    <span style={{ fontSize: '9px', fontWeight: 700, color: '#00B5AD', fontFamily: 'var(--font-playfair), serif', fontStyle: 'italic' }}>vi</span>
                   </div>
                   <div
                     className="flex items-center gap-2 font-sans"
@@ -623,7 +616,7 @@ export default function ChatInterface() {
                     className="flex items-center justify-center flex-shrink-0"
                     style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#0D2E35', marginTop: '2px' }}
                   >
-                    <span style={{ fontSize: '9px', fontWeight: 700, color: '#00B5AD', fontFamily: 'serif' }}>BA</span>
+                    <span style={{ fontSize: '9px', fontWeight: 700, color: '#00B5AD', fontFamily: 'var(--font-playfair), serif', fontStyle: 'italic' }}>vi</span>
                   </div>
                   <div className="flex items-center" style={{ paddingTop: '6px' }}>
                     <div className="flex gap-1">

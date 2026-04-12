@@ -71,7 +71,7 @@ export default function MessageBubble({
   // Assistant message — Claude.ai style: avatar + plain text, no bubble
   return (
     <div className="flex gap-3 mb-8 group">
-      {/* BA avatar */}
+      {/* Victoria avatar */}
       <div
         className="flex items-center justify-center flex-shrink-0"
         style={{
@@ -84,14 +84,14 @@ export default function MessageBubble({
       >
         <span
           style={{
-            fontSize: '9px',
+            fontSize: '10px',
             fontWeight: 700,
             color: '#00B5AD',
-            fontFamily: 'Lora, Georgia, serif',
-            letterSpacing: '0.02em',
+            fontFamily: 'var(--font-playfair), "Playfair Display", serif',
+            fontStyle: 'italic',
           }}
         >
-          BA
+          vi
         </span>
       </div>
 
