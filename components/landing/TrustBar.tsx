@@ -1,5 +1,29 @@
 /* Barra de fuentes oficiales */
 export default function TrustBar() {
+  const sources = [
+    {
+      id: 'boe',
+      logo: '/logo-boe.svg',
+      alt: 'BOE – Boletín Oficial del Estado',
+      label: 'Boletín Oficial del Estado',
+      height: 28,
+    },
+    {
+      id: 'aeat',
+      logo: '/logo-aeat.svg',
+      alt: 'Agencia Tributaria – AEAT',
+      label: 'Sede electrónica',
+      height: 36,
+    },
+    {
+      id: 'hacienda',
+      logo: '/logo-hacienda.svg',
+      alt: 'Ministerio de Hacienda – DGT',
+      label: 'Consultas vinculantes DGT',
+      height: 28,
+    },
+  ];
+
   return (
     <div
       style={{
@@ -17,7 +41,7 @@ export default function TrustBar() {
             color: '#9CA3AF',
             letterSpacing: '0.1em',
             textTransform: 'uppercase',
-            marginBottom: '20px',
+            marginBottom: '24px',
             fontWeight: 500,
           }}
         >
@@ -29,83 +53,38 @@ export default function TrustBar() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '40px',
+            gap: '48px',
             flexWrap: 'wrap',
           }}
         >
-          {/* BOE */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', opacity: 0.75 }}>
-            <div
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '6px',
-                backgroundColor: '#1B1464',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0,
-              }}
-            >
-              <span className="font-sans" style={{ fontSize: '9px', fontWeight: 800, color: '#FFFFFF', letterSpacing: '0.08em' }}>BOE</span>
-            </div>
-            <div>
-              <p className="font-sans" style={{ fontSize: '11px', fontWeight: 700, color: '#1a1a1a', lineHeight: 1.2 }}>BOE</p>
-              <p className="font-sans" style={{ fontSize: '10px', color: '#9CA3AF', lineHeight: 1.2 }}>Boletín Oficial del Estado</p>
-            </div>
-          </div>
+          {sources.map((src, i) => (
+            <div key={src.id} style={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+                <img
+                  src={src.logo}
+                  alt={src.alt}
+                  style={{
+                    height: `${src.height}px`,
+                    width: 'auto',
+                    maxWidth: '140px',
+                    objectFit: 'contain',
+                    filter: 'grayscale(20%)',
+                    opacity: 0.82,
+                  }}
+                />
+                <span
+                  className="font-sans"
+                  style={{ fontSize: '10px', color: '#B0B8C4', letterSpacing: '0.03em' }}
+                >
+                  {src.label}
+                </span>
+              </div>
 
-          <div style={{ width: '1px', height: '36px', backgroundColor: '#E5E7EB', flexShrink: 0 }} />
-
-          {/* Agencia Tributaria */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', opacity: 0.75 }}>
-            <div
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '6px',
-                backgroundColor: '#C00',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0,
-              }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2L2 7l10 5 10-5-10-5z" fill="white" fillOpacity="0.9" />
-                <path d="M2 17l10 5 10-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-                <path d="M2 12l10 5 10-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-              </svg>
+              {i < sources.length - 1 && (
+                <div style={{ width: '1px', height: '40px', backgroundColor: '#E5E7EB', flexShrink: 0 }} />
+              )}
             </div>
-            <div>
-              <p className="font-sans" style={{ fontSize: '11px', fontWeight: 700, color: '#1a1a1a', lineHeight: 1.2 }}>Agencia Tributaria</p>
-              <p className="font-sans" style={{ fontSize: '10px', color: '#9CA3AF', lineHeight: 1.2 }}>AEAT · Sede electrónica</p>
-            </div>
-          </div>
-
-          <div style={{ width: '1px', height: '36px', backgroundColor: '#E5E7EB', flexShrink: 0 }} />
-
-          {/* DGT */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', opacity: 0.75 }}>
-            <div
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '6px',
-                backgroundColor: '#0D2E35',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0,
-              }}
-            >
-              <span className="font-sans" style={{ fontSize: '9px', fontWeight: 800, color: '#00B5AD', letterSpacing: '0.05em' }}>DGT</span>
-            </div>
-            <div>
-              <p className="font-sans" style={{ fontSize: '11px', fontWeight: 700, color: '#1a1a1a', lineHeight: 1.2 }}>DGT</p>
-              <p className="font-sans" style={{ fontSize: '10px', color: '#9CA3AF', lineHeight: 1.2 }}>Consultas vinculantes</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
