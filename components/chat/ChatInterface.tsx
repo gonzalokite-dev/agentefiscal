@@ -26,10 +26,42 @@ interface Message {
 }
 
 const QUICK_SUGGESTIONS = [
-  '¿Qué retención aplica en arrendamientos a no residentes?',
-  'Analiza esta factura y dime las obligaciones derivadas',
-  'Calcula la cuota de IRPF para estos rendimientos',
-  'Redacta un recurso de reposición contra esta liquidación',
+  {
+    text: '¿Qué retención aplica en arrendamientos a no residentes?',
+    tag: 'IRNR',
+    icon: (
+      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
+      </svg>
+    ),
+  },
+  {
+    text: 'Analiza esta factura y dime las obligaciones derivadas',
+    tag: 'Documentos',
+    icon: (
+      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+    ),
+  },
+  {
+    text: 'Calcula la cuota de IRPF para estos rendimientos',
+    tag: 'IRPF',
+    icon: (
+      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+      </svg>
+    ),
+  },
+  {
+    text: 'Redacta un recurso de reposición contra esta liquidación',
+    tag: 'Recursos',
+    icon: (
+      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+      </svg>
+    ),
+  },
 ];
 
 function getGreeting() {
@@ -294,11 +326,14 @@ export default function ChatInterface() {
       style={{ backgroundColor: '#171717', width: '260px', minWidth: '260px' }}
     >
       {/* Header */}
-      <div className="p-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+      <div className="px-4 py-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
         <Logo size="sm" variant="light" />
-        <p className="font-sans" style={{ fontSize: '10px', color: 'rgba(215,210,203,0.45)', marginTop: '3px' }}>
-          Asesoría fiscal con IA
-        </p>
+        <div className="flex items-center gap-1.5 mt-2">
+          <span style={{ width: '5px', height: '5px', borderRadius: '50%', backgroundColor: '#22c55e', flexShrink: 0 }} />
+          <p className="font-sans" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.04em' }}>
+            Conectado · BOE · DGT · AEAT
+          </p>
+        </div>
       </div>
 
       {/* New conversation */}
@@ -345,7 +380,9 @@ export default function ChatInterface() {
                   key={conv.id}
                   className="group/item flex items-center rounded-lg"
                   style={{
-                    backgroundColor: conv.id === currentConvId ? 'rgba(255,255,255,0.1)' : 'transparent',
+                    backgroundColor: conv.id === currentConvId ? 'rgba(0,181,173,0.1)' : 'transparent',
+                    borderLeft: conv.id === currentConvId ? '2px solid #00B5AD' : '2px solid transparent',
+                    transition: 'background-color 0.15s, border-color 0.15s',
                   }}
                   onMouseEnter={(e) => {
                     if (conv.id !== currentConvId)
@@ -492,20 +529,31 @@ export default function ChatInterface() {
             />
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
+            {/* Status pill */}
+            <div
+              className="font-sans flex items-center gap-1.5"
+              style={{
+                fontSize: '11px',
+                padding: '4px 10px',
+                borderRadius: '9999px',
+                backgroundColor: toolStatus || isLoading ? 'rgba(0,181,173,0.08)' : 'rgba(34,197,94,0.08)',
+                border: toolStatus || isLoading ? '1px solid rgba(0,181,173,0.2)' : '1px solid rgba(34,197,94,0.2)',
+                color: toolStatus || isLoading ? '#00B5AD' : '#16a34a',
+                transition: 'all 0.3s ease',
+              }}
+            >
               <span
-                className="rounded-full"
                 style={{
-                  width: '6px',
-                  height: '6px',
-                  backgroundColor: toolStatus ? '#00B5AD' : '#22c55e',
-                  animation: 'pulse 2s infinite',
+                  width: '5px',
+                  height: '5px',
+                  borderRadius: '50%',
+                  backgroundColor: toolStatus || isLoading ? '#00B5AD' : '#22c55e',
+                  flexShrink: 0,
+                  animation: isLoading || toolStatus ? 'pulse 1.5s infinite' : 'none',
                 }}
               />
-              <span className="font-sans" style={{ fontSize: '12px', color: '#6B7280' }}>
-                {toolStatus ? 'Buscando...' : isLoading ? 'Escribiendo...' : 'Disponible'}
-              </span>
+              {toolStatus ? 'Buscando...' : isLoading ? 'Escribiendo...' : 'Disponible'}
             </div>
             <button
               onClick={() => {
@@ -517,9 +565,11 @@ export default function ChatInterface() {
               }}
               title="Nueva conversación"
               className="p-1.5 rounded-lg transition-colors hover:bg-gray-100"
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9CA3AF' }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#D1D5DB' }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#6B7280')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#D1D5DB')}
             >
-              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+              <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
               </svg>
             </button>
@@ -536,33 +586,51 @@ export default function ChatInterface() {
               <img
                 src="/logo-victoria-transparent.png"
                 alt="victoria"
-                style={{ height: '48px', width: 'auto', marginBottom: '16px', flexShrink: 0 }}
+                style={{ height: '52px', width: 'auto', marginBottom: '20px', flexShrink: 0 }}
               />
-              <h2 className="font-sans font-bold mb-2" style={{ fontSize: 'clamp(18px, 5vw, 22px)', color: '#111827', letterSpacing: '-0.02em' }}>
+              <h2 className="font-serif font-bold mb-2" style={{ fontSize: 'clamp(20px, 5vw, 26px)', color: '#0D2E35', letterSpacing: '-0.02em' }}>
                 {getGreeting()}
               </h2>
-              <p className="font-sans mb-6" style={{ fontSize: '14px', color: '#6B7280', maxWidth: '380px', lineHeight: 1.6 }}>
-                Formula tu consulta o sube un documento para empezar.
+              <p className="font-sans mb-8" style={{ fontSize: '14px', color: '#9CA3AF', maxWidth: '360px', lineHeight: 1.6 }}>
+                Pregunta sobre normativa, sube un documento o pide un cálculo.
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full" style={{ maxWidth: '560px' }}>
+              <p className="font-sans mb-3" style={{ fontSize: '11px', color: '#C4C4C4', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Consultas frecuentes
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full" style={{ maxWidth: '600px' }}>
                 {QUICK_SUGGESTIONS.map((s) => (
                   <button
-                    key={s}
-                    onClick={() => handleSend(s)}
-                    className="text-left rounded-xl font-sans transition-colors active:bg-gray-100"
+                    key={s.text}
+                    onClick={() => handleSend(s.text)}
+                    className="text-left rounded-xl font-sans transition-all group/sug"
                     style={{
                       border: '1px solid #E5E7EB',
-                      fontSize: '13px',
-                      color: '#374151',
                       background: 'white',
                       cursor: 'pointer',
-                      lineHeight: 1.5,
-                      padding: '12px 14px',
+                      padding: '14px 16px',
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#F9FAFB')}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(0,181,173,0.4)';
+                      e.currentTarget.style.backgroundColor = 'rgba(0,181,173,0.03)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = '#E5E7EB';
+                      e.currentTarget.style.backgroundColor = 'white';
+                    }}
                   >
-                    {s}
+                    <div className="flex items-start gap-3">
+                      <span style={{ color: '#00B5AD', flexShrink: 0, marginTop: '1px' }}>
+                        {s.icon}
+                      </span>
+                      <div className="flex flex-col gap-1 min-w-0">
+                        <span className="font-sans font-medium" style={{ fontSize: '11px', color: '#00B5AD', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                          {s.tag}
+                        </span>
+                        <span style={{ fontSize: '13px', color: '#374151', lineHeight: 1.5 }}>
+                          {s.text}
+                        </span>
+                      </div>
+                    </div>
                   </button>
                 ))}
               </div>
@@ -603,8 +671,8 @@ export default function ChatInterface() {
                       <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
                       <path d="M12 2a10 10 0 0110 10" />
                     </svg>
-                    <span style={{ color: '#92733A', fontWeight: 500 }}>Consultando fuentes oficiales —</span>
-                    <span className="truncate">{toolStatus}</span>
+                    <span style={{ color: '#00B5AD', fontWeight: 500 }}>Consultando</span>
+                    <span style={{ color: '#9CA3AF' }} className="truncate">· {toolStatus}</span>
                   </div>
                 </div>
               )}

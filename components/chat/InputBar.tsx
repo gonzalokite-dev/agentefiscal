@@ -152,14 +152,21 @@ export default function InputBar({
         <div
           className="flex items-end gap-2"
           style={{
-            border: '1px solid #E2DED9',
+            border: '1px solid #E5E7EB',
             borderRadius: '16px',
             backgroundColor: 'white',
-            boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
+            boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
             padding: '10px 10px 10px 16px',
-            transition: 'border-color 0.15s, box-shadow 0.15s',
+            transition: 'border-color 0.2s, box-shadow 0.2s',
           }}
-          onFocus={() => {}}
+          onFocusCapture={(e) => {
+            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,181,173,0.5)';
+            (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 16px rgba(0,0,0,0.06), 0 0 0 3px rgba(0,181,173,0.08)';
+          }}
+          onBlurCapture={(e) => {
+            (e.currentTarget as HTMLElement).style.borderColor = '#E5E7EB';
+            (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 16px rgba(0,0,0,0.06)';
+          }}
         >
           <textarea
             ref={textareaRef}
@@ -210,13 +217,15 @@ export default function InputBar({
               disabled={!canSend}
               className="flex items-center justify-center rounded-xl transition-all"
               style={{
-                backgroundColor: canSend ? '#0D2E35' : '#E2DED9',
-                color: canSend ? 'white' : '#9ca3af',
+                backgroundColor: canSend ? '#00B5AD' : '#E5E7EB',
+                color: canSend ? 'white' : '#C4C4C4',
                 width: '34px',
                 height: '34px',
                 border: 'none',
                 cursor: canSend ? 'pointer' : 'default',
                 flexShrink: 0,
+                boxShadow: canSend ? '0 2px 8px rgba(0,181,173,0.35)' : 'none',
+                transition: 'background-color 0.15s, box-shadow 0.15s',
               }}
             >
               {isLoading ? (
