@@ -11,6 +11,14 @@ interface Message {
   attachedFile?: { name: string; type: string; base64: string };
 }
 
+function formatTime(date: Date): string {
+  try {
+    return date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+  } catch {
+    return '';
+  }
+}
+
 export default function MessageBubble({
   message,
   isStreaming = false,
@@ -33,17 +41,18 @@ export default function MessageBubble({
 
   if (isUser) {
     return (
-      <div className="flex justify-end mb-6">
-        <div style={{ maxWidth: '75%' }}>
-          {message.attachedFile && (
+      <div className="flex justify-end mb-5">
+        <div style={{ maxWidth: '78%' }}>
+          {message.attachedFile && message.attachedFile.name && (
             <div
-              className="flex items-center gap-2 mb-1.5 px-3 py-1 rounded-full font-sans text-xs ml-auto w-fit"
+              className="flex items-center gap-2 mb-1.5 px-3 py-1.5 rounded-full font-sans text-xs ml-auto w-fit"
               style={{
-                background: 'rgba(0,42,58,0.08)',
+                background: 'rgba(0,181,173,0.08)',
+                border: '1px solid rgba(0,181,173,0.2)',
                 color: '#0D2E35',
               }}
             >
-              <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg width="11" height="11" fill="none" stroke="#00B5AD" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
               </svg>
               {message.attachedFile.name}
@@ -52,34 +61,43 @@ export default function MessageBubble({
           <div
             className="font-sans"
             style={{
-              backgroundColor: '#F4F4F4',
-              color: '#1a1a1a',
-              borderRadius: '18px',
-              padding: '12px 18px',
+              backgroundColor: '#FFFFFF',
+              color: '#111827',
+              borderRadius: '18px 18px 4px 18px',
+              padding: '11px 16px',
               fontSize: '15px',
               lineHeight: 1.65,
               whiteSpace: 'pre-wrap',
+              border: '1px solid #E5E7EB',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
             }}
           >
             {message.content}
           </div>
+          <p
+            className="font-sans text-right mt-1"
+            style={{ fontSize: '11px', color: '#C4C4C4' }}
+          >
+            {formatTime(message.timestamp)}
+          </p>
         </div>
       </div>
     );
   }
 
-  // Assistant message — Claude.ai style: avatar + plain text, no bubble
+  // Assistant message
   return (
     <div className="flex gap-3 mb-8 group">
       {/* Victoria avatar */}
       <div
         className="flex items-center justify-center flex-shrink-0"
         style={{
-          width: '28px',
-          height: '28px',
+          width: '30px',
+          height: '30px',
           borderRadius: '50%',
-          backgroundColor: '#0D2E35',
+          background: 'linear-gradient(135deg, #0D2E35 0%, #1a4a55 100%)',
           marginTop: '2px',
+          boxShadow: '0 2px 8px rgba(13,46,53,0.25)',
         }}
       >
         <span
@@ -97,9 +115,15 @@ export default function MessageBubble({
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <p className="font-sans font-semibold mb-1" style={{ fontSize: '12px', color: '#0D2E35', letterSpacing: '0.01em' }}>
-          Victoria
-        </p>
+        <div className="flex items-center gap-2 mb-1.5">
+          <p className="font-sans font-semibold" style={{ fontSize: '12px', color: '#0D2E35', letterSpacing: '0.01em' }}>
+            Victoria
+          </p>
+          <p className="font-sans" style={{ fontSize: '11px', color: '#D1D5DB' }}>
+            {formatTime(message.timestamp)}
+          </p>
+        </div>
+
         <div
           className="prose-fiscal"
           style={{ fontSize: '15px', lineHeight: 1.75, color: '#1a1a1a', minWidth: 0, overflowWrap: 'break-word', wordBreak: 'break-word' }}
@@ -130,7 +154,7 @@ export default function MessageBubble({
                 display: 'inline-block',
                 width: '2px',
                 height: '15px',
-                backgroundColor: '#0D2E35',
+                backgroundColor: '#00B5AD',
                 marginLeft: '2px',
                 verticalAlign: 'middle',
                 animation: 'blink-cursor 0.8s step-end infinite',
@@ -139,17 +163,41 @@ export default function MessageBubble({
           )}
         </div>
 
-        {/* Actions — visible on hover */}
+        {/* Actions */}
         {!isStreaming && (
-          <div className="flex items-center gap-1 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div
+            className="flex items-center gap-1 mt-2.5 transition-opacity"
+            style={{ opacity: 0.35 }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.35')}
+          >
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 px-2 py-1 rounded-md font-sans transition-colors hover:bg-gray-100"
-              style={{ fontSize: '12px', color: '#5F5E5A', background: 'none', border: 'none', cursor: 'pointer' }}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg font-sans transition-colors"
+              style={{
+                fontSize: '12px',
+                color: copied ? '#16a34a' : '#6B7280',
+                background: 'none',
+                border: '1px solid transparent',
+                cursor: 'pointer',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#F3F4F6';
+                e.currentTarget.style.borderColor = '#E5E7EB';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.borderColor = 'transparent';
+              }}
               title="Copiar respuesta"
             >
               {copied ? (
-                <span style={{ color: '#22c55e' }}>✓ Copiado</span>
+                <>
+                  <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Copiado
+                </>
               ) : (
                 <>
                   <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -165,13 +213,23 @@ export default function MessageBubble({
                 <div style={{ width: '1px', height: '14px', backgroundColor: '#E5E7EB', margin: '0 2px' }} />
                 <button
                   onClick={() => onFeedback('up')}
-                  className="flex items-center gap-1 px-2 py-1 rounded-md font-sans transition-colors hover:bg-gray-100"
+                  className="flex items-center gap-1 px-2 py-1.5 rounded-lg font-sans transition-colors"
                   style={{
                     fontSize: '12px',
                     background: 'none',
-                    border: 'none',
+                    border: '1px solid transparent',
                     cursor: feedbackRating ? 'default' : 'pointer',
-                    color: feedbackRating === 'up' ? '#16a34a' : '#9CA3AF',
+                    color: feedbackRating === 'up' ? '#16a34a' : '#6B7280',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!feedbackRating) {
+                      e.currentTarget.style.backgroundColor = '#F0FDF4';
+                      e.currentTarget.style.borderColor = '#BBF7D0';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.borderColor = 'transparent';
                   }}
                   title="Buena respuesta"
                   disabled={!!feedbackRating}
@@ -182,13 +240,23 @@ export default function MessageBubble({
                 </button>
                 <button
                   onClick={() => onFeedback('down')}
-                  className="flex items-center gap-1 px-2 py-1 rounded-md font-sans transition-colors hover:bg-gray-100"
+                  className="flex items-center gap-1 px-2 py-1.5 rounded-lg font-sans transition-colors"
                   style={{
                     fontSize: '12px',
                     background: 'none',
-                    border: 'none',
+                    border: '1px solid transparent',
                     cursor: feedbackRating ? 'default' : 'pointer',
-                    color: feedbackRating === 'down' ? '#dc2626' : '#9CA3AF',
+                    color: feedbackRating === 'down' ? '#dc2626' : '#6B7280',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!feedbackRating) {
+                      e.currentTarget.style.backgroundColor = '#FEF2F2';
+                      e.currentTarget.style.borderColor = '#FECACA';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.borderColor = 'transparent';
                   }}
                   title="Respuesta mejorable"
                   disabled={!!feedbackRating}
@@ -198,8 +266,8 @@ export default function MessageBubble({
                   </svg>
                 </button>
                 {feedbackRating && (
-                  <span className="font-sans" style={{ fontSize: '11px', color: '#9CA3AF', marginLeft: '2px' }}>
-                    {feedbackRating === 'up' ? 'Gracias' : 'Anotado para mejorar'}
+                  <span className="font-sans ml-1" style={{ fontSize: '11px', color: feedbackRating === 'up' ? '#16a34a' : '#9CA3AF' }}>
+                    {feedbackRating === 'up' ? '¡Gracias!' : 'Anotado'}
                   </span>
                 )}
               </>

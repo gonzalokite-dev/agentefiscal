@@ -564,10 +564,10 @@ export default function ChatInterface() {
           className="flex items-center justify-between px-4 md:px-5 py-3"
           style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid #E5E7EB', flexShrink: 0 }}
         >
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 min-w-0">
             {/* Hamburger — mobile only */}
             <button
-              className="md:hidden p-1"
+              className="md:hidden p-1 flex-shrink-0"
               onClick={() => setSidebarOpen(true)}
               style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#374151' }}
             >
@@ -576,17 +576,21 @@ export default function ChatInterface() {
               </svg>
             </button>
 
-            <h1
-              className="font-serif font-bold"
-              style={{ fontSize: '16px', color: '#0D2E35', letterSpacing: '-0.01em' }}
-            >
-              Chat con Victoria
-            </h1>
+            <div className="min-w-0">
+              <h1
+                className="font-sans font-semibold truncate"
+                style={{ fontSize: '14px', color: '#0D2E35', maxWidth: '320px' }}
+              >
+                {messages.length > 0
+                  ? messages[0].content.slice(0, 55) + (messages[0].content.length > 55 ? '…' : '')
+                  : 'Nueva conversación'}
+              </h1>
+            </div>
 
             {/* Sources count badge */}
             {consultedSources.length > 0 && (
               <span
-                className="font-sans"
+                className="font-sans flex-shrink-0"
                 style={{
                   fontSize: '11px',
                   fontWeight: 600,
@@ -595,6 +599,7 @@ export default function ChatInterface() {
                   border: '1px solid rgba(0,181,173,0.25)',
                   borderRadius: '9999px',
                   padding: '2px 8px',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 {consultedSources.length} {consultedSources.length === 1 ? 'fuente' : 'fuentes'}
