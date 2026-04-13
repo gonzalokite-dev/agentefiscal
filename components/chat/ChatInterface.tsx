@@ -5,6 +5,7 @@ import { useSession, signOut } from 'next-auth/react';
 import Logo from '@/components/ui/Logo';
 import MessageBubble from './MessageBubble';
 import InputBar from './InputBar';
+import SourcesPanel, { type SourceEntry } from './SourcesPanel';
 import Link from 'next/link';
 import {
   getConversations,
@@ -71,6 +72,42 @@ function getGreeting() {
   return 'Buenas noches, asesor';
 }
 
+/* ─── Placeholder nav items for sidebar ─── */
+const NAV_ITEMS = [
+  {
+    label: 'Consultas guardadas',
+    icon: (
+      <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Favoritos',
+    icon: (
+      <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Plantillas',
+    icon: (
+      <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Documentos',
+    icon: (
+      <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+    ),
+  },
+];
+
 export default function ChatInterface() {
   const { data: session } = useSession();
   const userEmail = session?.user?.email ?? '';
@@ -86,6 +123,7 @@ export default function ChatInterface() {
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [feedbackMap, setFeedbackMap] = useState<Record<string, 'up' | 'down'>>({});
+  const [consultedSources, setConsultedSources] = useState<SourceEntry[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Load conversations from localStorage on mount
@@ -140,6 +178,7 @@ export default function ChatInterface() {
     setMessages([]);
     setInput('');
     setAttachedFile(null);
+    setConsultedSources([]);
     setSidebarOpen(false);
   };
 
@@ -148,6 +187,7 @@ export default function ChatInterface() {
     setMessages(conv.messages.map((m) => ({ ...m, timestamp: new Date(m.timestamp) })));
     setInput('');
     setAttachedFile(null);
+    setConsultedSources([]);
     setSidebarOpen(false);
   };
 
@@ -263,6 +303,21 @@ export default function ChatInterface() {
 
             if (parsed.searching) {
               setToolStatus(`Consultando ${parsed.searching.source}: "${parsed.searching.query}"`);
+              // Add to consulted sources (avoid duplicates by source+query)
+              setConsultedSources((prev) => {
+                const isDuplicate = prev.some(
+                  (e) => e.source === parsed.searching.source && e.query === parsed.searching.query
+                );
+                if (isDuplicate) return prev;
+                return [
+                  ...prev,
+                  {
+                    id: newId(),
+                    source: parsed.searching.source,
+                    query: parsed.searching.query,
+                  },
+                ];
+              });
             }
             if (parsed.searched) {
               setToolStatus(null);
@@ -320,50 +375,62 @@ export default function ChatInterface() {
     }
   };
 
+  /* ─── Left Sidebar ─── */
   const Sidebar = () => (
     <aside
       className="flex flex-col h-full"
-      style={{ backgroundColor: '#171717', width: '260px', minWidth: '260px' }}
+      style={{ backgroundColor: '#FFFFFF', width: '220px', minWidth: '220px', borderRight: '1px solid #E5E7EB' }}
     >
-      {/* Header */}
-      <div className="px-4 py-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-        <Logo size="sm" variant="light" />
-        <div className="flex items-center gap-1.5 mt-2">
-          <span style={{ width: '5px', height: '5px', borderRadius: '50%', backgroundColor: '#22c55e', flexShrink: 0 }} />
-          <p className="font-sans" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.04em' }}>
-            Conectado · BOE · DGT · AEAT
-          </p>
-        </div>
+      {/* Logo + subtitle */}
+      <div className="px-4 py-5" style={{ borderBottom: '1px solid #E5E7EB', flexShrink: 0 }}>
+        <img
+          src="/logo-victoria-transparent.png"
+          alt="Victoria"
+          style={{ height: '32px', width: 'auto' }}
+        />
+        <p
+          className="font-sans"
+          style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '4px', letterSpacing: '0.02em' }}
+        >
+          Tu copiloto fiscal
+        </p>
       </div>
 
-      {/* New conversation */}
-      <div className="p-3">
+      {/* New chat button */}
+      <div className="p-3" style={{ flexShrink: 0 }}>
         <button
           onClick={startNewConversation}
-          className="w-full flex items-center gap-2 font-sans rounded-lg transition-colors"
+          className="w-full flex items-center justify-center gap-2 font-sans rounded-lg transition-colors"
           style={{
-            border: '1px solid rgba(255,255,255,0.12)',
-            color: 'rgba(255,255,255,0.85)',
+            backgroundColor: '#00B5AD',
+            color: 'white',
             fontSize: '13px',
+            fontWeight: 600,
             padding: '9px 14px',
-            background: 'none',
+            border: 'none',
             cursor: 'pointer',
-            textAlign: 'left',
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.06)')}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#009e97')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#00B5AD')}
         >
-          <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
           </svg>
-          Nueva conversación
+          Nuevo chat
         </button>
       </div>
 
       {/* Conversation history */}
       <div className="flex-1 overflow-y-auto px-2 py-1">
+        <p
+          className="font-sans px-3 mb-2"
+          style={{ fontSize: '11px', color: '#9CA3AF', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}
+        >
+          Conversaciones
+        </p>
+
         {conversations.length === 0 ? (
-          <p className="font-sans px-3 py-2" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)' }}>
+          <p className="font-sans px-3 py-2" style={{ fontSize: '12px', color: '#D1D5DB', fontStyle: 'italic' }}>
             Aún no hay conversaciones
           </p>
         ) : (
@@ -371,22 +438,22 @@ export default function ChatInterface() {
             <div key={label} className="mb-3">
               <p
                 className="font-sans px-3 mb-1"
-                style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em' }}
+                style={{ fontSize: '10px', color: '#C4C4C4', letterSpacing: '0.08em', textTransform: 'uppercase' }}
               >
-                {label.toUpperCase()}
+                {label}
               </p>
               {convs.map((conv) => (
                 <div
                   key={conv.id}
                   className="group/item flex items-center rounded-lg"
                   style={{
-                    backgroundColor: conv.id === currentConvId ? 'rgba(0,181,173,0.1)' : 'transparent',
+                    backgroundColor: conv.id === currentConvId ? 'rgba(0,181,173,0.08)' : 'transparent',
                     borderLeft: conv.id === currentConvId ? '2px solid #00B5AD' : '2px solid transparent',
                     transition: 'background-color 0.15s, border-color 0.15s',
                   }}
                   onMouseEnter={(e) => {
                     if (conv.id !== currentConvId)
-                      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.06)';
+                      e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.03)';
                   }}
                   onMouseLeave={(e) => {
                     if (conv.id !== currentConvId)
@@ -401,7 +468,8 @@ export default function ChatInterface() {
                       border: 'none',
                       cursor: 'pointer',
                       fontSize: '13px',
-                      color: conv.id === currentConvId ? 'white' : 'rgba(255,255,255,0.65)',
+                      color: conv.id === currentConvId ? '#0D2E35' : '#4B5563',
+                      fontWeight: conv.id === currentConvId ? 600 : 400,
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap',
@@ -415,10 +483,10 @@ export default function ChatInterface() {
                   <button
                     onClick={(e) => handleDeleteConversation(conv.id, e)}
                     className="flex-shrink-0 p-1.5 mr-1 rounded opacity-0 group-hover/item:opacity-100 transition-opacity"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.4)' }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9CA3AF' }}
                     title="Eliminar conversación"
-                    onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.8)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#374151')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = '#9CA3AF')}
                   >
                     <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -429,39 +497,36 @@ export default function ChatInterface() {
             </div>
           ))
         )}
+
+        {/* Placeholder nav items */}
+        <div style={{ marginTop: '16px', borderTop: '1px solid #F3F4F6', paddingTop: '12px' }}>
+          {NAV_ITEMS.map((item) => (
+            <div
+              key={item.label}
+              className="flex items-center gap-2.5 px-3 py-2 rounded-lg font-sans"
+              style={{
+                color: '#D1D5DB',
+                fontSize: '13px',
+                cursor: 'default',
+                userSelect: 'none',
+              }}
+            >
+              <span style={{ flexShrink: 0, color: '#E5E7EB' }}>{item.icon}</span>
+              {item.label}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Footer */}
-      <div className="p-4" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-        <Link
-          href="/"
-          className="font-sans flex items-center gap-1.5 hover:opacity-80 transition-opacity mb-2"
-          style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }}
-        >
-          <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          Volver a la landing
-        </Link>
-        {isAdmin && (
-          <Link
-            href="/admin/feedback"
-            className="font-sans flex items-center gap-1.5 hover:opacity-80 transition-opacity mb-2"
-            style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }}
-          >
-            <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
-            Panel de feedback
-          </Link>
-        )}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '8px', marginTop: '4px' }}>
+      <div className="p-4" style={{ borderTop: '1px solid #E5E7EB', flexShrink: 0 }}>
+        {/* User email + Pro badge */}
+        <div className="flex items-center gap-2 mb-3" style={{ overflow: 'hidden' }}>
           <p
-            className="font-sans"
+            className="font-sans flex-1 min-w-0"
             style={{
               fontSize: '11px',
-              color: 'rgba(255,255,255,0.3)',
-              marginBottom: '4px',
+              color: '#6B7280',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
@@ -469,50 +534,91 @@ export default function ChatInterface() {
           >
             {userEmail}
           </p>
-          <button
-            onClick={() => signOut({ callbackUrl: '/login' })}
-            className="font-sans hover:opacity-80 transition-opacity"
+          <span
+            className="font-sans flex-shrink-0"
             style={{
-              fontSize: '11px',
-              color: 'rgba(255,255,255,0.35)',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: 0,
+              fontSize: '10px',
+              fontWeight: 600,
+              color: '#00B5AD',
+              backgroundColor: 'rgba(0,181,173,0.1)',
+              border: '1px solid rgba(0,181,173,0.25)',
+              borderRadius: '9999px',
+              padding: '2px 7px',
+              whiteSpace: 'nowrap',
             }}
           >
-            Cerrar sesión
-          </button>
+            Victoria Pro · IA
+          </span>
         </div>
+
+        <Link
+          href="/"
+          className="font-sans flex items-center gap-1.5 hover:opacity-80 transition-opacity mb-2"
+          style={{ fontSize: '12px', color: '#9CA3AF', textDecoration: 'none' }}
+        >
+          <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Volver a la landing
+        </Link>
+
+        {isAdmin && (
+          <Link
+            href="/admin/feedback"
+            className="font-sans flex items-center gap-1.5 hover:opacity-80 transition-opacity mb-2"
+            style={{ fontSize: '12px', color: '#9CA3AF', textDecoration: 'none' }}
+          >
+            <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            Panel de feedback
+          </Link>
+        )}
+
+        <button
+          onClick={() => signOut({ callbackUrl: '/login' })}
+          className="font-sans hover:opacity-80 transition-opacity"
+          style={{
+            fontSize: '12px',
+            color: '#9CA3AF',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 0,
+          }}
+        >
+          Cerrar sesión
+        </button>
       </div>
     </aside>
   );
 
   return (
-    <div className="flex overflow-hidden" style={{ height: '100dvh', backgroundColor: 'white', overflowX: 'hidden' }}>
-      {/* Sidebar — desktop */}
-      <div className="hidden md:flex flex-col" style={{ width: '260px', flexShrink: 0 }}>
+    <div className="flex overflow-hidden" style={{ height: '100dvh', backgroundColor: '#F5F7FA', overflowX: 'hidden' }}>
+      {/* Left Sidebar — desktop */}
+      <div className="hidden md:flex flex-col" style={{ flexShrink: 0 }}>
         <Sidebar />
       </div>
 
-      {/* Sidebar — mobile drawer */}
+      {/* Left Sidebar — mobile drawer */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden">
-          <div className="flex flex-col" style={{ width: '280px', height: '100dvh' }}>
+          <div className="flex flex-col" style={{ width: '260px', height: '100dvh' }}>
             <Sidebar />
           </div>
-          <div className="flex-1 bg-black bg-opacity-50" onClick={() => setSidebarOpen(false)} />
+          <div className="flex-1 bg-black bg-opacity-40" onClick={() => setSidebarOpen(false)} />
         </div>
       )}
 
-      {/* Main area */}
-      <div className="flex flex-col flex-1 min-w-0">
-        {/* Minimal header */}
+      {/* Main chat area */}
+      <div className="flex flex-col flex-1 min-w-0" style={{ backgroundColor: '#F5F7FA' }}>
+        {/* Header */}
         <div
-          className="flex items-center justify-between px-4 md:px-6 py-3"
-          style={{ borderBottom: '1px solid #F3F4F6', flexShrink: 0 }}
+          className="flex items-center justify-between px-4 md:px-5 py-3"
+          style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid #E5E7EB', flexShrink: 0 }}
         >
           <div className="flex items-center gap-3">
+            {/* Hamburger — mobile only */}
             <button
               className="md:hidden p-1"
               onClick={() => setSidebarOpen(true)}
@@ -522,11 +628,31 @@ export default function ChatInterface() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            <img
-              src="/logo-victoria-transparent.png"
-              alt="victoria"
-              style={{ height: '30px', width: 'auto' }}
-            />
+
+            <h1
+              className="font-serif font-bold"
+              style={{ fontSize: '16px', color: '#0D2E35', letterSpacing: '-0.01em' }}
+            >
+              Chat con Victoria
+            </h1>
+
+            {/* Sources count badge */}
+            {consultedSources.length > 0 && (
+              <span
+                className="font-sans"
+                style={{
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  color: '#00B5AD',
+                  backgroundColor: 'rgba(0,181,173,0.1)',
+                  border: '1px solid rgba(0,181,173,0.25)',
+                  borderRadius: '9999px',
+                  padding: '2px 8px',
+                }}
+              >
+                {consultedSources.length} {consultedSources.length === 1 ? 'fuente' : 'fuentes'}
+              </span>
+            )}
           </div>
 
           <div className="flex items-center gap-2">
@@ -555,16 +681,12 @@ export default function ChatInterface() {
               />
               {toolStatus ? 'Buscando...' : isLoading ? 'Escribiendo...' : 'Disponible'}
             </div>
+
+            {/* New chat icon button */}
             <button
-              onClick={() => {
-                if (messages.length === 0) return;
-                if (confirm('¿Limpiar esta conversación?')) {
-                  setMessages([]);
-                  setCurrentConvId(newId());
-                }
-              }}
+              onClick={startNewConversation}
               title="Nueva conversación"
-              className="p-1.5 rounded-lg transition-colors hover:bg-gray-100"
+              className="p-1.5 rounded-lg transition-colors"
               style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#D1D5DB' }}
               onMouseEnter={(e) => (e.currentTarget.style.color = '#6B7280')}
               onMouseLeave={(e) => (e.currentTarget.style.color = '#D1D5DB')}
@@ -582,19 +704,29 @@ export default function ChatInterface() {
           style={{ WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain' } as React.CSSProperties}
         >
           {messages.length === 0 ? (
+            /* Empty state */
             <div className="flex flex-col items-center justify-center h-full text-center px-4 py-8">
               <img
                 src="/logo-victoria-transparent.png"
-                alt="victoria"
-                style={{ height: '52px', width: 'auto', marginBottom: '20px', flexShrink: 0 }}
+                alt="Victoria"
+                style={{ height: '56px', width: 'auto', marginBottom: '20px', flexShrink: 0 }}
               />
-              <h2 className="font-serif font-bold mb-2" style={{ fontSize: 'clamp(20px, 5vw, 26px)', color: '#0D2E35', letterSpacing: '-0.02em' }}>
+              <h2
+                className="font-serif font-bold mb-2"
+                style={{ fontSize: 'clamp(20px, 5vw, 26px)', color: '#0D2E35', letterSpacing: '-0.02em' }}
+              >
                 {getGreeting()}
               </h2>
-              <p className="font-sans mb-8" style={{ fontSize: '14px', color: '#9CA3AF', maxWidth: '360px', lineHeight: 1.6 }}>
+              <p
+                className="font-sans mb-8"
+                style={{ fontSize: '14px', color: '#9CA3AF', maxWidth: '360px', lineHeight: 1.6 }}
+              >
                 Pregunta sobre normativa, sube un documento o pide un cálculo.
               </p>
-              <p className="font-sans mb-3" style={{ fontSize: '11px', color: '#C4C4C4', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              <p
+                className="font-sans mb-3"
+                style={{ fontSize: '11px', color: '#C4C4C4', letterSpacing: '0.1em', textTransform: 'uppercase' }}
+              >
                 Consultas frecuentes
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full" style={{ maxWidth: '600px' }}>
@@ -602,7 +734,7 @@ export default function ChatInterface() {
                   <button
                     key={s.text}
                     onClick={() => handleSend(s.text)}
-                    className="text-left rounded-xl font-sans transition-all group/sug"
+                    className="text-left rounded-xl font-sans transition-all"
                     style={{
                       border: '1px solid #E5E7EB',
                       background: 'white',
@@ -623,7 +755,10 @@ export default function ChatInterface() {
                         {s.icon}
                       </span>
                       <div className="flex flex-col gap-1 min-w-0">
-                        <span className="font-sans font-medium" style={{ fontSize: '11px', color: '#00B5AD', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                        <span
+                          className="font-sans font-medium"
+                          style={{ fontSize: '11px', color: '#00B5AD', letterSpacing: '0.06em', textTransform: 'uppercase' }}
+                        >
                           {s.tag}
                         </span>
                         <span style={{ fontSize: '13px', color: '#374151', lineHeight: 1.5 }}>
@@ -636,7 +771,7 @@ export default function ChatInterface() {
               </div>
             </div>
           ) : (
-            <div className="max-w-[720px] mx-auto px-4 md:px-6 py-5 md:py-8">
+            <div className="max-w-[740px] mx-auto px-4 md:px-6 py-5 md:py-8">
               {messages.map((msg) => (
                 <MessageBubble
                   key={msg.id}
@@ -712,6 +847,14 @@ export default function ChatInterface() {
           onFileRemove={() => setAttachedFile(null)}
         />
       </div>
+
+      {/* Right panel — Sources (lg+ only, only when there are messages) */}
+      {messages.length > 0 && (
+        <SourcesPanel
+          sources={consultedSources}
+          onSuggestionClick={(text) => handleSend(text)}
+        />
+      )}
     </div>
   );
 }
