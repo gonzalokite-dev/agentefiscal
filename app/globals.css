@@ -15,6 +15,11 @@ body {
   overscroll-behavior-x: none;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 72px; /* navbar height (64px) + 8px buffer */
+}
+
 /* Prevent overscroll bounce on mobile (chat layout) */
 body {
   overscroll-behavior: none;
