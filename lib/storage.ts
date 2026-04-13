@@ -28,9 +28,39 @@ export function getConversations(): Conversation[] {
 
 export function saveConversation(conv: Conversation): void {
   if (typeof window === 'undefined') return;
+
+  // Strip base64 from attached files before persisting — they can be several MB each
+  // and exceed the 5 MB localStorage quota. The file was already sent to the API.
+  const stripped: Conversation = {
+    ...conv,
+    messages: conv.messages.map((m) =>
+      m.attachedFile
+        ? { ...m, attachedFile: { name: m.attachedFile.name, type: m.attachedFile.type, base64: '' } }
+        : m
+    ),
+  };
+
   const all = getConversations().filter((c) => c.id !== conv.id);
-  all.unshift(conv);
-  localStorage.setItem(KEY, JSON.stringify(all.slice(0, MAX_CONVERSATIONS)));
+  all.unshift(stripped);
+  const trimmed = all.slice(0, MAX_CONVERSATIONS);
+
+  try {
+    localStorage.setItem(KEY, JSON.stringify(trimmed));
+  } catch (e) {
+    if (e instanceof DOMException && e.name === 'QuotaExceededError') {
+      // Quota full — remove oldest half and retry once
+      try {
+        localStorage.setItem(KEY, JSON.stringify(trimmed.slice(0, Math.floor(trimmed.length / 2))));
+      } catch {
+        // If still failing, clear entirely and store just the current conversation
+        try {
+          localStorage.setItem(KEY, JSON.stringify([stripped]));
+        } catch {
+          // localStorage completely unavailable — fail silently
+        }
+      }
+    }
+  }
 }
 
 export function deleteConversation(id: string): void {
