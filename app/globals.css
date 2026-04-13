@@ -8,21 +8,15 @@
   margin: 0;
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  overscroll-behavior-x: none;
-}
-
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 72px; /* navbar height (64px) + 8px buffer */
 }
 
-/* Prevent overscroll bounce on mobile (chat layout) */
 body {
-  overscroll-behavior: none;
+  max-width: 100vw;
+  overflow-x: hidden;       /* only on body — setting on html blocks mouse wheel scroll */
+  overscroll-behavior: none; /* prevents bounce on mobile (chat layout) */
 }
 
 /* Dynamic viewport height fallback for iOS */
