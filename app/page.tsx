@@ -4,7 +4,8 @@ import TrustBar from '@/components/landing/TrustBar';
 import Capabilities from '@/components/landing/Capabilities';
 import ChatShowcase from '@/components/landing/ChatShowcase';
 import Segmentos from '@/components/landing/Segmentos';
-import Testimonials from '@/components/landing/Testimonials';
+import Comparativa from '@/components/landing/Comparativa';
+import FAQ from '@/components/landing/FAQ';
 import Pricing from '@/components/landing/Pricing';
 import Nosotros from '@/components/landing/Nosotros';
 import CtaFinal from '@/components/landing/CtaFinal';
@@ -19,7 +20,8 @@ export default function Home() {
       <Capabilities />
       <ChatShowcase />
       <Segmentos />
-      <Testimonials />
+      <Comparativa />
+      <FAQ />
       <Pricing />
       <Nosotros />
       <CtaFinal />
