@@ -63,31 +63,16 @@ export default function SourcesPanel({ sources, onSuggestionClick }: Props) {
         flexShrink: 0,
       }}
     >
-      {/* Tabs */}
+      {/* Header */}
       <div
-        className="flex items-center"
-        style={{ borderBottom: '1px solid #E5E7EB', padding: '0 16px', flexShrink: 0 }}
+        style={{ padding: '14px 16px 12px', borderBottom: '1px solid #E5E7EB', flexShrink: 0 }}
       >
-        {['Fuentes', 'Tareas', 'Plantillas'].map((tab, i) => (
-          <button
-            key={tab}
-            className="font-sans"
-            style={{
-              padding: '12px 12px',
-              fontSize: '12px',
-              fontWeight: i === 0 ? 600 : 400,
-              color: i === 0 ? '#00B5AD' : '#9CA3AF',
-              background: 'none',
-              border: 'none',
-              cursor: i === 0 ? 'pointer' : 'default',
-              borderBottom: i === 0 ? '2px solid #00B5AD' : '2px solid transparent',
-              marginBottom: '-1px',
-              transition: 'color 0.15s',
-            }}
-          >
-            {tab}
-          </button>
-        ))}
+        <p
+          className="font-sans"
+          style={{ fontSize: '12px', fontWeight: 600, color: '#0D2E35' }}
+        >
+          Panel de contexto
+        </p>
       </div>
 
       {/* Scrollable body */}
@@ -218,23 +203,6 @@ export default function SourcesPanel({ sources, onSuggestionClick }: Props) {
         </div>
       </div>
 
-      {/* Bottom hint */}
-      <div
-        style={{
-          padding: '12px 16px',
-          borderTop: '1px solid #E5E7EB',
-          flexShrink: 0,
-        }}
-      >
-        <div className="flex items-center gap-2">
-          <svg width="13" height="13" fill="none" stroke="#9CA3AF" strokeWidth="1.5" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          </svg>
-          <span className="font-sans" style={{ fontSize: '11px', color: '#9CA3AF' }}>
-            ¿Te lo envío al buzón?
-          </span>
-        </div>
-      </div>
     </aside>
   );
 }
