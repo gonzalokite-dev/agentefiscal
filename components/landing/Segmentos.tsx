@@ -30,7 +30,7 @@ const segments = [
 
 export default function Segmentos() {
   return (
-    <section style={{ backgroundColor: '#FFFFFF', paddingTop: '96px', paddingBottom: '96px' }}>
+    <section id="casos" style={{ backgroundColor: '#FFFFFF', paddingTop: '96px', paddingBottom: '96px' }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
 
         {/* Header */}
