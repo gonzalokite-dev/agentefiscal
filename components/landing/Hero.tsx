@@ -79,9 +79,9 @@ export default function Hero() {
             className="font-serif font-bold mb-5"
             style={{ fontSize: 'clamp(36px, 5.5vw, 60px)', lineHeight: 1.06, letterSpacing: '-0.02em', color: '#0D2E35' }}
           >
-            El copiloto fiscal<br />
+            Copiloto fiscal<br />
             para asesorías<br />
-            <span style={{ color: '#00B5AD' }}>y gestorías</span>
+            <span style={{ color: '#00B5AD' }}>y profesionales</span>
           </h1>
 
           <p
