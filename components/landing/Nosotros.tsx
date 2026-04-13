@@ -1,3 +1,5 @@
+'use client';
+
 const values = [
   {
     title: 'Nacida en Baleares',
