@@ -578,7 +578,16 @@ export default function ChatInterface() {
               </svg>
             </button>
 
-            <div className="min-w-0">
+            {/* Logo — mobile header (desktop has it in sidebar) */}
+            <img
+              src="/logo-victoria-transparent.png"
+              alt="Victoria"
+              className="md:hidden flex-shrink-0"
+              style={{ height: '22px', width: 'auto' }}
+            />
+
+            {/* Conversation title — desktop only */}
+            <div className="hidden md:block min-w-0">
               <h1
                 className="font-sans font-semibold truncate"
                 style={{ fontSize: '14px', color: '#0D2E35', maxWidth: '320px' }}
@@ -610,7 +619,7 @@ export default function ChatInterface() {
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Status pill */}
+            {/* Status pill — full text on desktop, dot only on mobile */}
             <div
               className="font-sans flex items-center gap-1.5"
               style={{
@@ -633,7 +642,9 @@ export default function ChatInterface() {
                   animation: isLoading || toolStatus ? 'pulse 1.5s infinite' : 'none',
                 }}
               />
-              {toolStatus ? 'Buscando...' : isLoading ? 'Escribiendo...' : 'Disponible'}
+              <span className="hidden sm:inline">
+                {toolStatus ? 'Buscando...' : isLoading ? 'Escribiendo...' : 'Disponible'}
+              </span>
             </div>
 
             {/* New chat icon button */}
