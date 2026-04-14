@@ -5,12 +5,12 @@ interface LogoProps {
   size?: 'xs' | 'sm' | 'md' | 'lg';
 }
 
-// Heights in px — image ratio ≈ 2.1:1
+// Heights in px — image ratio ≈ 3.65:1
 const heights = { xs: 24, sm: 32, md: 42, lg: 56 };
 
 export default function Logo({ variant = 'dark', size = 'md' }: LogoProps) {
   const h = heights[size];
-  const w = Math.round(h * 2.1);
+  const w = Math.round(h * 3.65);
 
   return (
     <Image
