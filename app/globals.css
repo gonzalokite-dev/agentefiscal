@@ -222,3 +222,12 @@ body {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ── Mobile chat drawer slide-in ────────────────────────── */
+@keyframes slide-in-left {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+.chat-drawer-panel {
+  animation: slide-in-left 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
