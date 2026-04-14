@@ -65,17 +65,19 @@ const QUICK_SUGGESTIONS = [
   },
 ];
 
-function getGreeting() {
+function getGreeting(firstName: string) {
   const h = new Date().getHours();
-  if (h >= 6 && h < 12) return 'Buenos días, asesor';
-  if (h >= 12 && h < 20) return 'Buenas tardes, asesor';
-  return 'Buenas noches, asesor';
+  const name = firstName || 'asesor';
+  if (h >= 6 && h < 14) return `Buenos días, ${name}`;
+  if (h >= 14 && h < 21) return `Buenas tardes, ${name}`;
+  return `Buenas noches, ${name}`;
 }
 
 
 export default function ChatInterface() {
   const { data: session } = useSession();
   const userEmail = session?.user?.email ?? '';
+  const firstName = session?.user?.name?.split(' ')[0] ?? '';
   const isAdmin = userEmail === ADMIN_EMAIL;
   const searchParams = useSearchParams();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -667,7 +669,7 @@ export default function ChatInterface() {
                 className="font-serif font-bold mb-2"
                 style={{ fontSize: 'clamp(20px, 5vw, 26px)', color: '#0D2E35', letterSpacing: '-0.02em' }}
               >
-                {getGreeting()}
+                {getGreeting(firstName)}
               </h2>
               <p
                 className="font-sans mb-8"
