@@ -126,7 +126,7 @@ export default function MessageBubble({
 
         <div
           className="prose-fiscal"
-          style={{ fontSize: '15px', lineHeight: 1.75, color: '#1a1a1a', minWidth: 0, width: '100%', maxWidth: '100%', overflowWrap: 'break-word', wordBreak: 'break-word', overflow: 'hidden' }}
+          style={{ fontSize: '15px', lineHeight: 1.7, color: '#1f2937', minWidth: 0, width: '100%', maxWidth: '100%', overflowWrap: 'break-word', wordBreak: 'break-word', overflow: 'hidden', fontFeatureSettings: '"kern" 1' }}
         >
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}

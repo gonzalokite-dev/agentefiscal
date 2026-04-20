@@ -47,26 +47,53 @@ body {
 .typing-dot:nth-child(2) { animation-delay: 0.2s; }
 .typing-dot:nth-child(3) { animation-delay: 0.4s; }
 
-.prose-fiscal h1, .prose-fiscal h2, .prose-fiscal h3 {
+/* ── Headers: Playfair h1/h2, Inter h3 ── */
+.prose-fiscal h1, .prose-fiscal h2 {
   font-family: 'Playfair Display', serif;
   font-weight: 700;
   color: #0D2E35;
-  margin-top: 1.2em;
-  margin-bottom: 0.4em;
   letter-spacing: -0.02em;
 }
-.prose-fiscal h1 { font-size: 1.25rem; }
-.prose-fiscal h2 { font-size: 1.1rem; }
-.prose-fiscal h3 { font-size: 1rem; }
-
-.prose-fiscal p { margin-bottom: 0.75em; line-height: 1.7; }
-
-.prose-fiscal ul, .prose-fiscal ol {
-  margin: 0.5em 0 0.75em 1.4em;
+.prose-fiscal h3 {
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-weight: 600;
+  color: #0D2E35;
+  letter-spacing: -0.01em;
 }
-.prose-fiscal li { margin-bottom: 0.25em; }
+.prose-fiscal h1 {
+  font-size: 1.3rem;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+.prose-fiscal h2 {
+  font-size: 1.15rem;
+  margin-top: 1.4em;
+  margin-bottom: 0.45em;
+  padding-bottom: 0.35em;
+  border-bottom: 1px solid #E5E7EB;
+}
+.prose-fiscal h3 {
+  font-size: 1.02rem;
+  margin-top: 1.1em;
+  margin-bottom: 0.3em;
+}
+/* No top margin on first element — avoids extra space at start of each response */
+.prose-fiscal > :first-child { margin-top: 0; }
 
-.prose-fiscal strong { font-weight: 600; color: #0D2E35; }
+.prose-fiscal p { margin-bottom: 0.85em; line-height: 1.72; }
+
+/* Bold more visible */
+.prose-fiscal strong { font-weight: 700; color: #111827; }
+
+/* Lists with comfortable spacing */
+.prose-fiscal ul, .prose-fiscal ol {
+  margin: 0.6em 0 0.9em 1.5em;
+}
+.prose-fiscal li {
+  margin-bottom: 0.4em;
+  line-height: 1.65;
+}
+.prose-fiscal li > p { margin-bottom: 0.2em; }
 
 .prose-fiscal code {
   background: #F7F9FA;
@@ -85,13 +112,14 @@ body {
 }
 
 .prose-fiscal :not(pre) > code {
-  background: #F7F9FA;
+  background: #F0F9F9;
   border-left: none;
-  padding: 0.1em 0.4em;
-  border-radius: 3px;
+  padding: 0.15em 0.45em;
+  border-radius: 4px;
   font-size: 0.85em;
   display: inline;
   word-break: break-word;
+  color: #00918A;
 }
 
 /* Tables — scrollable on small screens */
@@ -100,36 +128,45 @@ body {
   max-width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  margin: 0.75em 0;
-  border-radius: 6px;
-  /* Prevent the wrapper itself from expanding past its flex parent */
+  margin: 0.85em 0;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
   display: block;
 }
 .prose-fiscal table {
   width: max-content;
   min-width: 100%;
   border-collapse: collapse;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
 }
 .prose-fiscal th {
   background: #0D2E35;
   color: white;
-  padding: 6px 12px;
+  padding: 9px 14px;
   text-align: left;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.82rem;
   white-space: nowrap;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
 }
 .prose-fiscal td {
-  padding: 6px 12px;
+  padding: 8px 14px;
   border-bottom: 1px solid #E5E7EB;
+  line-height: 1.5;
 }
-.prose-fiscal tr:nth-child(even) td { background: #F7F9FA; }
+.prose-fiscal tr:last-child td { border-bottom: none; }
+.prose-fiscal tr:nth-child(even) td { background: #F8FAFB; }
 
+/* Blockquote with teal accent background */
 .prose-fiscal blockquote {
   border-left: 3px solid #00B5AD;
-  padding-left: 1em;
-  color: #6B7280;
-  margin: 0.75em 0;
+  padding: 0.55em 1em;
+  color: #4B5563;
+  background: rgba(0,181,173,0.05);
+  border-radius: 0 6px 6px 0;
+  margin: 0.85em 0;
+  font-style: italic;
 }
 
 .gradient-text {
