@@ -308,7 +308,9 @@ export default function ChatInterface() {
   const [sourcesSheetOpen, setSourcesSheetOpen] = useState(false);
   const [feedbackMap, setFeedbackMap] = useState<Record<string, 'up' | 'down'>>({});
   const [consultedSources, setConsultedSources] = useState<SourceEntry[]>([]);
+  const [showScrollBtn, setShowScrollBtn] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   // Lock body scroll when mobile drawer is open
   useEffect(() => {
@@ -469,7 +471,18 @@ export default function ChatInterface() {
                 return [...prev, { id: newId(), source: parsed.searching.source, query: parsed.searching.query }];
               });
             }
-            if (parsed.searched) setToolStatus(null);
+            if (parsed.searched) {
+              setToolStatus(null);
+              if (parsed.searched.urls?.length > 0) {
+                setConsultedSources((prev) =>
+                  prev.map((e) =>
+                    e.source === parsed.searched.source && e.query === parsed.searched.query
+                      ? { ...e, urls: parsed.searched.urls }
+                      : e
+                  )
+                );
+              }
+            }
             if (parsed.text) {
               if (!streamStarted) {
                 streamStarted = true;
@@ -625,6 +638,25 @@ export default function ChatInterface() {
                         <p style={{ fontSize: '13px', color: '#4B5563', lineHeight: 1.45, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' as const, margin: 0 }}>
                           {entry.query}
                         </p>
+                        {entry.urls && entry.urls.length > 0 && (
+                          <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                            {entry.urls.map((u) => (
+                              <a
+                                key={u.url}
+                                href={u.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-sans flex items-start gap-1.5"
+                                style={{ fontSize: '11px', color: cfg.color, textDecoration: 'none', lineHeight: 1.4 }}
+                              >
+                                <svg width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ flexShrink: 0, marginTop: '2px' }}>
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                                <span style={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const }}>{u.title}</span>
+                              </a>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     );
                   })}
@@ -661,7 +693,7 @@ export default function ChatInterface() {
       )}
 
       {/* ── Main chat area ── */}
-      <div className="flex flex-col flex-1 min-w-0" style={{ height: '100%', overflow: 'hidden' }}>
+      <div className="flex flex-col flex-1 min-w-0 relative" style={{ height: '100%', overflow: 'hidden' }}>
 
         {/* Header */}
         <div
@@ -768,10 +800,48 @@ export default function ChatInterface() {
           </div>
         </div>
 
+        {/* Scroll-to-bottom button */}
+        {showScrollBtn && messages.length > 0 && (
+          <button
+            onClick={() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })}
+            style={{
+              position: 'absolute',
+              bottom: '80px',
+              right: '16px',
+              zIndex: 10,
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              backgroundColor: '#0D2E35',
+              color: '#00B5AD',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 4px 12px rgba(13,46,53,0.25)',
+              transition: 'transform 0.15s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.08)')}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+            title="Ir al final"
+          >
+            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        )}
+
         {/* Messages area */}
         <div
+          ref={messagesContainerRef}
           className="flex-1 overflow-y-auto"
           style={{ WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain' } as React.CSSProperties}
+          onScroll={() => {
+            const el = messagesContainerRef.current;
+            if (!el) return;
+            setShowScrollBtn(el.scrollHeight - el.scrollTop - el.clientHeight > 120);
+          }}
         >
           {messages.length === 0 ? (
             /* Empty state */

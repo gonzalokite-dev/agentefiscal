@@ -4,6 +4,7 @@ export interface SourceEntry {
   id: string;
   source: string;
   query: string;
+  urls?: Array<{ title: string; url: string }>;
 }
 
 interface Props {
@@ -135,6 +136,36 @@ export default function SourcesPanel({ sources, onSuggestionClick }: Props) {
                   >
                     {entry.query}
                   </p>
+                  {entry.urls && entry.urls.length > 0 && (
+                    <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                      {entry.urls.map((u) => (
+                        <a
+                          key={u.url}
+                          href={u.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-sans flex items-start gap-1.5"
+                          style={{
+                            fontSize: '11px',
+                            color: cfg.color,
+                            textDecoration: 'none',
+                            lineHeight: 1.4,
+                            overflow: 'hidden',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+                          onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+                        >
+                          <svg width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ flexShrink: 0, marginTop: '2px' }}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                          {u.title}
+                        </a>
+                      ))}
+                    </div>
+                  )}
                 </div>
               );
             })}

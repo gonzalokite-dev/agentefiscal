@@ -63,7 +63,7 @@ const DOMAIN_MAP: Record<string, string[]> = {
 export async function executeSearch(
   query: string,
   fuente?: string
-): Promise<{ text: string; count: number }> {
+): Promise<{ text: string; count: number; urls: Array<{ title: string; url: string }> }> {
   const apiKey = process.env.TAVILY_API_KEY;
 
   if (!apiKey) {
@@ -104,13 +104,14 @@ export async function executeSearch(
         ? '[La búsqueda tardó demasiado. Respondo con conocimiento base.]'
         : `[Error de red en la búsqueda: ${String(err)}]`,
       count: 0,
+      urls: [],
     };
   } finally {
     clearTimeout(timeout);
   }
 
   if (!res.ok) {
-    return { text: `[Error en la búsqueda: ${res.statusText}]`, count: 0 };
+    return { text: `[Error en la búsqueda: ${res.statusText}]`, count: 0, urls: [] };
   }
 
   const data = await res.json();
@@ -127,6 +128,7 @@ export async function executeSearch(
   return {
     text: text.trim() || 'No se encontraron resultados relevantes en las fuentes oficiales.',
     count: results.length,
+    urls: results.slice(0, 3).map((r) => ({ title: r.title, url: r.url })),
   };
 }
 

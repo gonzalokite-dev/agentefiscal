@@ -126,7 +126,7 @@ export async function POST(req: Request) {
                 clearInterval(heartbeatInterval);
 
                 // Notify the client that the search is done
-                emit({ searched: { query: input.query, source: sourceLabel, count: result.count } });
+                emit({ searched: { query: input.query, source: sourceLabel, count: result.count, urls: result.urls } });
 
                 toolResults.push({
                   type: 'tool_result',

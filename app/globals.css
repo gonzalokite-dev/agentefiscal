@@ -97,14 +97,17 @@ body {
 /* Tables — scrollable on small screens */
 .prose-fiscal .table-wrapper {
   width: 100%;
+  max-width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   margin: 0.75em 0;
   border-radius: 6px;
+  /* Prevent the wrapper itself from expanding past its flex parent */
+  display: block;
 }
 .prose-fiscal table {
-  width: 100%;
-  min-width: 400px;
+  width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
   font-size: 0.88rem;
 }
