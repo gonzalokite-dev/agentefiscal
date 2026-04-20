@@ -921,7 +921,7 @@ export default function ChatInterface() {
 
               {/* Tool status */}
               {toolStatus && (
-                <div className="flex gap-3 mb-6">
+                <div className="flex gap-3 mb-6 min-w-0">
                   <div
                     className="flex items-center justify-center flex-shrink-0"
                     style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#0D2E35', marginTop: '2px' }}
@@ -929,15 +929,15 @@ export default function ChatInterface() {
                     <span style={{ fontSize: '9px', fontWeight: 700, color: '#00B5AD', fontFamily: 'var(--font-playfair), serif', fontStyle: 'italic' }}>vi</span>
                   </div>
                   <div
-                    className="flex items-center gap-2 font-sans"
-                    style={{ backgroundColor: 'rgba(0,181,173,0.08)', border: '1px solid rgba(0,181,173,0.25)', borderRadius: '10px', padding: '8px 14px', fontSize: '13px', color: '#5F5E5A' }}
+                    className="flex items-center gap-2 font-sans min-w-0"
+                    style={{ backgroundColor: 'rgba(0,181,173,0.08)', border: '1px solid rgba(0,181,173,0.25)', borderRadius: '10px', padding: '8px 14px', fontSize: '13px', color: '#5F5E5A', overflow: 'hidden' }}
                   >
                     <svg className="animate-spin flex-shrink-0" width="13" height="13" fill="none" stroke="#00B5AD" strokeWidth="2.5" viewBox="0 0 24 24">
                       <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
                       <path d="M12 2a10 10 0 0110 10" />
                     </svg>
-                    <span style={{ color: '#00B5AD', fontWeight: 500 }}>Consultando</span>
-                    <span style={{ color: '#9CA3AF' }} className="truncate">· {toolStatus}</span>
+                    <span className="flex-shrink-0" style={{ color: '#00B5AD', fontWeight: 500 }}>Consultando</span>
+                    <span className="truncate" style={{ color: '#9CA3AF', minWidth: 0 }}>· {toolStatus}</span>
                   </div>
                 </div>
               )}
