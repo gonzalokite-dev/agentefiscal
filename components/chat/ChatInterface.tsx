@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import MessageBubble from './MessageBubble';
 import InputBar from './InputBar';
-import SourcesPanel, { type SourceEntry } from './SourcesPanel';
+import { type SourceEntry } from './SourcesPanel';
 import Link from 'next/link';
 import {
   getConversations,
@@ -978,13 +978,6 @@ export default function ChatInterface() {
         />
       </div>
 
-      {/* ── Right panel (lg+, only when there are messages) ── */}
-      {messages.length > 0 && (
-        <SourcesPanel
-          sources={consultedSources}
-          onSuggestionClick={(text) => handleSend(text)}
-        />
-      )}
     </div>
   );
 }
