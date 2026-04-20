@@ -209,7 +209,7 @@ function ChatSidebar({
                   </button>
                   <button
                     onClick={(e) => onDeleteConversation(conv.id, e)}
-                    className="flex-shrink-0 p-1.5 mr-1 rounded opacity-0 group-hover/item:opacity-100 transition-opacity"
+                    className="flex-shrink-0 p-1.5 mr-1 rounded opacity-50 md:opacity-0 group-hover/item:opacity-100 transition-opacity"
                     style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9CA3AF' }}
                     title="Eliminar conversación"
                     onMouseEnter={(e) => (e.currentTarget.style.color = '#374151')}
@@ -305,15 +305,16 @@ export default function ChatInterface() {
   const [toolStatus, setToolStatus] = useState<string | null>(null);
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sourcesSheetOpen, setSourcesSheetOpen] = useState(false);
   const [feedbackMap, setFeedbackMap] = useState<Record<string, 'up' | 'down'>>({});
   const [consultedSources, setConsultedSources] = useState<SourceEntry[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Lock body scroll when mobile drawer is open
   useEffect(() => {
-    document.body.style.overflow = sidebarOpen ? 'hidden' : '';
+    document.body.style.overflow = (sidebarOpen || sourcesSheetOpen) ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [sidebarOpen]);
+  }, [sidebarOpen, sourcesSheetOpen]);
 
   // Load conversations from localStorage on mount
   useEffect(() => {
@@ -549,6 +550,116 @@ export default function ChatInterface() {
         </div>
       )}
 
+      {/* ── Mobile sources bottom sheet ── */}
+      {sourcesSheetOpen && (
+        <div
+          className="md:hidden"
+          style={{ position: 'fixed', inset: 0, zIndex: 60, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
+        >
+          {/* Backdrop */}
+          <div
+            style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.45)' }}
+            onClick={() => setSourcesSheetOpen(false)}
+          />
+          {/* Sheet */}
+          <div
+            className="sources-sheet-panel"
+            style={{ position: 'relative', backgroundColor: 'white', borderRadius: '20px 20px 0 0', maxHeight: '72vh', display: 'flex', flexDirection: 'column' }}
+          >
+            {/* Drag handle */}
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '12px 0 6px' }}>
+              <div style={{ width: '36px', height: '4px', borderRadius: '2px', backgroundColor: '#E5E7EB' }} />
+            </div>
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px 12px', borderBottom: '1px solid #F3F4F6', flexShrink: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <svg width="14" height="14" fill="none" stroke="#9CA3AF" strokeWidth="1.8" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <p className="font-sans font-semibold" style={{ fontSize: '14px', color: '#374151' }}>Panel de contexto</p>
+              </div>
+              <button
+                onClick={() => setSourcesSheetOpen(false)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9CA3AF', fontSize: '22px', lineHeight: 1, padding: '4px 6px', borderRadius: '8px' }}
+              >
+                ×
+              </button>
+            </div>
+            {/* Scrollable body */}
+            <div className="flex-1 overflow-y-auto" style={{ padding: '16px' }}>
+              {/* Sources */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '12px' }}>
+                <p className="font-sans" style={{ fontSize: '10px', color: '#9CA3AF', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>
+                  Fuentes consultadas
+                </p>
+                {consultedSources.length > 0 && (
+                  <span className="font-sans font-semibold" style={{ fontSize: '10px', backgroundColor: 'rgba(0,181,173,0.1)', color: '#00B5AD', borderRadius: '9999px', padding: '1px 6px' }}>
+                    {consultedSources.length}
+                  </span>
+                )}
+              </div>
+              {consultedSources.length === 0 ? (
+                <div style={{ border: '1px dashed #E5E7EB', borderRadius: '10px', padding: '16px', textAlign: 'center', marginBottom: '20px' }}>
+                  <p className="font-sans" style={{ fontSize: '12px', color: '#C4C4C4', fontStyle: 'italic', lineHeight: 1.5 }}>
+                    Las fuentes aparecerán aquí cuando Victoria realice búsquedas
+                  </p>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
+                  {consultedSources.map((entry) => {
+                    const s = entry.source.toUpperCase();
+                    const cfg = s.includes('DGT')
+                      ? { color: '#00B5AD', bg: 'rgba(0,181,173,0.07)', border: 'rgba(0,181,173,0.2)', abbr: 'DGT' }
+                      : s.includes('AEAT')
+                      ? { color: '#EF4444', bg: 'rgba(239,68,68,0.06)', border: 'rgba(239,68,68,0.18)', abbr: 'AEAT' }
+                      : s.includes('BOE')
+                      ? { color: '#1E3A5F', bg: 'rgba(30,58,95,0.06)', border: 'rgba(30,58,95,0.15)', abbr: 'BOE' }
+                      : { color: '#6B7280', bg: 'rgba(107,114,128,0.06)', border: 'rgba(107,114,128,0.15)', abbr: entry.source.slice(0, 4).toUpperCase() };
+                    return (
+                      <div key={entry.id} className="font-sans" style={{ borderRadius: '10px', padding: '10px 12px', backgroundColor: cfg.bg, border: `1px solid ${cfg.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '5px' }}>
+                          <span className="font-sans font-bold" style={{ fontSize: '9px', letterSpacing: '0.06em', color: cfg.color, backgroundColor: `${cfg.color}18`, border: `1px solid ${cfg.color}30`, padding: '2px 6px', borderRadius: '4px' }}>
+                            {cfg.abbr}
+                          </span>
+                        </div>
+                        <p style={{ fontSize: '13px', color: '#4B5563', lineHeight: 1.45, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' as const, margin: 0 }}>
+                          {entry.query}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              {/* Divider */}
+              <div style={{ borderTop: '1px solid #F3F4F6', marginBottom: '16px' }} />
+              {/* Next steps */}
+              <p className="font-sans" style={{ fontSize: '10px', color: '#9CA3AF', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '10px', fontWeight: 600 }}>
+                Siguientes pasos
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', paddingBottom: '8px' }}>
+                {[
+                  '¿Existe alguna deducción adicional aplicable?',
+                  '¿Cuáles son los plazos de presentación?',
+                  'Redacta un resumen ejecutivo para mi cliente',
+                ].map((step, i) => (
+                  <button
+                    key={step}
+                    onClick={() => { handleSend(step); setSourcesSheetOpen(false); }}
+                    className="font-sans text-left"
+                    style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '12px', borderRadius: '10px', border: '1px solid #E5E7EB', background: 'white', cursor: 'pointer', fontSize: '13px', color: '#374151', lineHeight: 1.5 }}
+                  >
+                    <span className="font-sans font-bold flex-shrink-0" style={{ fontSize: '10px', width: '18px', height: '18px', borderRadius: '50%', backgroundColor: 'rgba(0,181,173,0.1)', color: '#00B5AD', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '1px' }}>
+                      {i + 1}
+                    </span>
+                    <span>{step}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── Main chat area ── */}
       <div className="flex flex-col flex-1 min-w-0" style={{ height: '100%', overflow: 'hidden' }}>
 
@@ -570,17 +681,17 @@ export default function ChatInterface() {
               </svg>
             </button>
 
-            {/* Logo — mobile only (desktop has it in sidebar) */}
+            {/* Logo — mobile only, hidden when conversation is active */}
             <img
               src="/logo-victoria-transparent.png"
               alt="Victoria"
-              className="md:hidden flex-shrink-0"
+              className={`flex-shrink-0 md:hidden ${messages.length > 0 ? 'hidden' : ''}`}
               style={{ height: '20px', width: 'auto' }}
             />
 
-            {/* Conversation title — desktop only */}
+            {/* Conversation title — desktop always, mobile when messages exist */}
             <p
-              className="hidden md:block font-sans font-semibold truncate"
+              className={`font-sans font-semibold truncate ${messages.length > 0 ? 'block' : 'hidden md:block'}`}
               style={{ fontSize: '14px', color: '#0D2E35', maxWidth: '340px' }}
             >
               {messages.length > 0
@@ -588,10 +699,11 @@ export default function ChatInterface() {
                 : 'Nueva conversación'}
             </p>
 
-            {/* Sources badge */}
+            {/* Sources badge — tappable on mobile to open bottom sheet */}
             {consultedSources.length > 0 && (
-              <span
-                className="font-sans flex-shrink-0"
+              <button
+                onClick={() => setSourcesSheetOpen(true)}
+                className="font-sans flex-shrink-0 flex items-center gap-1"
                 style={{
                   fontSize: '11px',
                   fontWeight: 600,
@@ -601,10 +713,14 @@ export default function ChatInterface() {
                   borderRadius: '9999px',
                   padding: '2px 8px',
                   whiteSpace: 'nowrap',
+                  cursor: 'pointer',
                 }}
               >
                 {consultedSources.length} {consultedSources.length === 1 ? 'fuente' : 'fuentes'}
-              </span>
+                <svg className="md:hidden" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+                </svg>
+              </button>
             )}
           </div>
 

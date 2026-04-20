@@ -99,7 +99,7 @@ export default function HowTo() {
                   >
                     {s.tag}
                   </span>
-                  <h3 className="font-sans font-semibold mb-2" style={{ fontSize: '16px', color: '#0D2E35', lineHeight: 1.4 }}>
+                  <h3 className="font-serif font-semibold mb-2" style={{ fontSize: '16px', color: '#0D2E35', lineHeight: 1.4 }}>
                     {s.title}
                   </h3>
                   <p className="font-sans mb-3" style={{ fontSize: '14px', color: '#6B7280', lineHeight: 1.7 }}>

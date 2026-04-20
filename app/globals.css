@@ -231,3 +231,12 @@ body {
 .chat-drawer-panel {
   animation: slide-in-left 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* ── Mobile sources bottom sheet slide-up ───────────────── */
+@keyframes slide-in-bottom {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+.sources-sheet-panel {
+  animation: slide-in-bottom 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
