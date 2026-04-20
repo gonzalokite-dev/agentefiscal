@@ -70,6 +70,7 @@ export async function executeSearch(
     return {
       text: '[Búsqueda no disponible: TAVILY_API_KEY no configurada]',
       count: 0,
+      urls: [],
     };
   }
 
