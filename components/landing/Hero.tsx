@@ -155,7 +155,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* RIGHT — chat mockup */}
+        {/* RIGHT — dashboard + chat mockup */}
         <div className="flex justify-center lg:justify-end">
           <div
             style={{
@@ -189,12 +189,79 @@ export default function Hero() {
               </div>
             </div>
 
+            {/* Metrics strip */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr 1fr',
+                backgroundColor: '#FAFAFA',
+                borderBottom: '1px solid #E5E7EB',
+              }}
+            >
+              {/* Consultas */}
+              <div style={{ padding: '12px 14px', borderRight: '1px solid #E5E7EB' }}>
+                <p className="font-sans font-bold" style={{ fontSize: '17px', color: '#0D2E35', lineHeight: 1 }}>2.4K+</p>
+                <p className="font-sans" style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '3px', lineHeight: 1.3 }}>Consultas resueltas</p>
+                <div style={{ display: 'flex', gap: '2px', marginTop: '7px', alignItems: 'flex-end', height: '14px' }}>
+                  {[4, 5, 4, 7, 6, 8, 10].map((h, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        width: '4px',
+                        height: `${h * 1.4}px`,
+                        backgroundColor: i === 6 ? '#00B5AD' : 'rgba(0,181,173,0.22)',
+                        borderRadius: '1.5px',
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Fuentes */}
+              <div style={{ padding: '12px 14px', borderRight: '1px solid #E5E7EB' }}>
+                <p className="font-sans font-bold" style={{ fontSize: '17px', color: '#0D2E35', lineHeight: 1 }}>3</p>
+                <p className="font-sans" style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '3px', lineHeight: 1.3 }}>Fuentes oficiales</p>
+                <div style={{ display: 'flex', gap: '3px', marginTop: '7px' }}>
+                  {[
+                    { label: 'DGT', color: '#00B5AD' },
+                    { label: 'AEAT', color: '#EF4444' },
+                    { label: 'BOE', color: '#1E3A5F' },
+                  ].map((s) => (
+                    <span
+                      key={s.label}
+                      className="font-sans font-bold"
+                      style={{
+                        fontSize: '8px',
+                        color: s.color,
+                        backgroundColor: `${s.color}18`,
+                        border: `1px solid ${s.color}35`,
+                        borderRadius: '3px',
+                        padding: '1px 4px',
+                        letterSpacing: '0.02em',
+                      }}
+                    >
+                      {s.label}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tiempo */}
+              <div style={{ padding: '12px 14px' }}>
+                <p className="font-sans font-bold" style={{ fontSize: '17px', color: '#0D2E35', lineHeight: 1 }}>&lt; 10s</p>
+                <p className="font-sans" style={{ fontSize: '10px', color: '#9CA3AF', marginTop: '3px', lineHeight: 1.3 }}>Respuesta media</p>
+                <div style={{ marginTop: '9px', height: '4px', backgroundColor: '#E5E7EB', borderRadius: '2px', overflow: 'hidden' }}>
+                  <div style={{ width: '28%', height: '100%', backgroundColor: '#22c55e', borderRadius: '2px' }} />
+                </div>
+              </div>
+            </div>
+
             {/* Chat area */}
             <div
               style={{
-                height: 'clamp(260px, 42vw, 360px)',
+                height: 'clamp(200px, 30vw, 260px)',
                 overflow: 'hidden',
-                padding: '18px',
+                padding: '16px 18px',
                 backgroundColor: '#fff',
                 transition: 'opacity 0.35s ease',
                 opacity: visible ? 1 : 0,
