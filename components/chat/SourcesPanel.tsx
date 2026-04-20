@@ -18,11 +18,19 @@ const NEXT_STEPS = [
   'Redacta un resumen ejecutivo para mi cliente',
 ];
 
+const OFFICIAL_URLS: Record<string, string> = {
+  DGT: 'https://petete.tributos.hacienda.gob.es/consultas/',
+  AEAT: 'https://www.agenciatributaria.gob.es/',
+  BOE: 'https://www.boe.es/',
+  TEAC: 'https://serviciostelematicosext.hacienda.gob.es/TEAC/DYCTEA/',
+};
+
 function sourceConfig(source: string): { color: string; bg: string; border: string; abbr: string } {
   const s = source.toUpperCase();
   if (s.includes('DGT')) return { color: '#00B5AD', bg: 'rgba(0,181,173,0.07)', border: 'rgba(0,181,173,0.2)', abbr: 'DGT' };
   if (s.includes('AEAT')) return { color: '#EF4444', bg: 'rgba(239,68,68,0.06)', border: 'rgba(239,68,68,0.18)', abbr: 'AEAT' };
   if (s.includes('BOE')) return { color: '#1E3A5F', bg: 'rgba(30,58,95,0.06)', border: 'rgba(30,58,95,0.15)', abbr: 'BOE' };
+  if (s.includes('TEAC')) return { color: '#7C3AED', bg: 'rgba(124,58,237,0.06)', border: 'rgba(124,58,237,0.15)', abbr: 'TEAC' };
   return { color: '#6B7280', bg: 'rgba(107,114,128,0.06)', border: 'rgba(107,114,128,0.15)', abbr: source.slice(0, 4).toUpperCase() };
 }
 
@@ -106,22 +114,35 @@ export default function SourcesPanel({ sources, onSuggestionClick }: Props) {
                     border: `1px solid ${cfg.border}`,
                   }}
                 >
-                  <div className="flex items-center gap-2" style={{ marginBottom: '5px' }}>
-                    <span
-                      className="font-sans font-bold"
+                  {/* Badge — links to official portal */}
+                  <div className="flex items-center justify-between" style={{ marginBottom: '6px' }}>
+                    <a
+                      href={OFFICIAL_URLS[cfg.abbr] || '#'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-sans font-bold flex items-center gap-1"
                       style={{
                         fontSize: '9px',
                         letterSpacing: '0.06em',
                         color: cfg.color,
                         backgroundColor: `${cfg.color}18`,
                         border: `1px solid ${cfg.color}30`,
-                        padding: '2px 6px',
+                        padding: '2px 7px',
                         borderRadius: '4px',
+                        textDecoration: 'none',
+                        transition: 'opacity 0.15s',
                       }}
+                      onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.75')}
+                      onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
                     >
                       {cfg.abbr}
-                    </span>
+                      <svg width="8" height="8" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
                   </div>
+
+                  {/* Query text */}
                   <p
                     style={{
                       fontSize: '12px',
@@ -136,32 +157,26 @@ export default function SourcesPanel({ sources, onSuggestionClick }: Props) {
                   >
                     {entry.query}
                   </p>
+
+                  {/* Specific document links from Tavily */}
                   {entry.urls && entry.urls.length > 0 && (
-                    <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '5px', borderTop: `1px solid ${cfg.border}`, paddingTop: '8px' }}>
                       {entry.urls.map((u) => (
                         <a
                           key={u.url}
                           href={u.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="font-sans flex items-start gap-1.5"
-                          style={{
-                            fontSize: '11px',
-                            color: cfg.color,
-                            textDecoration: 'none',
-                            lineHeight: 1.4,
-                            overflow: 'hidden',
-                            display: '-webkit-box',
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: 'vertical',
-                          }}
+                          style={{ display: 'flex', alignItems: 'flex-start', gap: '5px', fontSize: '11px', color: cfg.color, textDecoration: 'none', lineHeight: 1.4 }}
                           onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
                           onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
                         >
-                          <svg width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ flexShrink: 0, marginTop: '2px' }}>
+                          <svg width="9" height="9" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" style={{ flexShrink: 0, marginTop: '3px' }}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                           </svg>
-                          {u.title}
+                          <span style={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const }}>
+                            {u.title}
+                          </span>
                         </a>
                       ))}
                     </div>
