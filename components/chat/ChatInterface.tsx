@@ -942,21 +942,25 @@ export default function ChatInterface() {
                 </div>
               )}
 
-              {/* Typing dots */}
+              {/* Thinking state */}
               {isLoading && streamingMsgId === null && !toolStatus && (
                 <div className="flex gap-3 mb-6">
                   <div
                     className="flex items-center justify-center flex-shrink-0"
-                    style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#0D2E35', marginTop: '2px' }}
+                    style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#0D2E35', marginTop: '2px', boxShadow: '0 2px 8px rgba(13,46,53,0.25)' }}
                   >
                     <span style={{ fontSize: '9px', fontWeight: 700, color: '#00B5AD', fontFamily: 'var(--font-playfair), serif', fontStyle: 'italic' }}>vi</span>
                   </div>
-                  <div className="flex items-center" style={{ paddingTop: '6px' }}>
+                  <div
+                    className="font-sans flex items-center gap-3"
+                    style={{ backgroundColor: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: '10px', padding: '10px 14px' }}
+                  >
                     <div className="flex gap-1">
                       <span className="typing-dot" />
                       <span className="typing-dot" />
                       <span className="typing-dot" />
                     </div>
+                    <span style={{ fontSize: '13px', color: '#9CA3AF' }}>Victoria está redactando la respuesta</span>
                   </div>
                 </div>
               )}
