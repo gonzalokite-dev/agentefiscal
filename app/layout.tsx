@@ -18,7 +18,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'Victoria - Copiloto fiscal para profesionales y asesorías',
+  title: 'Victoria - Tu copiloto fiscal',
   description: 'Victoria es tu asistente fiscal con IA. Resuelve consultas, interpreta normativa y ayuda a tus clientes con el BOE, la DGT y la AEAT en tiempo real.',
   icons: {
     icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2300B5AD'/><text x='16' y='22' font-size='12' font-weight='700' font-family='sans-serif' font-style='italic' fill='%23FFFFFF' text-anchor='middle'>vi</text></svg>",
