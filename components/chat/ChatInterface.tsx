@@ -72,6 +72,18 @@ function getGreeting(firstName: string) {
   return `Buenas noches, ${name}`;
 }
 
+function generateWelcomeMessage(firstName: string): Message {
+  const h = new Date().getHours();
+  const name = firstName || 'asesor';
+  const saludo = h >= 6 && h < 14 ? 'Buenos días' : h >= 14 && h < 21 ? 'Buenas tardes' : 'Buenas noches';
+  return {
+    id: newId(),
+    role: 'assistant',
+    content: `${saludo}, **${name}**.\n\nSoy Victoria, tu copiloto fiscal. Puedo ayudarte con:\n\n- **Normativa fiscal** — consultas a DGT, AEAT y BOE en tiempo real\n- **Documentos** — analizo facturas, contratos y expedientes de la AEAT\n- **Redacción** — recursos, liquidaciones y resúmenes para tus clientes\n\n¿En qué puedo ayudarte hoy?`,
+    timestamp: new Date(),
+  };
+}
+
 /* ─────────────────────────────────────────────────────────
    ChatSidebar — defined OUTSIDE the main component so
    React keeps a stable component reference across renders.
@@ -299,6 +311,8 @@ export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConvId, setCurrentConvId] = useState<string>('');
+  const [conversationsLoaded, setConversationsLoaded] = useState(false);
+  const welcomeShownRef = useRef(false);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [streamingMsgId, setStreamingMsgId] = useState<string | null>(null);
@@ -329,7 +343,18 @@ export default function ChatInterface() {
     } else {
       setCurrentConvId(newId());
     }
+    setConversationsLoaded(true);
   }, []);
+
+  // Show welcome message on fresh conversation (no history, session ready)
+  useEffect(() => {
+    if (!conversationsLoaded || welcomeShownRef.current || !firstName) return;
+    setMessages((prev) => {
+      if (prev.length > 0) return prev;
+      welcomeShownRef.current = true;
+      return [generateWelcomeMessage(firstName)];
+    });
+  }, [conversationsLoaded, firstName]);
 
   // Pre-fill input from ?q= URL param
   useEffect(() => {
@@ -337,12 +362,14 @@ export default function ChatInterface() {
     if (q) setInput(q);
   }, [searchParams]);
 
-  // Save conversation whenever messages change
+  // Save conversation whenever messages change (only once there's a user message)
   useEffect(() => {
-    if (messages.length === 0 || !currentConvId) return;
+    if (!currentConvId) return;
+    const firstUserMsg = messages.find((m) => m.role === 'user');
+    if (!firstUserMsg) return;
     const conv: Conversation = {
       id: currentConvId,
-      title: messages[0].content.slice(0, 60) || 'Nueva conversación',
+      title: firstUserMsg.content.slice(0, 60) || 'Nueva conversación',
       messages: messages.map((m) => ({ ...m, timestamp: m.timestamp.toISOString() })),
       createdAt: messages[0].timestamp.toISOString(),
       updatedAt: new Date().toISOString(),
@@ -365,7 +392,7 @@ export default function ChatInterface() {
 
   const startNewConversation = () => {
     setCurrentConvId(newId());
-    setMessages([]);
+    setMessages(firstName ? [generateWelcomeMessage(firstName)] : []);
     setInput('');
     setAttachedFile(null);
     setConsultedSources([]);
@@ -513,6 +540,8 @@ export default function ChatInterface() {
       setToolStatus(null);
     }
   };
+
+  const hasUserMessages = messages.some((m) => m.role === 'user');
 
   const sidebarProps: ChatSidebarProps = {
     userEmail,
@@ -713,22 +742,24 @@ export default function ChatInterface() {
               </svg>
             </button>
 
-            {/* Logo — mobile only, hidden when conversation is active */}
+            {/* Logo — mobile only, hidden when user has sent a message */}
             <img
               src="/logo-victoria-transparent.png"
               alt="Victoria"
-              className={`flex-shrink-0 md:hidden ${messages.length > 0 ? 'hidden' : ''}`}
+              className={`flex-shrink-0 md:hidden ${hasUserMessages ? 'hidden' : ''}`}
               style={{ height: '20px', width: 'auto' }}
             />
 
-            {/* Conversation title — desktop always, mobile when messages exist */}
+            {/* Conversation title — desktop always, mobile when user has sent a message */}
             <p
-              className={`font-sans font-semibold truncate ${messages.length > 0 ? 'block' : 'hidden md:block'}`}
+              className={`font-sans font-semibold truncate ${hasUserMessages ? 'block' : 'hidden md:block'}`}
               style={{ fontSize: '14px', color: '#0D2E35', maxWidth: '340px' }}
             >
-              {messages.length > 0
-                ? messages[0].content.slice(0, 55) + (messages[0].content.length > 55 ? '…' : '')
-                : 'Nueva conversación'}
+              {(() => {
+                const firstUserMsg = messages.find((m) => m.role === 'user');
+                if (!firstUserMsg) return 'Nueva conversación';
+                return firstUserMsg.content.slice(0, 55) + (firstUserMsg.content.length > 55 ? '…' : '');
+              })()}
             </p>
 
             {/* Sources badge — tappable on mobile to open bottom sheet */}
