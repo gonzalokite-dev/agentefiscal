@@ -656,6 +656,8 @@ export default function ChatInterface() {
                       ? { color: '#EF4444', bg: 'rgba(239,68,68,0.06)', border: 'rgba(239,68,68,0.18)', abbr: 'AEAT' }
                       : s.includes('BOE')
                       ? { color: '#1E3A5F', bg: 'rgba(30,58,95,0.06)', border: 'rgba(30,58,95,0.15)', abbr: 'BOE' }
+                      : s.includes('CENDOJ')
+                      ? { color: '#B45309', bg: 'rgba(180,83,9,0.06)', border: 'rgba(180,83,9,0.15)', abbr: 'CENDOJ' }
                       : { color: '#6B7280', bg: 'rgba(107,114,128,0.06)', border: 'rgba(107,114,128,0.15)', abbr: entry.source.slice(0, 4).toUpperCase() };
                     return (
                       <div key={entry.id} className="font-sans" style={{ borderRadius: '10px', padding: '10px 12px', backgroundColor: cfg.bg, border: `1px solid ${cfg.border}` }}>

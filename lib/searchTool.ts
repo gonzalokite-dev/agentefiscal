@@ -21,12 +21,13 @@ export const FISCAL_TOOLS: Anthropic.Tool[] = [
         },
         fuente: {
           type: 'string',
-          enum: ['boe', 'dgt', 'aeat', 'teac', 'todas'],
+          enum: ['boe', 'dgt', 'aeat', 'teac', 'cendoj', 'todas'],
           description:
             '"boe" para legislación y normas publicadas en el BOE. ' +
             '"dgt" para consultas vinculantes y criterios de la Dirección General de Tributos. ' +
             '"aeat" para instrucciones, modelos y procedimientos de la Agencia Tributaria. ' +
             '"teac" para resoluciones del Tribunal Económico-Administrativo Central (DYCTEA). ' +
+            '"cendoj" para sentencias y jurisprudencia del poder judicial español (Audiencia Nacional, Tribunal Supremo, TSJ). ' +
             '"todas" para buscar en todas las fuentes simultáneamente.',
         },
       },
@@ -43,7 +44,8 @@ export function getSourceLabel(fuente?: string): string {
     dgt: 'DGT',
     aeat: 'AEAT',
     teac: 'TEAC · DYCTEA',
-    todas: 'BOE · DGT · AEAT · TEAC',
+    cendoj: 'CENDOJ',
+    todas: 'BOE · DGT · AEAT · TEAC · CENDOJ',
   };
   return labels[fuente ?? ''] ?? 'fuentes oficiales';
 }
@@ -55,7 +57,8 @@ const DOMAIN_MAP: Record<string, string[]> = {
   dgt: ['hacienda.gob.es', 'petete.tributos.hacienda.gob.es'],
   aeat: ['agenciatributaria.gob.es'],
   teac: ['serviciostelematicosext.hacienda.gob.es'],
-  todas: ['boe.es', 'hacienda.gob.es', 'agenciatributaria.gob.es', 'petete.tributos.hacienda.gob.es', 'serviciostelematicosext.hacienda.gob.es'],
+  cendoj: ['poderjudicial.es'],
+  todas: ['boe.es', 'hacienda.gob.es', 'agenciatributaria.gob.es', 'petete.tributos.hacienda.gob.es', 'serviciostelematicosext.hacienda.gob.es', 'poderjudicial.es'],
 };
 
 // ─── Tavily search executor ────────────────────────────────────────────────────
@@ -144,6 +147,7 @@ Tienes acceso a la herramienta \`buscar_normativa\` que te permite consultar en 
 - **DGT** (hacienda.gob.es) — Consultas vinculantes, criterios interpretativos.
 - **AEAT** (agenciatributaria.gob.es) — Modelos, instrucciones, plazos actualizados.
 - **TEAC** (serviciostelematicosext.hacienda.gob.es/TEAC/DYCTEA/) — Resoluciones del Tribunal Económico-Administrativo Central. Base de datos DYCTEA con doctrina administrativa vinculante.
+- **CENDOJ** (poderjudicial.es) — Jurisprudencia del poder judicial español: sentencias del Tribunal Supremo, Audiencia Nacional, Tribunales Superiores de Justicia y Audiencias Provinciales.
 
 **Cuándo usarla:**
 - Cuando el usuario pregunte por normativa que pueda haber cambiado después de agosto de 2025.
@@ -151,18 +155,22 @@ Tienes acceso a la herramienta \`buscar_normativa\` que te permite consultar en 
 - Cuando debas confirmar tipos impositivos, plazos o importes actuales.
 - Cuando el usuario mencione una norma concreta y quieras verificar su vigencia.
 - Cuando la consulta implique un conflicto interpretativo o un recurso económico-administrativo — usa "teac" para buscar doctrina del TEAC sobre ese criterio.
+- Cuando el usuario pregunte por sentencias, jurisprudencia, criterios judiciales o quiera saber cómo han fallado los tribunales sobre una cuestión fiscal — usa "cendoj".
+- Cuando necesites contrastar la doctrina administrativa del TEAC con la jurisprudencia judicial — combina "teac" y "cendoj".
 
 **Cómo usarla bien:**
 - Formula queries específicas: "consulta vinculante DGT alquiler turístico IVA 2025" mejor que "IVA alquiler".
-- Elige la fuente correcta: usa "dgt" para consultas vinculantes, "boe" para textos legales, "aeat" para modelos y plazos, "teac" para doctrina administrativa del TEAC.
+- Elige la fuente correcta: usa "dgt" para consultas vinculantes, "boe" para textos legales, "aeat" para modelos y plazos, "teac" para doctrina administrativa del TEAC, "cendoj" para sentencias judiciales.
 - Puedes hacer varias búsquedas seguidas si necesitas contrastar información de distintas fuentes.
-- Para resolver reclamaciones o recursos, combina "dgt" (criterio interpretativo) con "teac" (doctrina administrativa).
+- Para resolver reclamaciones o recursos, combina "dgt" (criterio interpretativo) con "teac" (doctrina administrativa) y "cendoj" (jurisprudencia judicial).
+- Para CENDOJ, incluye el tribunal en la query cuando sea relevante: "Audiencia Nacional IRPF simulación negocio jurídico" o "Tribunal Supremo IVA operaciones vinculadas".
 
 **Después de buscar:**
 - **Siempre incluye las fuentes como links markdown clicables** con este formato exacto: \`[Título descriptivo](URL)\`.
   - Ejemplo DGT: \`[Consulta Vinculante V1234-23, DGT](https://petete.tributos.hacienda.gob.es/...)\`
   - Ejemplo BOE: \`[Ley 35/2006, de 28 de noviembre, del IRPF](https://www.boe.es/...)\`
   - Ejemplo TEAC: \`[Resolución TEAC 00/1234/2023](https://serviciostelematicosext.hacienda.gob.es/TEAC/DYCTEA/...)\`
+  - Ejemplo CENDOJ: \`[SAN 1234/2024, Audiencia Nacional — Sala de lo Contencioso](https://www.poderjudicial.es/...)\`
 - Coloca los links al final de la respuesta en una sección **"Fuentes"** o dentro del texto junto a la afirmación que fundamentan.
 - Si el resultado no es concluyente, indícalo y recomienda verificar directamente en la sede electrónica.
 `;

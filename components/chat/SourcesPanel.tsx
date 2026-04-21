@@ -23,6 +23,7 @@ const OFFICIAL_URLS: Record<string, string> = {
   AEAT: 'https://www.agenciatributaria.gob.es/',
   BOE: 'https://www.boe.es/',
   TEAC: 'https://serviciostelematicosext.hacienda.gob.es/TEAC/DYCTEA/',
+  CENDOJ: 'https://www.poderjudicial.es/search/indexAN.jsp',
 };
 
 function sourceConfig(source: string): { color: string; bg: string; border: string; abbr: string } {
@@ -31,6 +32,7 @@ function sourceConfig(source: string): { color: string; bg: string; border: stri
   if (s.includes('AEAT')) return { color: '#EF4444', bg: 'rgba(239,68,68,0.06)', border: 'rgba(239,68,68,0.18)', abbr: 'AEAT' };
   if (s.includes('BOE')) return { color: '#1E3A5F', bg: 'rgba(30,58,95,0.06)', border: 'rgba(30,58,95,0.15)', abbr: 'BOE' };
   if (s.includes('TEAC')) return { color: '#7C3AED', bg: 'rgba(124,58,237,0.06)', border: 'rgba(124,58,237,0.15)', abbr: 'TEAC' };
+  if (s.includes('CENDOJ')) return { color: '#B45309', bg: 'rgba(180,83,9,0.06)', border: 'rgba(180,83,9,0.15)', abbr: 'CENDOJ' };
   return { color: '#6B7280', bg: 'rgba(107,114,128,0.06)', border: 'rgba(107,114,128,0.15)', abbr: source.slice(0, 4).toUpperCase() };
 }
 
