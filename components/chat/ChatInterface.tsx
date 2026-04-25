@@ -942,13 +942,15 @@ export default function ChatInterface() {
             </div>
           ) : (
             <div className="max-w-[740px] mx-auto px-4 md:px-6 py-5 md:py-8">
-              {messages.map((msg) => (
+              {messages.map((msg, idx) => (
                 <MessageBubble
                   key={msg.id}
                   message={msg}
                   isStreaming={msg.id === streamingMsgId}
                   onFeedback={msg.role === 'assistant' ? (r) => handleFeedback(msg.id, r) : undefined}
                   feedbackRating={feedbackMap[msg.id] ?? null}
+                  onOptionSelect={!isLoading ? (text) => handleSend(text) : undefined}
+                  isLastMessage={idx === messages.length - 1}
                 />
               ))}
 

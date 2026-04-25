@@ -24,11 +24,15 @@ export default function MessageBubble({
   isStreaming = false,
   onFeedback,
   feedbackRating,
+  onOptionSelect,
+  isLastMessage = false,
 }: {
   message: Message;
   isStreaming?: boolean;
   onFeedback?: (rating: 'up' | 'down') => void;
   feedbackRating?: 'up' | 'down' | null;
+  onOptionSelect?: (text: string) => void;
+  isLastMessage?: boolean;
 }) {
   const [copied, setCopied] = useState(false);
   const isUser = message.role === 'user';
@@ -146,6 +150,59 @@ export default function MessageBubble({
                   {children}
                 </a>
               ),
+              code: ({ className, children }) => {
+                if (className === 'language-opciones') {
+                  try {
+                    const options = JSON.parse(String(children).trim()) as string[];
+                    const active = isLastMessage && !isStreaming && !!onOptionSelect;
+                    return (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '12px' }}>
+                        {options.map((opt) => (
+                          <button
+                            key={opt}
+                            onClick={() => active && onOptionSelect!(opt)}
+                            disabled={!active}
+                            className="font-sans"
+                            style={{
+                              fontSize: '13px',
+                              padding: '6px 14px',
+                              borderRadius: '9999px',
+                              border: '1px solid',
+                              borderColor: active ? 'rgba(0,181,173,0.4)' : '#E5E7EB',
+                              backgroundColor: active ? 'rgba(0,181,173,0.06)' : '#F9FAFB',
+                              color: active ? '#00918A' : '#9CA3AF',
+                              cursor: active ? 'pointer' : 'default',
+                              transition: 'all 0.15s',
+                              fontWeight: 500,
+                            }}
+                            onMouseEnter={(e) => {
+                              if (active) {
+                                e.currentTarget.style.backgroundColor = 'rgba(0,181,173,0.12)';
+                                e.currentTarget.style.borderColor = '#00B5AD';
+                                e.currentTarget.style.color = '#007A74';
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              if (active) {
+                                e.currentTarget.style.backgroundColor = 'rgba(0,181,173,0.06)';
+                                e.currentTarget.style.borderColor = 'rgba(0,181,173,0.4)';
+                                e.currentTarget.style.color = '#00918A';
+                              }
+                            }}
+                          >
+                            {opt}
+                          </button>
+                        ))}
+                      </div>
+                    );
+                  } catch {
+                    return <code>{children}</code>;
+                  }
+                }
+                return (
+                  <code className={className}>{children}</code>
+                );
+              },
             }}
           >{message.content}</ReactMarkdown>
           {isStreaming && (
