@@ -3,6 +3,30 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useState } from 'react';
 
+type ContentPart =
+  | { type: 'text'; content: string }
+  | { type: 'opciones'; options: string[] };
+
+function parseContent(raw: string): ContentPart[] {
+  const parts: ContentPart[] = [];
+  const regex = /```opciones\n([\s\S]*?)```/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(raw)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push({ type: 'text', content: raw.slice(lastIndex, match.index) });
+    }
+    try {
+      parts.push({ type: 'opciones', options: JSON.parse(match[1].trim()) });
+    } catch {
+      parts.push({ type: 'text', content: match[0] });
+    }
+    lastIndex = regex.lastIndex;
+  }
+  if (lastIndex < raw.length) parts.push({ type: 'text', content: raw.slice(lastIndex) });
+  return parts;
+}
+
 interface Message {
   id: string;
   role: 'user' | 'assistant';
@@ -132,79 +156,78 @@ export default function MessageBubble({
           className="prose-fiscal"
           style={{ fontSize: '15px', lineHeight: 1.7, color: '#1f2937', minWidth: 0, width: '100%', maxWidth: '100%', overflowWrap: 'break-word', wordBreak: 'break-word', overflow: 'hidden', fontFeatureSettings: '"kern" 1' }}
         >
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            components={{
-              table: ({ children }) => (
-                <div className="table-wrapper">
-                  <table>{children}</table>
+          {parseContent(message.content).map((part, i) => {
+            if (part.type === 'opciones') {
+              const active = isLastMessage && !isStreaming && !!onOptionSelect;
+              return (
+                <div key={i} style={{ marginTop: '14px', marginBottom: '4px' }}>
+                  <p className="font-sans" style={{ fontSize: '11px', color: '#9CA3AF', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, marginBottom: '10px' }}>
+                    Selecciona o escribe tu respuesta
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    {part.options.map((opt) => (
+                      <button
+                        key={opt}
+                        onClick={() => active && onOptionSelect!(opt)}
+                        disabled={!active}
+                        className="font-sans"
+                        style={{
+                          fontSize: '13px',
+                          fontWeight: 500,
+                          padding: '7px 16px',
+                          borderRadius: '9999px',
+                          border: '1px solid',
+                          borderColor: active ? 'rgba(0,181,173,0.35)' : '#E5E7EB',
+                          backgroundColor: active ? 'rgba(0,181,173,0.05)' : '#F9FAFB',
+                          color: active ? '#007A74' : '#C4C4C4',
+                          cursor: active ? 'pointer' : 'default',
+                          transition: 'all 0.15s',
+                          lineHeight: 1.4,
+                        }}
+                        onMouseEnter={(e) => {
+                          if (active) {
+                            e.currentTarget.style.backgroundColor = 'rgba(0,181,173,0.12)';
+                            e.currentTarget.style.borderColor = '#00B5AD';
+                            e.currentTarget.style.color = '#005F5B';
+                            e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,181,173,0.15)';
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (active) {
+                            e.currentTarget.style.backgroundColor = 'rgba(0,181,173,0.05)';
+                            e.currentTarget.style.borderColor = 'rgba(0,181,173,0.35)';
+                            e.currentTarget.style.color = '#007A74';
+                            e.currentTarget.style.boxShadow = 'none';
+                          }
+                        }}
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              ),
-              a: ({ href, children }) => (
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: '#00B5AD', textDecoration: 'underline', textUnderlineOffset: '3px' }}
-                >
-                  {children}
-                </a>
-              ),
-              code: ({ className, children }) => {
-                if (className === 'language-opciones') {
-                  try {
-                    const options = JSON.parse(String(children).trim()) as string[];
-                    const active = isLastMessage && !isStreaming && !!onOptionSelect;
-                    return (
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '12px' }}>
-                        {options.map((opt) => (
-                          <button
-                            key={opt}
-                            onClick={() => active && onOptionSelect!(opt)}
-                            disabled={!active}
-                            className="font-sans"
-                            style={{
-                              fontSize: '13px',
-                              padding: '6px 14px',
-                              borderRadius: '9999px',
-                              border: '1px solid',
-                              borderColor: active ? 'rgba(0,181,173,0.4)' : '#E5E7EB',
-                              backgroundColor: active ? 'rgba(0,181,173,0.06)' : '#F9FAFB',
-                              color: active ? '#00918A' : '#9CA3AF',
-                              cursor: active ? 'pointer' : 'default',
-                              transition: 'all 0.15s',
-                              fontWeight: 500,
-                            }}
-                            onMouseEnter={(e) => {
-                              if (active) {
-                                e.currentTarget.style.backgroundColor = 'rgba(0,181,173,0.12)';
-                                e.currentTarget.style.borderColor = '#00B5AD';
-                                e.currentTarget.style.color = '#007A74';
-                              }
-                            }}
-                            onMouseLeave={(e) => {
-                              if (active) {
-                                e.currentTarget.style.backgroundColor = 'rgba(0,181,173,0.06)';
-                                e.currentTarget.style.borderColor = 'rgba(0,181,173,0.4)';
-                                e.currentTarget.style.color = '#00918A';
-                              }
-                            }}
-                          >
-                            {opt}
-                          </button>
-                        ))}
-                      </div>
-                    );
-                  } catch {
-                    return <code>{children}</code>;
-                  }
-                }
-                return (
-                  <code className={className}>{children}</code>
-                );
-              },
-            }}
-          >{message.content}</ReactMarkdown>
+              );
+            }
+            return (
+              <ReactMarkdown
+                key={i}
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  table: ({ children }) => (
+                    <div className="table-wrapper"><table>{children}</table></div>
+                  ),
+                  a: ({ href, children }) => (
+                    <a href={href} target="_blank" rel="noopener noreferrer"
+                      style={{ color: '#00B5AD', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+                      {children}
+                    </a>
+                  ),
+                }}
+              >
+                {part.content}
+              </ReactMarkdown>
+            );
+          })}
           {isStreaming && (
             <span
               style={{

@@ -949,7 +949,7 @@ export default function ChatInterface() {
                   isStreaming={msg.id === streamingMsgId}
                   onFeedback={msg.role === 'assistant' ? (r) => handleFeedback(msg.id, r) : undefined}
                   feedbackRating={feedbackMap[msg.id] ?? null}
-                  onOptionSelect={!isLoading ? (text) => handleSend(text) : undefined}
+                  onOptionSelect={!isLoading ? (text) => setInput(text) : undefined}
                   isLastMessage={idx === messages.length - 1}
                 />
               ))}
