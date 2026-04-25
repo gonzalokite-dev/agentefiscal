@@ -1,30 +1,30 @@
 const segments = [
   {
-    tag: 'Despacho Fiscal',
-    title: 'Responde al cliente antes de que cuelgue el teléfono.',
+    tag: 'Asesorías · Gestorías',
+    title: 'Resuelve la consulta mientras el cliente espera al teléfono.',
     description:
-      'Consultas vinculantes DGT al instante, cálculos de ITP y IRPF desglosados, y recursos de reposición redactados en minutos.',
+      'Consultas vinculantes DGT en segundos, cálculos de IRPF, ITP e ISD desglosados, y recursos de reposición redactados en minutos. Sin abrir el BOE. Sin esperas.',
     bg: 'linear-gradient(145deg, #0A2028 0%, #003050 60%, #0A2028 100%)',
     accent: '#00B5AD',
-    features: ['Consultas DGT en tiempo real', 'IRPF · ITP · ISD · IS', 'Recursos y alegaciones'],
+    features: ['Consultas DGT · TEAC · CENDOJ', 'IRPF · ITP · ISD · IS · IVA', 'Recursos y alegaciones'],
   },
   {
-    tag: 'Gestoría',
-    title: 'Gestiona más expedientes con el mismo equipo.',
+    tag: 'Dpto. Contabilidad · Administración',
+    title: 'Resuelve dudas fiscales sin depender del asesor externo.',
     description:
-      'Analiza facturas y contratos en segundos, verifica tipos impositivos de cualquier comunidad autónoma y genera comunicaciones con la AEAT sin salir del chat.',
+      'Verifica retenciones, tipos impositivos y plazos en segundos. Analiza facturas y contratos con IA y obtén respuestas fundamentadas en normativa oficial.',
     bg: 'linear-gradient(145deg, #001E20 0%, #00404A 60%, #001E20 100%)',
     accent: '#14b8a6',
-    features: ['Análisis de documentos PDF', 'IVA · Retenciones · Modelos', 'Comunicaciones AEAT'],
+    features: ['Análisis de facturas y contratos', 'IVA · Retenciones · Modelos', 'Plazos y obligaciones AEAT'],
   },
   {
-    tag: 'Asesoría Tributaria',
-    title: 'Normativa estatal y autonómica, sin excepciones.',
+    tag: 'Profesional Independiente',
+    title: 'Tu despacho no tiene por qué parecer pequeño.',
     description:
-      'Deducciones autonómicas, impuestos propios de cada comunidad y normativa estatal integrados en cada respuesta. Toda España cubierta.',
+      'Accede a la misma base de conocimiento que los grandes despachos: normativa estatal y autonómica, jurisprudencia y redacción de documentos — todo desde el chat.',
     bg: 'linear-gradient(145deg, #001428 0%, #002A5E 60%, #001428 100%)',
     accent: '#3b82f6',
-    features: ['Normativa de todas las CCAA', 'Deducciones autonómicas', 'Impuestos propios autonómicos'],
+    features: ['BOE · DGT · AEAT · TEAC · CENDOJ', 'Normativa de todas las CCAA', 'Redacción de documentos fiscales'],
   },
 ];
 
@@ -55,11 +55,17 @@ export default function Segmentos() {
               color: '#0D2E35',
               letterSpacing: '-0.03em',
               lineHeight: 1.15,
-              maxWidth: '560px',
+              maxWidth: '620px',
             }}
           >
-            Diseñado para Asesorías fiscales y Gestorías.
+            Para quien trabaja con la fiscalidad española cada día.
           </h2>
+          <p
+            className="font-sans"
+            style={{ fontSize: '16px', color: '#6B7280', marginTop: '14px', maxWidth: '500px', lineHeight: 1.65 }}
+          >
+            Asesorías, gestorías, departamentos de contabilidad y profesionales independientes.
+          </p>
         </div>
 
         {/* Cards */}
