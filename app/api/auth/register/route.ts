@@ -35,7 +35,12 @@ export async function POST(req: Request) {
       );
     }
 
-    await sendWelcomeEmail(emailLower, name.trim());
+    try {
+      await sendWelcomeEmail(emailLower, name.trim());
+    } catch (emailErr) {
+      console.error('[Register] Email falló pero cuenta creada:', emailErr);
+      return NextResponse.json({ ok: true, emailError: String(emailErr) });
+    }
 
     return NextResponse.json({ ok: true });
   } catch (e) {

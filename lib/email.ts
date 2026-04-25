@@ -2,20 +2,22 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const FROM = process.env.EMAIL_FROM ?? 'Victoria <noreply@benavidesasociados.com>';
+const FROM = process.env.EMAIL_FROM ?? 'Victoria <noreply@getvictoria.app>';
 const APP_URL = process.env.NEXTAUTH_URL ?? 'https://getvictoria.app';
 
 export async function sendWelcomeEmail(email: string, name: string): Promise<void> {
-  try {
-    await resend.emails.send({
-      from: FROM,
-      to: email,
-      subject: `Bienvenido/a a Victoria, ${name.split(' ')[0]}`,
-      html: welcomeHtml(name.split(' ')[0]),
-    });
-  } catch (e) {
-    console.error('Error enviando email de bienvenida:', e);
+  const firstName = name.split(' ')[0];
+  const result = await resend.emails.send({
+    from: FROM,
+    to: email,
+    subject: `Bienvenido/a a Victoria, ${firstName}`,
+    html: welcomeHtml(firstName),
+  });
+  if (result.error) {
+    console.error('[Resend] Error enviando bienvenida:', result.error);
+    throw new Error(result.error.message);
   }
+  console.log('[Resend] Email enviado OK:', result.data?.id);
 }
 
 function welcomeHtml(firstName: string): string {
