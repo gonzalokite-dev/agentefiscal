@@ -1150,6 +1150,7 @@ export default function ChatInterface() {
           input={input}
           setInput={setInput}
           onSend={() => handleSend()}
+          onStop={handleStop}
           isLoading={isLoading}
           attachedFile={attachedFile}
           onFileAttach={setAttachedFile}

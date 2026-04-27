@@ -5,6 +5,7 @@ interface InputBarProps {
   input: string;
   setInput: (v: string) => void;
   onSend: () => void;
+  onStop: () => void;
   isLoading: boolean;
   attachedFile: File | null;
   onFileAttach: (file: File) => void;
@@ -15,6 +16,7 @@ export default function InputBar({
   input,
   setInput,
   onSend,
+  onStop,
   isLoading,
   attachedFile,
   onFileAttach,
@@ -213,33 +215,51 @@ export default function InputBar({
                 </svg>
               </button>
 
-              <button
-                onClick={onSend}
-                disabled={!canSend}
-                className="flex items-center justify-center rounded-xl transition-all"
-                style={{
-                  backgroundColor: canSend ? '#00B5AD' : '#E5E7EB',
-                  color: canSend ? 'white' : '#C4C4C4',
-                  width: '36px',
-                  height: '36px',
-                  border: 'none',
-                  cursor: canSend ? 'pointer' : 'default',
-                  flexShrink: 0,
-                  boxShadow: canSend ? '0 2px 10px rgba(0,181,173,0.40)' : 'none',
-                  transition: 'background-color 0.15s, box-shadow 0.15s',
-                }}
-              >
-                {isLoading ? (
-                  <svg className="animate-spin" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
-                    <path d="M12 2a10 10 0 0110 10" />
+              {isLoading ? (
+                <button
+                  onClick={onStop}
+                  className="flex items-center justify-center rounded-xl"
+                  title="Detener respuesta"
+                  style={{
+                    backgroundColor: '#EF4444',
+                    color: 'white',
+                    width: '36px',
+                    height: '36px',
+                    border: 'none',
+                    cursor: 'pointer',
+                    flexShrink: 0,
+                    boxShadow: '0 2px 10px rgba(239,68,68,0.35)',
+                    transition: 'background-color 0.15s',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#DC2626')}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#EF4444')}
+                >
+                  <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24">
+                    <rect x="4" y="4" width="16" height="16" rx="2" />
                   </svg>
-                ) : (
+                </button>
+              ) : (
+                <button
+                  onClick={onSend}
+                  disabled={!canSend}
+                  className="flex items-center justify-center rounded-xl transition-all"
+                  style={{
+                    backgroundColor: canSend ? '#00B5AD' : '#E5E7EB',
+                    color: canSend ? 'white' : '#C4C4C4',
+                    width: '36px',
+                    height: '36px',
+                    border: 'none',
+                    cursor: canSend ? 'pointer' : 'default',
+                    flexShrink: 0,
+                    boxShadow: canSend ? '0 2px 10px rgba(0,181,173,0.40)' : 'none',
+                    transition: 'background-color 0.15s, box-shadow 0.15s',
+                  }}
+                >
                   <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
-                )}
-              </button>
+                </button>
+              )}
             </div>
           </div>
 
