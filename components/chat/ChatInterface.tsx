@@ -593,19 +593,25 @@ export default function ChatInterface() {
     let fileData: { name: string; type: string; base64: string } | undefined;
     let messageText = text;
 
+    const isDocx =
+      attachedFile?.name.toLowerCase().endsWith('.docx') ||
+      attachedFile?.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+
     if (attachedFile) {
-      if (attachedFile.name.endsWith('.docx')) {
+      if (isDocx) {
         const extracted = await extractDocxText(attachedFile);
         messageText = `${text ? text + '\n\n' : ''}[Documento Word adjunto: ${attachedFile.name}]\n\n${extracted}`;
-        // Keep attachedFile for UI display but don't send base64 — text already included above
-        fileData = { name: attachedFile.name, type: attachedFile.type, base64: '' };
+        fileData = undefined; // text already included — don't send binary to API
       } else {
         const base64 = await fileToBase64(attachedFile);
         fileData = { name: attachedFile.name, type: attachedFile.type, base64 };
       }
     }
 
-    const userMsg: Message = { id: newId(), role: 'user', content: messageText, timestamp: new Date(), attachedFile: fileData };
+    const displayFile = attachedFile
+      ? { name: attachedFile.name, type: attachedFile.type, base64: '' }
+      : undefined;
+    const userMsg: Message = { id: newId(), role: 'user', content: messageText, timestamp: new Date(), attachedFile: fileData ?? displayFile };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
     setInput('');
@@ -624,7 +630,7 @@ export default function ChatInterface() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: apiMessages, fileData: fileData?.base64 ? fileData : undefined }),
+        body: JSON.stringify({ messages: apiMessages, fileData }),
         signal: abortController.signal,
       });
 

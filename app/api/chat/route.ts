@@ -38,18 +38,20 @@ export async function POST(req: Request) {
       if (index === messages.length - 1 && msg.role === 'user' && fileData) {
         const content: MessageContent[] = [];
 
+        const SUPPORTED_IMAGES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         if (fileData.type === 'application/pdf') {
           content.push({
             type: 'document',
             source: { type: 'base64', media_type: 'application/pdf', data: fileData.base64 },
           });
-        } else {
-          const mediaType = fileData.type as 'image/jpeg' | 'image/png' | 'image/webp';
+        } else if (SUPPORTED_IMAGES.includes(fileData.type)) {
+          const mediaType = fileData.type as 'image/jpeg' | 'image/png' | 'image/gif' | 'image/webp';
           content.push({
             type: 'image',
             source: { type: 'base64', media_type: mediaType, data: fileData.base64 },
           });
         }
+        // Unknown types (e.g. docx already extracted) — skip binary, text content below covers it
 
         content.push({
           type: 'text',
