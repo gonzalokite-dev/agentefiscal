@@ -69,6 +69,14 @@ export function deleteConversation(id: string): void {
   localStorage.setItem(KEY, JSON.stringify(all));
 }
 
+export function renameConversation(id: string, newTitle: string): void {
+  if (typeof window === 'undefined') return;
+  const trimmed = newTitle.trim();
+  if (!trimmed) return;
+  const all = getConversations().map((c) => (c.id === id ? { ...c, title: trimmed } : c));
+  localStorage.setItem(KEY, JSON.stringify(all));
+}
+
 export function newId(): string {
   return `${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
 }
