@@ -218,7 +218,7 @@ export default function InputBar({
               {isLoading ? (
                 <button
                   onClick={onStop}
-                  className="flex items-center justify-center rounded-xl"
+                  className="flex items-center justify-center rounded-xl transition-all"
                   title="Detener respuesta"
                   style={{
                     backgroundColor: '#EF4444',
