@@ -122,16 +122,22 @@ export default function InputBar({
                 <div
                   className="flex items-center gap-2 px-3 py-2 rounded-xl font-sans"
                   style={{
-                    background: 'rgba(0,181,173,0.08)',
-                    border: '1px solid rgba(0,181,173,0.3)',
+                    background: attachedFile.name.endsWith('.docx') ? 'rgba(37,99,235,0.06)' : 'rgba(0,181,173,0.08)',
+                    border: attachedFile.name.endsWith('.docx') ? '1px solid rgba(37,99,235,0.25)' : '1px solid rgba(0,181,173,0.3)',
                     color: '#0D2E35',
                     fontSize: '12px',
                     maxWidth: '260px',
                   }}
                 >
-                  <svg width="18" height="18" fill="none" stroke="#00B5AD" strokeWidth="1.5" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
+                  {attachedFile.name.endsWith('.docx') ? (
+                    <svg width="18" height="18" fill="none" stroke="#2563EB" strokeWidth="1.5" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  ) : (
+                    <svg width="18" height="18" fill="none" stroke="#00B5AD" strokeWidth="1.5" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  )}
                   <div className="flex flex-col min-w-0">
                     <span style={{ fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {attachedFile.name}
@@ -194,7 +200,7 @@ export default function InputBar({
               <input
                 ref={fileInputRef}
                 type="file"
-                accept=".pdf,.png,.jpg,.jpeg,.webp"
+                accept=".pdf,.png,.jpg,.jpeg,.webp,.docx"
                 className="hidden"
                 onChange={(e) => {
                   const file = e.target.files?.[0];

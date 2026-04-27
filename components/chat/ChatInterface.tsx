@@ -526,6 +526,13 @@ export default function ChatInterface() {
       reader.readAsDataURL(file);
     });
 
+  const extractDocxText = async (file: File): Promise<string> => {
+    const mammoth = await import('mammoth');
+    const arrayBuffer = await file.arrayBuffer();
+    const result = await mammoth.extractRawText({ arrayBuffer });
+    return result.value;
+  };
+
   const startNewConversation = () => {
     setCurrentConvId(newId());
     setMessages(firstName ? [generateWelcomeMessage(firstName)] : []);
@@ -584,12 +591,21 @@ export default function ChatInterface() {
     if (isLoading) return;
 
     let fileData: { name: string; type: string; base64: string } | undefined;
+    let messageText = text;
+
     if (attachedFile) {
-      const base64 = await fileToBase64(attachedFile);
-      fileData = { name: attachedFile.name, type: attachedFile.type, base64 };
+      if (attachedFile.name.endsWith('.docx')) {
+        const extracted = await extractDocxText(attachedFile);
+        messageText = `${text ? text + '\n\n' : ''}[Documento Word adjunto: ${attachedFile.name}]\n\n${extracted}`;
+        // Keep attachedFile for UI display but don't send base64 — text already included above
+        fileData = { name: attachedFile.name, type: attachedFile.type, base64: '' };
+      } else {
+        const base64 = await fileToBase64(attachedFile);
+        fileData = { name: attachedFile.name, type: attachedFile.type, base64 };
+      }
     }
 
-    const userMsg: Message = { id: newId(), role: 'user', content: text, timestamp: new Date(), attachedFile: fileData };
+    const userMsg: Message = { id: newId(), role: 'user', content: messageText, timestamp: new Date(), attachedFile: fileData };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
     setInput('');
@@ -608,7 +624,7 @@ export default function ChatInterface() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: apiMessages, fileData }),
+        body: JSON.stringify({ messages: apiMessages, fileData: fileData?.base64 ? fileData : undefined }),
         signal: abortController.signal,
       });
 
