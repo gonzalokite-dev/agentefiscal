@@ -456,6 +456,7 @@ export default function ChatInterface() {
   const [showScrollBtn, setShowScrollBtn] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   // Lock body scroll when mobile drawer is open
   useEffect(() => {
@@ -594,6 +595,8 @@ export default function ChatInterface() {
     setAttachedFile(null);
     setIsLoading(true);
     const assistantId = newId();
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
 
     try {
       const apiMessages = newMessages.map((m) => ({
@@ -605,6 +608,7 @@ export default function ChatInterface() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: apiMessages, fileData }),
+        signal: abortController.signal,
       });
 
       if (!res.ok || !res.body) throw new Error('Error de red');
@@ -671,13 +675,22 @@ export default function ChatInterface() {
       if (!streamStarted) {
         setMessages((prev) => [...prev, { id: assistantId, role: 'assistant', content: 'No se recibió respuesta.', timestamp: new Date() }]);
       }
-    } catch {
-      setMessages((prev) => [...prev, { id: assistantId, role: 'assistant', content: 'Error de conexión. Por favor, inténtalo de nuevo.', timestamp: new Date() }]);
+    } catch (err) {
+      if (err instanceof Error && err.name === 'AbortError') {
+        // User stopped — keep partial content, add nothing
+      } else {
+        setMessages((prev) => [...prev, { id: assistantId, role: 'assistant', content: 'Error de conexión. Por favor, inténtalo de nuevo.', timestamp: new Date() }]);
+      }
     } finally {
+      abortControllerRef.current = null;
       setIsLoading(false);
       setStreamingMsgId(null);
       setToolStatus(null);
     }
+  };
+
+  const handleStop = () => {
+    abortControllerRef.current?.abort();
   };
 
   const hasUserMessages = messages.some((m) => m.role === 'user');
@@ -1150,6 +1163,7 @@ export default function ChatInterface() {
           input={input}
           setInput={setInput}
           onSend={() => handleSend()}
+          onStop={handleStop}
           isLoading={isLoading}
           attachedFile={attachedFile}
           onFileAttach={setAttachedFile}
