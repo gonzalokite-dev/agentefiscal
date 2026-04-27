@@ -457,6 +457,7 @@ export default function ChatInterface() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const readerRef = useRef<ReadableStreamDefaultReader<Uint8Array> | null>(null);
 
   // Lock body scroll when mobile drawer is open
   useEffect(() => {
@@ -614,11 +615,13 @@ export default function ChatInterface() {
       if (!res.ok || !res.body) throw new Error('Error de red');
 
       const reader = res.body.getReader();
+      readerRef.current = reader;
       const decoder = new TextDecoder();
       let buffer = '';
       let streamStarted = false;
 
       while (true) {
+        if (abortController.signal.aborted) break;
         const { done, value } = await reader.read();
         if (done) break;
         buffer += decoder.decode(value, { stream: true });
@@ -682,6 +685,7 @@ export default function ChatInterface() {
         setMessages((prev) => [...prev, { id: assistantId, role: 'assistant', content: 'Error de conexión. Por favor, inténtalo de nuevo.', timestamp: new Date() }]);
       }
     } finally {
+      readerRef.current = null;
       abortControllerRef.current = null;
       setIsLoading(false);
       setStreamingMsgId(null);
@@ -690,6 +694,7 @@ export default function ChatInterface() {
   };
 
   const handleStop = () => {
+    readerRef.current?.cancel();
     abortControllerRef.current?.abort();
   };
 
