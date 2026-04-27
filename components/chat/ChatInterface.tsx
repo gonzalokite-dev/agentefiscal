@@ -498,9 +498,12 @@ export default function ChatInterface() {
     if (!currentConvId) return;
     const firstUserMsg = messages.find((m) => m.role === 'user');
     if (!firstUserMsg) return;
+    // Preserve any manually renamed title — only fall back to auto-title if none exists yet
+    const existing = getConversations().find((c) => c.id === currentConvId);
+    const title = existing?.title ?? (firstUserMsg.content.slice(0, 60) || 'Nueva conversación');
     const conv: Conversation = {
       id: currentConvId,
-      title: firstUserMsg.content.slice(0, 60) || 'Nueva conversación',
+      title,
       messages: messages.map((m) => ({ ...m, timestamp: m.timestamp.toISOString() })),
       createdAt: messages[0].timestamp.toISOString(),
       updatedAt: new Date().toISOString(),
